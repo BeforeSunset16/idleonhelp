@@ -1,44 +1,18 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
   "extends": [
-  "plugin:@typescript-eslint/recommended",
-  "plugin:react/recommended",
-  "plugin:jsx-a11y/recommended",
-  "plugin:react-hooks/recommended"
-],
-  "parser": "@typescript-eslint/parser",
+    "next/core-web-vitals",
+    "airbnb",
+    "airbnb-typescript"
+  ],
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "@typescript-eslint", "jsx-a11y", "react-hooks", "unused-imports"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "unused-imports/no-unused-imports-ts": "off",
-    // "unused-imports/no-unused-vars-ts": [
-    //   "warn",
-    //   {
-    //     "vars": "all",
-    //     "varsIgnorePattern": "^_",
-    //     "args": "after-used",
-    //     "argsIgnorePattern": "^_"
-    //   }
-    // ],
-    "react/jsx-props-no-spreading": "off",
-    "import/prefer-default-export": "off"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
+    "react/jsx-one-expression-per-line": "off",
+    "@typescript-eslint/quotes": "off",
+    "linebreak-style": "off",
+    "react/jsx-props-no-spreading": "off"
+    // 可以根据项目需求自定义 ESLint 规则
   }
-  
 }

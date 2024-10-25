@@ -1,24 +1,29 @@
-"use client";
+import { Card, Image, Text } from '@mantine/core';
 import React from 'react';
-import { Card } from "antd";
 
-const { Meta } = Card;
-
-const App: React.FC = () => (
-  <div style={{
-    display: 'flex', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    height: '100vh' // 设置为全屏高度，保证垂直居中
-  }}>
+function Demo() {
+  return (
     <Card
-      hoverable
-      style={{ width: 240 }}
-      cover={<img alt="example" src="/images/home-show.png" />}
+      shadow="sm"
+      padding="xl"
+      component="a"
+      target="_blank"
     >
-      <Meta title="这是未来的Idleon中文社区" description="会有游戏的辅助提醒工具，还可以搜索玩家攻略，敬请期待" />
-    </Card>
-  </div>
-);
+      <Card.Section>
+        <Image
+          src="/images/homeshow.png"
+          h={160}
+          alt="No way!"
+        />
+      </Card.Section>
 
-export default App;
+      <Text fw={500} size="lg" mt="md">
+        这是未来的Idleon中文社区
+      </Text>
+
+      <Text mt="xs" c="dimmed" size="sm">
+        游戏辅助提醒工具，还有玩家攻略，游戏彩蛋，敬请期待
+      </Text>
+    </Card>
+  );
+}

@@ -7,6 +7,7 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "ignorePatterns": ["postcss.config.cjs", "pages/_document.tsx"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-one-expression-per-line": "off",
@@ -14,5 +15,11 @@
     "linebreak-style": "off",
     "react/jsx-props-no-spreading": "off"
     // 可以根据项目需求自定义 ESLint 规则
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.cjs"],
+      "excludedFiles": ["postcss.config.cjs"]
+    }
+  ]
 }

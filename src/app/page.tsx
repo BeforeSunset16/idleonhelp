@@ -1,21 +1,25 @@
-'use client' 
+'use client';
+
 import { Card, Image, Text } from '@mantine/core';
 import React from 'react';
 
 export default function Home() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh',
+    }}
+    >
       <Card
         shadow="sm"
         padding="xl"
         component="a"
         target="_blank"
-        w={500}  
+        w={500}
       >
         <Card.Section>
           <Image
             src="/images/home-show.png"
-            height={260}  // 使用 height 而不是 h
+            height={260} // 使用 height 而不是 h
             alt="No way!"
           />
         </Card.Section>

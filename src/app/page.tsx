@@ -19,8 +19,8 @@ export default function Home() {
         <Card.Section>
           <Image
             src="/images/home-show.png"
-            height={260} // 使用 height 而不是 h
-            alt="No way!"
+            height={240}
+            alt="Screenshot"
           />
         </Card.Section>
 

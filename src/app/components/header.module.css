@@ -1,0 +1,126 @@
+.header {
+  padding-top: var(--mantine-spacing-sm);
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-2), transparent);
+  margin-bottom: rem(120px);
+}
+
+.mainSection {
+  padding-bottom: var(--mantine-spacing-sm);
+}
+
+.logo {
+  display: block; /* 默认显示 */
+}
+
+.mobileLogo {
+  display: none; /* 默认隐藏 */
+}
+
+.mobileHeaderGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-sm); /* 控制汉堡图标和 logo 之间的间距 */
+}
+
+.user {
+  display: none;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-sm);
+  transition: background-color 100ms ease;
+
+  &:hover {
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+  }
+}
+
+.userActive {
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+}
+
+.tabsList {
+  display: flex;
+  gap: var(--mantine-spacing-md);
+}
+
+.tab {
+  font-weight: 500;
+  height: rem(38);
+  background-color: transparent;
+  position: relative;
+  bottom: -1px;
+
+  &::before,
+  &::after {
+    background-color: light-dark(
+      var(--mantine-color-gray-2),
+      var(--mantine-color-dark-7)
+    ) !important;
+  }
+
+  &:hover {
+    background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
+  }
+
+  &[data-active] {
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+    border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
+    border-bottom-color: transparent;
+  }
+}
+
+/* 添加适应手机屏幕的样式 */
+@media (max-width: 576px) {
+  .logo {
+    display: none; /* 在小屏幕上隐藏 */
+  }
+
+  .tabsList {
+    display: none; /* 默认隐藏菜单 */
+  }
+
+  @media (max-width: 576px) {
+    .mobileLogo {
+      display: inline; 
+    }
+
+    .mobileMenu {
+      padding-top: var(--mantine-spacing-sm);
+      width: 260px; /* 菜单宽度 */
+      background-color: var(--mantine-color-white);
+      position: fixed;  
+      top: 63px; /* 从导航栏下方开始显示 */
+      left: 0;
+      z-index: 1000;
+      height: calc(100vh - 63px); /* 整个菜单的高度 */
+      overflow-y: auto; /* 启用垂直滚动 */
+      border-right: 1px solid var(--mantine-color-gray-2);
+    }
+  
+    .mobileMenu ul {
+      list-style: none;
+      margin: 0;
+      padding-left: 12px;
+      width: 100%; /* 确保列表占满菜单宽度 */
+    }
+  
+    .mobileMenuItem {
+      padding: var(--mantine-spacing-sm) var(--mantine-spacing-md); /* 控制每个菜单项的内边距 */
+      width: 100%; /* 占满菜单宽度 */
+    }
+  
+    .mobileMenuItem a {
+      color: var(--mantine-color-dark);
+      font-size: rem(18); /* 字体大小 */
+      text-decoration: none; /* 去掉下划线 */
+      font-weight: 500;
+      display: block; /* 确保每个链接项占据一行 */
+      width: 100%;
+    }
+  
+    .mobileMenuItem a:hover {
+      color: var(--mantine-color-blue-6);
+    }
+  }    
+}

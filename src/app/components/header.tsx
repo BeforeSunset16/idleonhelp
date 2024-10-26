@@ -26,7 +26,6 @@ import {
   IconSwitchHorizontal,
   IconChevronDown,
 } from '@tabler/icons-react';
-// import { MantineLogo } from '@mantinex/mantine-logo';
 import Image from 'next/image';
 import classes from './header.module.css';
 
@@ -186,7 +185,7 @@ export default function HeaderTabs() {
             {tabs.map((tab) => (
               <li key={tab} className={classes.mobileMenuItem}>
                 <a href=" ">{tab}</a>
-                {/* <a href={`/${tab.toLowerCase()}`}>{tab}</a> */}
+                {/* <a href={`/${tab.toLowerCase()}`}>{tab}</a>  菜单有页面后启用 */}
               </li>
             ))}
           </ul>

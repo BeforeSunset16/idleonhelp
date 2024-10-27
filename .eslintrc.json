@@ -7,7 +7,7 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "ignorePatterns": ["postcss.config.cjs", "pages/_document.tsx"],
+  "ignorePatterns": ["postcss.config.cjs", "pages/_document.tsx", "amplify/**/*"],  
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-one-expression-per-line": "off",

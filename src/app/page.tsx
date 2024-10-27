@@ -1,7 +1,9 @@
 'use client';
 
+import { SetStateAction, useState } from 'react';
 import {
   SimpleGrid, Card, Image, Text, Container, AspectRatio,
+  Modal,
 } from '@mantine/core';
 import classes from './page.module.css';
 
@@ -32,12 +34,28 @@ const mockdata = [
   },
 ];
 
-export default function ArticlesCardsGrid() {
+export default function ImageGallery() {
+  const [opened, setOpened] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+
+  const handleImageClick = (image: SetStateAction<string>) => {
+    setSelectedImage(image);
+    setOpened(true);
+  };
+
+  // 渲染卡片
   const cards = mockdata.map((article) => (
-    <Card key={article.title} p="sm" radius="md" component="a" href="#" className={classes.card}>
-      <Container style={{ margin: "-13px -28px 0 -28px", overflow: "hidden" }}>
+    <Card
+      key={article.title}
+      p="md"
+      radius="md"
+      className={classes.card}
+      style={{ cursor: 'pointer' }}
+      onClick={() => handleImageClick(article.image)}
+    >
+      <Container style={{ margin: "-16px -32px 0 -32px", overflow: "hidden" }}>
         <AspectRatio ratio={1920 / 1080}>
-          <Image src={article.image} />
+          <Image src={article.image} alt={article.title} />
         </AspectRatio>
       </Container>
       <Text c="dimmed" size="xs" tt="uppercase" fw={700} mt="md">
@@ -50,8 +68,20 @@ export default function ArticlesCardsGrid() {
   ));
 
   return (
-    <Container py="xl" size="xl">
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">{cards}</SimpleGrid>
-    </Container>
+    <>
+      <Container py="xl" size="xl">
+        {/* SimpleGrid 设置最大宽度和居中对齐 */}
+        <SimpleGrid cols={3} spacing="xl">
+          {cards}
+        </SimpleGrid>
+      </Container>
+
+      {/* 模态框：显示选中的图片 */}
+      <Modal opened={opened} onClose={() => setOpened(false)} size="87%">
+        <AspectRatio ratio={16 / 9} style={{ width: '100%' }}>
+          <Image src={selectedImage} alt="Enlarged view" className={classes.image} />
+        </AspectRatio>
+      </Modal>
+    </>
   );
 }

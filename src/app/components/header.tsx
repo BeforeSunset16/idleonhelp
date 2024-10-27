@@ -13,6 +13,7 @@ import {
   Burger,
   rem,
   useMantineTheme,
+  Transition,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -27,6 +28,7 @@ import {
   IconChevronDown,
 } from '@tabler/icons-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import classes from './header.module.css';
 
 const user = {
@@ -61,14 +63,16 @@ export default function HeaderTabs() {
     <div className={classes.header}>
       <Container className={classes.mainSection} size="xl">
         <Group justify="space-between">
-          <Image
-            className={classes.logo}
-            src="/images/logo.png"
-            alt="Logo"
-            width={214.4}
-            height={42}
-            priority
-          />
+          <Link href="/">
+            <Image
+              className={classes.logo}
+              src="/images/logo.png"
+              alt="Logo"
+              width={214.4}
+              height={42}
+              priority
+            />
+          </Link>
           <Group className={classes.mobileHeaderGroup}>
             <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
             <Image
@@ -178,19 +182,44 @@ export default function HeaderTabs() {
             </Menu.Dropdown>
           </Menu>
         </Group>
+        <Transition mounted={opened} transition="slide-right" duration={300} timingFunction="ease">
+          {(styles) => (
+            <nav
+              className={classes.mobileMenu}
+              style={{
+                ...styles,
+                left: opened ? '0' : '-280px', // 根据 opened 状态切换 left 值
+              }}
+            >
+              <ul>
+                {tabs.map((tab) => (
+                  <li key={tab} className={classes.mobileMenuItem}>
+                    <a href=" ">{tab}</a>
+                    {/* <a href={`/${tab.toLowerCase()}`}>{tab}</a> 菜单有页面后启用 */}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </Transition>
 
-        {opened && (
-        <nav className={classes.mobileMenu}>
-          <ul>
-            {tabs.map((tab) => (
-              <li key={tab} className={classes.mobileMenuItem}>
-                <a href=" ">{tab}</a>
-                {/* <a href={`/${tab.toLowerCase()}`}>{tab}</a>  菜单有页面后启用 */}
-              </li>
-            ))}
-          </ul>
-        </nav>
-        )}
+        {/* <Transition mounted={opened} transition="slide-right"
+        duration={300} timingFunction="ease">
+          {(styles) => (
+            <nav className={classes.mobileMenu}
+            style={{ ...styles, left: opened ? '0' : '-280px' }}>
+              <ul>
+                {tabs.map((tab) => (
+                  <li key={tab} className={classes.mobileMenuItem}>
+                    <a href=" ">{tab}</a>
+                    <a href={`/${tab.toLowerCase()}`}>{tab}</a> 菜单有页面后启用
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </Transition> */}
+
       </Container>
       <Container size="xl">
         <Tabs

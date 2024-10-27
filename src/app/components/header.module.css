@@ -1,9 +1,8 @@
 .header {
   padding-top: var(--mantine-spacing-sm);
-  /* padding-bottom: var(--mantine-spacing-sm); */
   background-color: light-dark(#66BAB7, var(--mantine-color-dark-6));
-  border-bottom: rem(1px) solid light-dark(#66BAB7, transparent);
-  margin-bottom: rem(120px);
+  /* border-bottom: 1px solid light-dark(#66BAB7, transparent); */
+  margin-bottom: 17px;
 }
 
 .mainSection {
@@ -42,25 +41,25 @@
 
 .tabsList {
   display: flex;
-  gap: var(--mantine-spacing-md);
+  gap: var(--mantine-spacing-xl);
+  position: static;
 }
 
 .tab {
   font-weight: 600;
   font-size: large;
-  height: rem(38);
+  height: 44px;
   background-color: transparent;
   position: relative;
-  bottom: -1px;
   letter-spacing: 0.1em;
 
   &::before,
   &::after {
     background-color: light-dark(
-      #B9E5E8,
+      #DFF2EB,
       var(--mantine-color-dark-7)
     ) !important;
-  }
+  } 
 
   &:hover {
     background-color: light-dark(#B9E5E8, var(--mantine-color-dark-5));
@@ -69,7 +68,7 @@
   &[data-active] {
     background-color: light-dark(#DFF2EB, var(--mantine-color-dark-7));
     border-color: light-dark(#DFF2EB, var(--mantine-color-dark-7));
-    border-bottom-color: transparent;
+    border-bottom-color: #DFF2EB;
     color: black; /* 设置选中标签的文字颜色为黑色 */
     font-weight: bold; /* 可选：使选中的标签文字加粗 */
   }
@@ -85,53 +84,56 @@
     display: none; /* 默认隐藏菜单 */
   }
 
-  @media (max-width: 576px) {
-    .mobileLogo {
-      display: inline; 
-    }
+  
+  .mobileLogo {
+    display: inline; 
+  }
 
-    .mobileMenu {
-      padding-top: var(--mantine-spacing-sm);
-      width: 280px; /* 菜单宽度 */
-      background-color: var(--mantine-color-white);
-      position: fixed;  
-      top: 52px; /* 从导航栏下方开始显示 */
-      left: 0;
-      z-index: 1000;
-      height: calc(100vh - 52px); /* 整个菜单的高度 */
-      overflow-y: auto; /* 启用垂直滚动 */
-      border-right: 1px solid var(--mantine-color-gray-2);
-    }
+  .mobileMenu {
+    padding-top: var(--mantine-spacing-xs);
+    width: 280px; /* 菜单宽度 */
+    background-color: #66BAB7;
+    position: fixed;
+    top: 52px; /* 从导航栏下方开始显示 */
+    left: -280px; /* 初始位置在视图左侧外 */
+    z-index: 1000;
+    height: calc(100vh - 52px); /* 整个菜单的高度 */
+    overflow-y: auto; /* 启用垂直滚动 */
+    border-right: 1px solid var(--mantine-color-gray-2);
+    transition: left 0.3s ease; /* 控制 left 的过渡动画 */
+  }
   
-    .mobileMenu ul {
-      list-style: none;
-      margin: 0;
-      padding-left: 0px;
-      width: 100%; /* 确保列表占满菜单宽度 */
-    }
+
+  .mobileMenu ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0px;
+    width: 100%; /* 确保列表占满菜单宽度 */
+  }
+
+  .mobileMenuItem {
+    padding: var(--mantine-spacing-sm) var(--mantine-spacing-md); /* 控制每个菜单项的内边距 */
+    width: 100%; /* 占满菜单宽度 */
+    border-bottom: 1px solid #e8f8ff;
+  }
   
-    .mobileMenuItem {
-      padding: var(--mantine-spacing-sm) var(--mantine-spacing-md); /* 控制每个菜单项的内边距 */
-      width: 100%; /* 占满菜单宽度 */
-      border-bottom: 1px solid #e8f8ff;
-    }
+  .mobileMenuItem:last-child {
+    border-bottom: none;
+  }
+
+  .mobileMenuItem a {
+    padding-left: 14px;
+    color: var(--mantine-color-dark);
+    font-size: 17px; /* 字体大小 */
+    text-decoration: none; /* 去掉下划线 */
+    font-weight: 500;
+    display: block; /* 确保每个链接项占据一行 */
+    width: 100%;
+    letter-spacing: 0.1em;
+  }
+
+  .mobileMenuItem a:hover {
+    color: var(--mantine-color-blue-6);
+  }
     
-    .mobileMenuItem:last-child {
-      border-bottom: none;
-    }
-
-    .mobileMenuItem a {
-      padding-left: 12px;
-      color: var(--mantine-color-dark);
-      font-size: rem(18); /* 字体大小 */
-      text-decoration: none; /* 去掉下划线 */
-      font-weight: 500;
-      display: block; /* 确保每个链接项占据一行 */
-      width: 100%;
-    }
-  
-    .mobileMenuItem a:hover {
-      color: var(--mantine-color-blue-6);
-    }
-  }    
 }

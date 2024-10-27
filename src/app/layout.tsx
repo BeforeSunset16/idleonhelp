@@ -4,6 +4,7 @@ import '@mantine/core/styles.css';
 // import React from 'react';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import HeaderTabs from './components/header';
+import './globals.css';
 
 export const metadata = {
   title: 'Idleon Help',

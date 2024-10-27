@@ -1,7 +1,8 @@
 .header {
   padding-top: var(--mantine-spacing-sm);
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-2), transparent);
+  background-color: #66BAB7;
+  /* background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6)); */
+  border-bottom: rem(1px) solid light-dark(#B9E5E8, transparent);
   margin-bottom: rem(120px);
 }
 
@@ -55,21 +56,28 @@
   &::before,
   &::after {
     background-color: light-dark(
-      var(--mantine-color-gray-2),
+      #7AB2D3,
       var(--mantine-color-dark-7)
     ) !important;
   }
 
   &:hover {
-    background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
+    background-color: light-dark(#B9E5E8, var(--mantine-color-dark-5));
   }
 
   &[data-active] {
-    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
-    border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
+    background-color: light-dark(#DFF2EB, var(--mantine-color-dark-7));
+    border-color: light-dark(#DFF2EB, var(--mantine-color-dark-7));
     border-bottom-color: transparent;
+    color: black; /* 设置选中标签的文字颜色为黑色 */
+    font-weight: bold; /* 可选：使选中的标签文字加粗 */
   }
 }
+
+/* .tab[data-active] {
+  color: black; 
+  font-weight: bold; 
+} */
 
 /* 添加适应手机屏幕的样式 */
 @media (max-width: 576px) {

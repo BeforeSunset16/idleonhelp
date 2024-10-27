@@ -59,13 +59,13 @@ export default function HeaderTabs() {
 
   return (
     <div className={classes.header}>
-      <Container className={classes.mainSection} size="md">
+      <Container className={classes.mainSection} size="xl">
         <Group justify="space-between">
           <Image
             className={classes.logo}
             src="/images/logo.png"
             alt="Logo"
-            width={190}
+            width={214.4}
             height={42}
             priority
           />
@@ -75,7 +75,7 @@ export default function HeaderTabs() {
               className={classes.mobileLogo}
               src="/images/logo.png"
               alt="Logo"
-              width={118} // 调整小屏幕下的 logo 大小
+              width={132.7} // 调整小屏幕下的 logo 大小
               height={26}
               priority
             />
@@ -192,9 +192,9 @@ export default function HeaderTabs() {
         </nav>
         )}
       </Container>
-      <Container size="md">
+      <Container size="xl">
         <Tabs
-          defaultValue="Home"
+          defaultValue="攻略"
           variant="outline"
           visibleFrom="sm"
           classNames={{

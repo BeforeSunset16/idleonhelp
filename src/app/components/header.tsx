@@ -63,9 +63,8 @@ export default function HeaderTabs() {
     <div className={classes.header}>
       <Container className={classes.mainSection} size="xl">
         <Group justify="space-between">
-          <Link href="/">
+          <Link href="/" className={classes.logo}>
             <Image
-              className={classes.logo}
               src="/images/logo.png"
               alt="Logo"
               width={214.4}
@@ -75,14 +74,15 @@ export default function HeaderTabs() {
           </Link>
           <Group className={classes.mobileHeaderGroup}>
             <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-            <Image
-              className={classes.mobileLogo}
-              src="/images/logo.png"
-              alt="Logo"
-              width={132.7} // 调整小屏幕下的 logo 大小
-              height={26}
-              priority
-            />
+            <Link href="/" className={classes.mobileLogo}>
+              <Image
+                src="/images/logo.png"
+                alt="Logo"
+                width={132.7} // 调整小屏幕下的 logo 大小
+                height={26}
+                priority
+              />
+            </Link>
           </Group>
 
           <Menu
@@ -202,23 +202,6 @@ export default function HeaderTabs() {
             </nav>
           )}
         </Transition>
-
-        {/* <Transition mounted={opened} transition="slide-right"
-        duration={300} timingFunction="ease">
-          {(styles) => (
-            <nav className={classes.mobileMenu}
-            style={{ ...styles, left: opened ? '0' : '-280px' }}>
-              <ul>
-                {tabs.map((tab) => (
-                  <li key={tab} className={classes.mobileMenuItem}>
-                    <a href=" ">{tab}</a>
-                    <a href={`/${tab.toLowerCase()}`}>{tab}</a> 菜单有页面后启用
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
-        </Transition> */}
 
       </Container>
       <Container size="xl">

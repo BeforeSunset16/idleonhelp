@@ -19,6 +19,7 @@
 
 .mobileHeaderGroup {
   display: flex;
+  flex-direction: row; /* 横向排列 */
   align-items: center;
   gap: var(--mantine-spacing-sm); /* 控制汉堡图标和 logo 之间的间距 */
 }
@@ -42,7 +43,7 @@
 .tabsList {
   display: flex;
   gap: var(--mantine-spacing-xl);
-  position: static;
+  position: relative;
 }
 
 .tab {
@@ -83,10 +84,9 @@
   .tabsList {
     display: none; /* 默认隐藏菜单 */
   }
-
   
   .mobileLogo {
-    display: inline; 
+    display: flex; 
   }
 
   .mobileMenu {

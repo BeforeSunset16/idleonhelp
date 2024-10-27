@@ -5,38 +5,52 @@ import {
   SimpleGrid, Card, Image, Text, Container, AspectRatio,
   Modal,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import classes from './page.module.css';
 
 const mockdata = [
   {
-    title: 'Top 10 places to visit in Norway this summer',
+    title: '炼金锅：所有气泡所需要的材料',
     image:
-      'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80',
-    date: 'August 18, 2022',
+      '/images/bubble_material.png',
+    date: '2024年10月27日',
   },
   {
-    title: 'Best forests to visit in North America',
+    title: '一图看懂：不同阶段的盐级分配',
     image:
-      'https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80',
-    date: 'August 27, 2022',
+      '/images/refinery_rank.jpg',
+    date: '2024年10月27日',
   },
   {
-    title: 'Hawaii beaches review: better than you think',
+    title: '齿轮布局终极目标',
     image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80',
-    date: 'September 9, 2022',
+      '/images/cog_goal.jpg',
+    date: '2024年10月27日',
   },
   {
-    title: 'Mountains at night: 12 best locations to enjoy the view',
+    title: '宠物香料元设置：提升烹饪速度/炼金气泡',
     image:
-      'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80',
-    date: 'September 12, 2022',
+      '/images/spice_setup.png',
+    date: '2024年10月27日',
+  },
+  {
+    title: '一图看懂：所有闪光宠物加成',
+    image:
+      '/images/shiny_pet.png',
+    date: '2024年10月27日',
+  },
+  {
+    title: '一图看懂：Merit Shop买什么（世界4）',
+    image:
+      '/images/merit_guide_w4.png',
+    date: '2024年10月27日',
   },
 ];
 
 export default function ImageGallery() {
   const [opened, setOpened] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const isSmallScreen = useMediaQuery('(max-width: 768px)');
 
   const handleImageClick = (image: SetStateAction<string>) => {
     setSelectedImage(image);
@@ -71,16 +85,28 @@ export default function ImageGallery() {
     <>
       <Container py="xl" size="xl">
         {/* SimpleGrid 设置最大宽度和居中对齐 */}
-        <SimpleGrid cols={3} spacing="xl">
+        <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">
           {cards}
         </SimpleGrid>
       </Container>
 
       {/* 模态框：显示选中的图片 */}
-      <Modal opened={opened} onClose={() => setOpened(false)} size="87%">
-        <AspectRatio ratio={16 / 9} style={{ width: '100%' }}>
-          <Image src={selectedImage} alt="Enlarged view" className={classes.image} />
-        </AspectRatio>
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        size={isSmallScreen ? '100%' : '95%'}
+        // fullScreen={isSmallScreen}  小屏幕全屏
+        centered // 将 Modal 内容居中显示
+        withCloseButton={!isSmallScreen} // 小屏幕时隐藏关闭按钮
+        padding={isSmallScreen ? 0 : 'xs'} // 去除 Modal 内边距
+        radius={isSmallScreen ? 0 : 'md'} // 小屏幕时去除圆角
+        overlayProps={{
+          opacity: isSmallScreen ? 0 : 0.5, // 小屏幕去除遮罩
+        }}
+      >
+
+        <Image src={selectedImage} alt="Enlarged view" className={classes.image} />
+
       </Modal>
     </>
   );

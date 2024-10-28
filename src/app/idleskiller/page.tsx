@@ -1,3 +1,6 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-danger */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/no-this-in-sfc */
@@ -10,10 +13,38 @@
 
 import {
   CopyButton, Button, Title, TextInput, Container, Text,
+  Table,
 } from "@mantine/core";
 import React, { useState } from "react";
 import { useMediaQuery } from '@mantine/hooks';
 import classes from './idleskiller.module.css';
+
+const rewardsData = [
+  { reward: "300 Gems", value: "$1.50" },
+  { reward: "2x Eternal Card Pack", value: "1200 Gems ($11.00)" },
+  {
+    reward: `Funny Hat (Normal Helmet)<br />
+  - Weapon Power +3<br />
+  - STR, AGI, WIS, LUK +5<br />
+  - Defence +10<br />
+  - Skill Efficiency +6%<br />
+  - Upgrade Slots: 5`,
+    value: "",
+  },
+  { reward: "1x Quality Obol Stack, 1x Marvelous Obol Stack", value: "800 Gems ($4.00)" },
+  { reward: "5x Cosmic Time Candy, 25x Black Pearl (20% skill XP on skill under level 30)", value: "1,625 Gems ($8.12)" },
+  { reward: "550 Gems", value: "$2.75" },
+  { reward: "30x Dungeon Loot Dice", value: "3,375 Gems ($16.87)" },
+  { reward: "700 Gems", value: "$3.50" },
+  { reward: "750 Arcade Balls", value: "1,875 Gems ($9.37)" },
+  {
+    reward: `Idle Skiller Trophy (Level requirement: 99)<br />
+  - Weapon Power +3<br />
+  - STR, AGI, WIS, LUK +20<br />
+  - Skill Efficiency +15%`,
+    value: "",
+  },
+];
 
 function Idleskiller(): JSX.Element {
   const [playerName, setPlayerName] = useState("");
@@ -76,6 +107,13 @@ function Idleskiller(): JSX.Element {
 
     setResults(newResults);
   };
+  const rows = results.map((result, index) => (
+    <tr key={index}>
+      <td>{result}</td>
+      <td dangerouslySetInnerHTML={{ __html: rewardsData[index].reward }} />
+      <td>{rewardsData[index].value || "N/A"}</td>
+    </tr>
+  ));
 
   return (
     <Container className={classes.content} pb="xl" size="full" pt={isSmallScreen ? '2rem' : '7.4rem'}>
@@ -135,13 +173,17 @@ function Idleskiller(): JSX.Element {
               {/* </div> */}
             </div>
             <div>
-              <Title className={classes.result}> 结果：
-                <ul className={classes.list}>
-                  {results.map((result, index) => (
-                    <li key={index}>{result}</li> /* eslint-disable-line react/no-array-index-key */
-                  ))}
-                </ul>
-              </Title>
+              <Title order={2}>Results:</Title>
+              <Table striped highlightOnHover>
+                <thead>
+                  <tr>
+                    <th>Random Number</th>
+                    <th>Reward</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>{rows}</tbody>
+              </Table>
             </div>
           </div>
         </Container>

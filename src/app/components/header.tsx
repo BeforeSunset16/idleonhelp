@@ -86,11 +86,11 @@ export default function HeaderTabs() {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   const items = tabs.map((tab) => (
-    <Tabs.Tab value={tab.key} key={tab.key}>
-      <Link href={tab.link}>
+    <Link href={tab.link} key={tab.key}>
+      <Tabs.Tab value={tab.key}>
         {tab.name}
-      </Link>
-    </Tabs.Tab>
+      </Tabs.Tab>
+    </Link>
   ));
 
   return (

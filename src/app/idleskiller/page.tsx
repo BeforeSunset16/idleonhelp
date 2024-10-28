@@ -101,7 +101,7 @@ function Idleskiller(): JSX.Element {
               </Text>
               <TextInput
                 size="lg"
-                placeholder="Input placeholder"
+                placeholder="第一个角色的名称, 注意大小写."
                 value={playerName}
                 onChange={(event) => setPlayerName(event.currentTarget.value)}
               />

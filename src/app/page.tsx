@@ -12,10 +12,28 @@ import classes from './page.module.css';
 
 const mockdata = [
   {
+    title: '雕像哪里获得？都有啥用？',
+    image:
+      '/images/sculpture.jpg',
+    date: '2024年10月27日',
+  },
+  {
     title: '炼金锅：所有气泡所需要的材料',
     image:
       '/images/bubble_material.png',
     date: '2024年10月27日',
+  },
+  {
+    title: '一图看懂：Merit Shop买什么（世界2）',
+    image:
+      '/images/meritshop_w2.png',
+    date: '2024年10月28日',
+  },
+  {
+    title: '一图看懂：Merit Shop买什么（世界3）',
+    image:
+      '/images/meritshop_w3.png',
+    date: '2024年10月28日',
   },
   {
     title: '一图看懂：不同阶段的盐级分配',
@@ -46,6 +64,18 @@ const mockdata = [
     image:
       '/images/merit_guide_w4.png',
     date: '2024年10月27日',
+  },
+  {
+    title: '你的芯片毕业了吗？',
+    image:
+      '/images/chip.jpg',
+    date: '2024年10月28日',
+  },
+  {
+    title: '忍者偷偷',
+    image:
+      '/images/sneaking.png',
+    date: '2024年10月28日',
   },
 ];
 
@@ -90,7 +120,7 @@ export default function ImageGallery() {
 
   return (
     <>
-      <Container py="xl" size="xl">
+      <Container className={classes.content} pb="xl" size="xl" pt={isSmallScreen ? '4rem' : '8.5rem'}>
         {/* SimpleGrid 设置最大宽度和居中对齐 */}
         <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">
           {cards}
@@ -108,7 +138,7 @@ export default function ImageGallery() {
         centered
         padding={0}
         overlayProps={{
-          opacity: isSmallScreen ? 0 : 0.5, // 小屏幕去除遮罩
+          opacity: isSmallScreen ? 0 : 0.3, // 小屏幕去除遮罩
         }}
       >
         {selectedImage && ( // 当 selectedImage 有值时才渲染 Image 元素

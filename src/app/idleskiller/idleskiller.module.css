@@ -1,0 +1,105 @@
+  .root {
+    background-color: #2c8482;
+    background-size: cover;
+    background-position: center;
+    background-image: linear-gradient(250deg, rgba(130, 201, 30, 0) 0%, #2c8482 80%),
+      url('/images/skiller.jpg');
+    padding-top: calc(var(--mantine-spacing-xl) * 3);
+    padding-bottom: calc(var(--mantine-spacing-xl) * 12);
+  }
+  
+  .inner {
+    display: flex;
+    justify-content: space-around;
+  
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+  
+  .image {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+  
+  .content {
+    padding-top: calc(var(--mantine-spacing-xl) * 2);
+    margin-left: calc(var(--mantine-spacing-xl) * -1);
+    margin-right: calc(var(--mantine-spacing-xl) * -1);
+    /* padding-bottom: calc(var(--mantine-spacing-xl) * 2); */
+    /* margin-right: calc(var(--mantine-spacing-xl) * 9.4); */
+    z-index: 1; /* 保证内容在导航栏下方 */
+    @media (max-width: 768px) {
+      margin-left: -1em;
+      max-width: 108%;
+    }
+  }
+  
+  .title {
+    color: var(--mantine-color-white);
+    font-family:
+      Greycliff CF,
+      var(--mantine-font-family);
+    font-weight: 900;
+    line-height: 1.05;
+    max-width: rem(500px);
+    font-size: rem(48px);
+  
+    @media (max-width: 768px) {
+      max-width: 100%;
+      font-size: rem(34px);
+      line-height: 1.15;
+      padding-left: 1rem;
+    }
+  }
+
+  .result {
+    color: var(--mantine-color-white);
+    font-family:
+      Greycliff CF,
+      var(--mantine-font-family);
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    max-width: rem(500px);
+    font-size: rem(48px);
+    margin-top: 45%;
+  
+    @media (max-width: 768px) {
+      max-width: 100%;
+      font-size: rem(34px);
+      line-height: 1.15;
+      padding-left: 1rem;
+      margin-top: 3%;
+    }
+  }
+
+  .list {
+    list-style: none;
+  }
+  
+  .description {
+    color: var(--mantine-color-white);
+    opacity: 0.9;
+    max-width: rem(500px);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.06em;
+    @media (max-width: 768px) {
+      max-width: 100%;
+      padding-left: 1rem;
+    }
+  }
+  
+  .control {
+    padding-left: rem(50px);
+    padding-right: rem(50px);
+    font-family:
+      Greycliff CF,
+      var(--mantine-font-family);
+    font-size: rem(22px);
+    letter-spacing: 0.06em;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }

@@ -3,6 +3,11 @@
   background-color: light-dark(#66BAB7, var(--mantine-color-dark-6));
   /* border-bottom: 1px solid light-dark(#66BAB7, transparent); */
   margin-bottom: 17px;
+  position: fixed;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  z-index: 100; /* 确保导航栏位于内容之上 */
 }
 
 .mainSection {

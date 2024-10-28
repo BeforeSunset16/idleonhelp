@@ -38,14 +38,46 @@ const user = {
 };
 
 const tabs = [
-  '攻略',
-  '世界1',
-  '世界2',
-  '世界3',
-  '世界4',
-  '世界5',
-  '世界6',
-  '世界7',
+  {
+    name: '攻略',
+    key: 'index',
+    link: '/',
+  },
+  {
+    name: '世界1',
+    key: 'world1',
+    link: '/world1',
+  },
+  {
+    name: '世界2',
+    key: 'world2',
+    link: '/world2',
+  },
+  {
+    name: '世界3',
+    key: 'world3',
+    link: '/world3',
+  },
+  {
+    name: '世界4',
+    key: 'world4',
+    link: '/world4',
+  },
+  {
+    name: '世界5',
+    key: 'world5',
+    link: '/world5',
+  },
+  {
+    name: '世界6',
+    key: 'world6',
+    link: '/world6',
+  },
+  {
+    name: 'Idle Skiller',
+    key: 'idleskiller',
+    link: '/idleskiller',
+  },
 ];
 
 export default function HeaderTabs() {
@@ -54,8 +86,10 @@ export default function HeaderTabs() {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   const items = tabs.map((tab) => (
-    <Tabs.Tab value={tab} key={tab}>
-      {tab}
+    <Tabs.Tab value={tab.key} key={tab.key}>
+      <Link href={tab.link}>
+        {tab.name}
+      </Link>
     </Tabs.Tab>
   ));
 
@@ -193,9 +227,8 @@ export default function HeaderTabs() {
             >
               <ul>
                 {tabs.map((tab) => (
-                  <li key={tab} className={classes.mobileMenuItem}>
-                    <a href=" ">{tab}</a>
-                    {/* <a href={`/${tab.toLowerCase()}`}>{tab}</a> 菜单有页面后启用 */}
+                  <li key={tab.key} className={classes.mobileMenuItem}>
+                    <a href={tab.link}>{tab.name}</a>
                   </li>
                 ))}
               </ul>
@@ -208,7 +241,7 @@ export default function HeaderTabs() {
         <Tabs
           defaultValue="攻略"
           variant="outline"
-          visibleFrom="sm"
+          visibleFrom="lg"
           classNames={{
             root: classes.tabs,
             list: classes.tabsList,

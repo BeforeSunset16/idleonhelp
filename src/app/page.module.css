@@ -13,10 +13,16 @@
 .title {
   font-family: 'Greycliff CF', var(--mantine-font-family);
   font-weight: bold;
+  letter-spacing: 0.08em;
+}
+
+.content {
+  margin-top: 1rem;
+  z-index: 1; /* 保证内容在导航栏下方 */
 }
 
 .image {
-  width: 100%;
+  width: auto;
   height: 100%;
   margin: auto;
   max-width: 100vw;    
@@ -26,21 +32,23 @@
 
 .fullscreen_container {
   position: relative;
+  z-index: 1001;
 }
 
 .closeButton {
   position: absolute;
   top: 0.7vh;
   right: 0.5vw;
-  background: rgba(0, 0, 0, 0.6);
+  /* background: rgba(0, 0, 0, 0.6); */
+  background: rgba(70, 168, 194, 0.6);
   color: #ffffff;
   font-size: 2vh;
   cursor: pointer;
 }
 
 
-.close_button:hover {
-  background: rgba(0, 0, 0, 0.8);
+.closeButton:hover {
+  background: #5192c4;
 }
 
 

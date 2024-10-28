@@ -1,10 +1,12 @@
 'use client';
 
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import {
   SimpleGrid, Card, Image, Text, Container, AspectRatio,
+  Button,
   Modal,
 } from '@mantine/core';
+// import Link from 'next/link';
 import { useMediaQuery } from '@mantine/hooks';
 import classes from './page.module.css';
 
@@ -48,15 +50,18 @@ const mockdata = [
 ];
 
 export default function ImageGallery() {
-  const [opened, setOpened] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const [modalOpened, setModalOpened] = useState(false);
   const isSmallScreen = useMediaQuery('(max-width: 768px)');
-
-  const handleImageClick = (image: SetStateAction<string>) => {
+  const handleImageClick = (image: string) => {
     setSelectedImage(image);
-    setOpened(true);
+    setModalOpened(true);
   };
 
+  const handleClose = () => {
+    setModalOpened(false);
+    setSelectedImage(''); // 清除选中的图片
+  };
   // 渲染卡片
   const cards = mockdata.map((article) => (
     <Card
@@ -68,9 +73,11 @@ export default function ImageGallery() {
       onClick={() => handleImageClick(article.image)}
     >
       <Container style={{ margin: "-16px -32px 0 -32px", overflow: "hidden" }}>
+        {/* <Link href={article.image}> */}
         <AspectRatio ratio={1920 / 1080}>
           <Image src={article.image} alt={article.title} />
         </AspectRatio>
+        {/* </Link> */}
       </Container>
       <Text c="dimmed" size="xs" tt="uppercase" fw={700} mt="md">
         {article.date}
@@ -89,24 +96,32 @@ export default function ImageGallery() {
           {cards}
         </SimpleGrid>
       </Container>
-
-      {/* 模态框：显示选中的图片 */}
+      {/* 直接显示全屏图片 */}
       <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        size={isSmallScreen ? '100%' : '95%'}
-        // fullScreen={isSmallScreen}  小屏幕全屏
-        centered // 将 Modal 内容居中显示
-        withCloseButton={!isSmallScreen} // 小屏幕时隐藏关闭按钮
-        padding={isSmallScreen ? 0 : 'xs'} // 去除 Modal 内边距
+        classNames={{ content: 'modal-content' }} // 应用滚动条样式
+        opened={modalOpened}
+        onClose={handleClose}
+        // size={isSmallScreen ? '100%' : '95%'}
+        size="100%"
         radius={isSmallScreen ? 0 : 'md'} // 小屏幕时去除圆角
+        withCloseButton={false} // 去掉默认关闭按钮
+        centered
+        padding={0}
         overlayProps={{
           opacity: isSmallScreen ? 0 : 0.5, // 小屏幕去除遮罩
         }}
       >
-
-        <Image src={selectedImage} alt="Enlarged view" className={classes.image} />
-
+        {selectedImage && ( // 当 selectedImage 有值时才渲染 Image 元素
+        <div className={classes.fullscreen_container}>
+          <Image src={selectedImage} alt="Enlarged view" className={classes.image} />
+          <Button
+            className={classes.closeButton}
+            onClick={handleClose}
+          >
+            ✕
+          </Button>
+        </div>
+        )}
       </Modal>
     </>
   );

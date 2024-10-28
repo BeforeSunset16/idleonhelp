@@ -13,7 +13,8 @@
     "react/jsx-one-expression-per-line": "off",
     "@typescript-eslint/quotes": "off",
     "linebreak-style": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
     // 可以根据项目需求自定义 ESLint 规则
   },
   "overrides": [

@@ -12,40 +12,37 @@
 'use client';
 
 import {
-  CopyButton, Button, Title, TextInput, Container, Text, Paper,
+  CopyButton, Button, Title, TextInput, Container, Text,
   Table,
-  CloseButton,
 } from "@mantine/core";
 import React, { useState } from "react";
 import { useMediaQuery } from '@mantine/hooks';
 import classes from './idleskiller.module.css';
 
 const rewardsData = [
-  { key: "1", reward: "300 Gems", days: "0" },
-  { key: "2", reward: "2x Eternal Card Pack", days: "1" },
+  { reward: "300 Gems", value: "$1.50" },
+  { reward: "2x Eternal Card Pack", value: "1200 Gems ($11.00)" },
   {
-    key: "3",
-    reward: `Funny Hat (Normal Helmet)
-   -  Weapon Power +3
-   -  STR, AGI, WIS, LUK +5
-   -  Defence +10
-   -  Skill Efficiency +6% 
-   -  Upgrade Slots: 5`,
-    days: "1",
+    reward: `Funny Hat (Normal Helmet)<br />
+  - Weapon Power +3<br />
+  - STR, AGI, WIS, LUK +5<br />
+  - Defence +10<br />
+  - Skill Efficiency +6%<br />
+  - Upgrade Slots: 5`,
+    value: "",
   },
-  { key: "4", reward: "1x Quality Obol Stack, 1x Marvelous Obol Stack", vdays: "2" },
-  { key: "5", reward: "5x Cosmic Time Candy\n25x Black Pearl (20% skill XP on skill under level 30)", days: "3" },
-  { key: "6", reward: "550 Gems", days: "4" },
-  { key: "7", reward: "30x Dungeon Loot Dice", days: "5" },
-  { key: "8", reward: "700 Gems", days: "6" },
-  { key: "9", reward: "750 Arcade Balls", days: "7" },
+  { reward: "1x Quality Obol Stack, 1x Marvelous Obol Stack", value: "800 Gems ($4.00)" },
+  { reward: "5x Cosmic Time Candy, 25x Black Pearl (20% skill XP on skill under level 30)", value: "1,625 Gems ($8.12)" },
+  { reward: "550 Gems", value: "$2.75" },
+  { reward: "30x Dungeon Loot Dice", value: "3,375 Gems ($16.87)" },
+  { reward: "700 Gems", value: "$3.50" },
+  { reward: "750 Arcade Balls", value: "1,875 Gems ($9.37)" },
   {
-    key: "10",
-    reward: `Idle Skiller Trophy (Level requirement: 99)
-   -  Weapon Power +3
-   -  STR, AGI, WIS, LUK +20
-   -  Skill Efficiency +15%`,
-    days: "14",
+    reward: `Idle Skiller Trophy (Level requirement: 99)<br />
+  - Weapon Power +3<br />
+  - STR, AGI, WIS, LUK +20<br />
+  - Skill Efficiency +15%`,
+    value: "",
   },
 ];
 
@@ -93,7 +90,6 @@ function Idleskiller(): JSX.Element {
   ];
 
   const isSmallScreen = useMediaQuery('(max-width: 768px)');
-  const isMidScreen = useMediaQuery('(max-width: 1182px)');
 
   const handleButtonClick = () => {
     let IdleSkillDN = 0;
@@ -111,22 +107,18 @@ function Idleskiller(): JSX.Element {
 
     setResults(newResults);
   };
-
-  const rows = rewardsData.map((element, index) => (
-    <Table.Tr key={element.key}>
-      <Table.Td className={classes.code}>{results[index] !== undefined ? results[index] : ' '}</Table.Td>
-      <Table.Td className={classes.lineBreak}>{element.reward}</Table.Td>
-      <Table.Td className={classes.table}>{element.days}</Table.Td>
-    </Table.Tr>
+  const rows = results.map((result, index) => (
+    <tr key={index}>
+      <td>{result}</td>
+      <td dangerouslySetInnerHTML={{ __html: rewardsData[index].reward }} />
+      <td>{rewardsData[index].value || "N/A"}</td>
+    </tr>
   ));
-
-  const textContent = `总价值57美元+各种属性加成的大礼包，只需要输入游戏用户名，点击“获得兑换码”，然后点击“复制兑换码”，自行保存。\n
-  兑换方式：进入游戏，在第一世界城镇的二楼，商店招牌左侧空地，按一下回车，屏幕底部出现对话框，输入兑换码（每次一个），再按回车发送即可。兑换码需按顺序兑换，每次兑换后，需等待一段时间才能兑换下一个，等待天数见右侧表格。`;
 
   return (
     <Container className={classes.content} pb="xl" size="full" pt={isSmallScreen ? '2rem' : '7.4rem'}>
       <div className={classes.root}>
-        <Container size="xl">
+        <Container size="lg">
           <div className={classes.inner}>
             <div className={classes.content}>
               <Title className={classes.title}>
@@ -138,39 +130,28 @@ function Idleskiller(): JSX.Element {
                   gradient={{ from: 'pink', to: 'yellow' }}
                 >
                   大礼包和奖杯
-                </Text><br className={classes.show_on_large} />
-                {' '}现在可领
+                </Text>{' '}
+                现在可领
               </Title>
 
               <Text className={classes.description} mt={30}>
-                {textContent}
+                只需要输入游戏用户名，然后点击“获得领取码”
               </Text>
               <TextInput
-                size="md"
-                className={classes.input}
-                placeholder="输入第一个idleon角色的名字, 注意大小写"
+                size="lg"
+                placeholder="第一个角色的名称, 注意大小写."
                 value={playerName}
                 onChange={(event) => setPlayerName(event.currentTarget.value)}
-                radius={isSmallScreen ? "xl" : "sm"}
-                rightSectionPointerEvents="all"
-                rightSection={(
-                  <CloseButton
-                    aria-label="Clear input"
-                    onClick={() => setPlayerName('')}
-                    style={{ display: playerName ? undefined : 'none' }}
-                  />
-                )}
               />
               <Button
                 onClick={handleButtonClick}
                 variant="gradient"
                 gradient={{ from: 'pink', to: 'yellow', deg: 90 }}
-                size={isSmallScreen ? 'lg' : 'xl'}
+                size="xl"
                 className={classes.control}
-                mt={isSmallScreen ? 15 : 38}
-                radius={isSmallScreen ? "xl" : "sm"}
+                mt={38}
               >
-                获得兑换码
+                获得领取码
               </Button>
               {/* 复制结果按钮 */}
               {/* <div style={{ marginTop: '1.2em' }}> */}
@@ -179,39 +160,31 @@ function Idleskiller(): JSX.Element {
                   <Button
                     onClick={copy}
                     variant="outline"
-                    size={isSmallScreen ? 'lg' : 'xl'}
-                    mt={isSmallScreen ? 15 : 38}
-                    radius={isSmallScreen ? "xl" : "sm"}
+                    size="xl"
+                    mt={38}
+                    ml={30}
                     color={copied ? '#FF9D3D' : '#f9728c'}
                     className={classes.control}
                   >
-                    {copied ? '已复制' : '复制兑换码'}
+                    {copied ? '已复制' : '复制领取码'}
                   </Button>
                 )}
               </CopyButton>
               {/* </div> */}
             </div>
-            <Paper className={classes.paper} p="sm" shadow="sm" radius="lg">
-              {isMidScreen ? (
-                <Title className={classes.result}>ヽ(ﾟ▽ﾟ)ノ礼包内容</Title>
-              ) : (
-                <Title className={classes.result}>______________ヽ(ﾟ▽ﾟ)ノ礼包内容_________________</Title>
-              )}
-              <Table highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr className={classes.field}>
-                    <Table.Th>兑换码</Table.Th>
-                    <Table.Th>奖励</Table.Th>
-                    {isSmallScreen ? (
-                      <Table.Th>天数</Table.Th>
-                    ) : (
-                      <Table.Th>(距离上次)兑换等待天数</Table.Th>
-                    )}
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>{rows}</Table.Tbody>
+            <div>
+              <Title order={2}>Results:</Title>
+              <Table striped highlightOnHover>
+                <thead>
+                  <tr>
+                    <th>Random Number</th>
+                    <th>Reward</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>{rows}</tbody>
               </Table>
-            </Paper>
+            </div>
           </div>
         </Container>
       </div>

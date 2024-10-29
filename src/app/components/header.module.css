@@ -31,13 +31,13 @@
 
 .user {
   display: none;
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-0));
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
   border-radius: var(--mantine-radius-sm);
   transition: background-color 100ms ease;
 
   &:hover {
-    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+    background-color: light-dark(#B9E5E8, var(--mantine-color-dark-5));
   }
 }
 
@@ -46,9 +46,12 @@
 }
 
 .tabsList {
-  display: flex;
-  gap: var(--mantine-spacing-xl);
-  position: relative;
+  display: flex; 
+  gap: var(--mantine-spacing-lg);
+  /* position: relative; */
+  &::before {
+    display: none;
+  }
 }
 
 .tab {
@@ -81,13 +84,9 @@
 }
 
 /* 添加适应手机屏幕的样式 */
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .logo {
     display: none; /* 在小屏幕上隐藏 */
-  }
-
-  .tabsList {
-    display: none; /* 默认隐藏菜单 */
   }
   
   .mobileLogo {

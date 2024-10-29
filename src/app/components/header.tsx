@@ -106,8 +106,8 @@ export default function HeaderTabs() {
               priority
             />
           </Link>
-          <Group className={classes.mobileHeaderGroup}>
-            <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+          <Group className={classes.mobileHeaderGroup} hiddenFrom="sm">
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="md" />
             <Link href="/" className={classes.mobileLogo}>
               <Image
                 src="/images/logo.png"
@@ -133,7 +133,7 @@ export default function HeaderTabs() {
               >
                 <Group gap={7}>
                   <Avatar src={user.image} alt={user.name} radius="xl" size={20} />
-                  <Text fw={500} size="sm" lh={1} mr={3}>
+                  <Text fw={500} size="md" lh={1} mr={3}>
                     {user.name}
                   </Text>
                   <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
@@ -241,7 +241,7 @@ export default function HeaderTabs() {
         <Tabs
           defaultValue="攻略"
           variant="outline"
-          visibleFrom="lg"
+          visibleFrom="sm"
           classNames={{
             root: classes.tabs,
             list: classes.tabsList,

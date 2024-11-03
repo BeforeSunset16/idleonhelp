@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "idleonhelp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authidleonhelp19ade6df",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

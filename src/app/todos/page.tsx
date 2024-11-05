@@ -9,7 +9,6 @@ import {
   Text,
   LoadingOverlay,
   Center,
-  Loader,
 } from '@mantine/core';
 import { generateClient } from 'aws-amplify/data';
 import { useAuth } from '@/app/contexts/AuthContext';

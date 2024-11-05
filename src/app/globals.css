@@ -21,8 +21,6 @@
   --spacing-unit: 8px;
   --border-radius: 4px;
   --transition-speed: 0.2s;
-
-  --header-height: 60px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,13 +85,13 @@ a {
 .main-content {
   position: relative;
   z-index: 1;
-  margin-top: calc(var(--header-height));
-  min-height: calc(100vh - var(--header-height));
+  margin-top: 120px;  /* 桌面端默认间距 */
+  min-height: calc(100vh - 120px);
 }
 
 @media (max-width: 768px) {
   .main-content {
-    margin-top: calc(var(--header-height+0px) );  /* 正确的计算方式 */
+    margin-top: calc(var(--header-height+0px));  /* 正确的计算方式 */
     min-height: calc(100vh - var(--header-height));
   }
 }

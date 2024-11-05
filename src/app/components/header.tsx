@@ -63,16 +63,21 @@ const tabs = [
     key: 'world4',
     link: '/world4',
   },
-  {
-    name: '世界5',
-    key: 'world5',
-    link: '/world5',
-  },
+  // {
+  //   name: '世界5',
+  //   key: 'world5',
+  //   link: '/world5',
+  // },
   // {
   //   name: '世界6',
   //   key: 'world6',
   //   link: '/world6',
   // },
+  {
+    name: 'Todos',
+    key: 'todos',
+    link: '/todos',
+  },
   {
     name: 'Idle Skiller',
     key: 'idleskiller',

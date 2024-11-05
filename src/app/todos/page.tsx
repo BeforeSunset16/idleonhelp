@@ -22,31 +22,25 @@ export default function TodoList() {
   const { user } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthChecking, setIsAuthChecking] = useState(true);
   const [todos, setTodos] = useState<any[]>([]);
-
-  useEffect(() => {
-    // Only redirect if we're sure the user is not authenticated
-    if (user === null) {
-      router.push('/auth');
-    } else if (user) {
-      setIsAuthChecking(false);
-    }
-  }, [user, router]);
 
   const fetchTodos = async () => {
     try {
-      const { data } = await client.models.Todo.list();
+      const { data } = await client.models.Todo.list(
+        {
+          authMode: 'apiKey',
+        },
+      );
       setTodos(data);
     } catch (error) {
       console.error('Error fetching todos:', error);
     }
   };
+
   useEffect(() => {
-    if (user) {
-      fetchTodos();
-    }
-  }, [user]);
+    fetchTodos();
+  }, []);
+
   const createTodo = async () => {
     const content = window.prompt('Todo content?');
     if (!content) return;
@@ -64,35 +58,36 @@ export default function TodoList() {
     }
   };
 
-  // Show loading state while checking authentication
-  if (isAuthChecking) {
-    return (
-      <Container size="sm" pt="xl">
-        <Center style={{ height: '60vh' }}>
-          <Loader size="lg" />
-        </Center>
-      </Container>
-    );
-  }
-
-  // Don't render anything if not authenticated
-  if (!user) {
-    return null;
-  }
-
   return (
     <Container size="sm" pt="xl">
       <LoadingOverlay visible={isLoading} />
-      <Title order={2} mb="xl">My Todos</Title>
+      <Title order={2} mb="xl">Todos</Title>
 
-      <Button
-        onClick={createTodo}
-        mb="xl"
-        variant="gradient"
-        gradient={{ from: 'pink', to: 'yellow' }}
-      >
-        Add new todo
-      </Button>
+      {user && (
+        <Button
+          onClick={createTodo}
+          mb="xl"
+          variant="gradient"
+          gradient={{ from: 'pink', to: 'yellow' }}
+        >
+          Add new todo
+        </Button>
+      )}
+
+      {!user && (
+        <Paper p="md" mb="xl" withBorder>
+          <Text ta="center" mb="md">Login to create and manage todos</Text>
+          <Center>
+            <Button
+              onClick={() => router.push('/auth')}
+              variant="gradient"
+              gradient={{ from: 'pink', to: 'yellow' }}
+            >
+              Login
+            </Button>
+          </Center>
+        </Paper>
+      )}
 
       {todos.map((todo) => (
         <Paper

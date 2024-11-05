@@ -9,6 +9,7 @@
     "amplify/backend/awscloudformation": true
   },
   "cSpell.words": [
-    "mantine"
+    "mantine",
+    "skiller"
   ]
 }

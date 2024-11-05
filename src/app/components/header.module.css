@@ -1,15 +1,21 @@
 .header {
-  --header-height: 60px;
+  --header-height: 52px;
   --header-bg: var(--color-secondary);
   
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: calc(var(--header-height) + 44px); /* 桌面端的高度 */
+  height: var(--header-height);
   background-color: var(--header-bg);
   z-index: var(--z-index-overlay);
-  padding: var(--spacing-unit);
+  padding: 0 var(--mantine-spacing-sm);
+}
+
+@media (min-width: 768px) {
+  .header {
+    height: calc(var(--header-height) + 44px);
+  }
 }
 
 .mainSection {
@@ -120,9 +126,9 @@
   }
 
   .mobileMenuItem {
-    padding: var(--mantine-spacing-sm) var(--mantine-spacing-md); /* 控制每个菜单项的内边距 */
-    width: 100%; /* 占满菜单宽度 */
-    border-bottom: 1px solid #e8f8ff;
+    padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .mobileMenuItem:last-child {
@@ -131,17 +137,17 @@
 
   .mobileMenuItem a {
     padding-left: 14px;
-    color: var(--mantine-color-dark);
-    font-size: 17px; /* 字体大小 */
-    text-decoration: none; /* 去掉下划线 */
+    color: var(--mantine-color-white);
+    font-size: 17px;
+    text-decoration: none;
     font-weight: 500;
-    display: block; /* 确保每个链接项占据一行 */
+    display: block;
     width: 100%;
     letter-spacing: 0.1em;
   }
 
   .mobileMenuItem a:hover {
-    color: var(--mantine-color-blue-6);
+    color: var(--mantine-color-dark);
   }
     
   .header {

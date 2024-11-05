@@ -13,7 +13,7 @@ import {
   Burger,
   rem,
   useMantineTheme,
-  Transition,
+  Drawer,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -226,26 +226,42 @@ export default function HeaderTabs() {
             </Menu.Dropdown>
           </Menu>
         </Group>
-        <Transition mounted={opened} transition="slide-right" duration={300} timingFunction="ease">
-          {(styles) => (
-            <nav
-              className={classes.mobileMenu}
-              style={{
-                ...styles,
-                left: opened ? '0' : '-280px', // 根据 opened 状态切换 left 值
-              }}
-            >
-              <ul>
-                {tabs.map((tab) => (
-                  <li key={tab.key} className={classes.mobileMenuItem}>
-                    <a href={tab.link}>{tab.name}</a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
-        </Transition>
-
+        <Drawer
+          opened={opened}
+          onClose={toggle}
+          size="280px"
+          position="left"
+          styles={{
+            header: {
+              backgroundColor: '#66BAB7',
+            },
+            content: {
+              backgroundColor: '#66BAB7',
+            },
+            body: {
+              padding: 0,
+              color: 'var(--mantine-color-white)',
+            },
+            close: {
+              color: 'var(--mantine-color-white)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              },
+            },
+          }}
+        >
+          <nav>
+            <ul>
+              {tabs.map((tab) => (
+                <li key={tab.key} className={classes.mobileMenuItem}>
+                  <Link href={tab.link} onClick={toggle}>
+                    {tab.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </Drawer>
       </Container>
       <Container size="xl">
         <Tabs

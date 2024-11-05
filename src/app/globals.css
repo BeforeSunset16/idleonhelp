@@ -91,7 +91,8 @@ a {
 
 @media (max-width: 768px) {
   .main-content {
-    margin-top: calc(var(--header-height+0px));  /* 正确的计算方式 */
+    margin-top: calc(var(--header-height));  /* 正确的计算方式 */
+    padding-top: 10px;
     min-height: calc(100vh - var(--header-height));
   }
 }

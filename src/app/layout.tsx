@@ -6,6 +6,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { AuthProvider } from '@/app/contexts/AuthContext';
 import HeaderTabs from './components/header';
 
 const theme = createTheme({
@@ -53,10 +54,12 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <HeaderTabs />
-          <main className="main-content">
-            {children}
-          </main>
+          <AuthProvider>
+            <HeaderTabs />
+            <main className="main-content">
+              {children}
+            </main>
+          </AuthProvider>
           <GoogleAnalytics gaId="G-4510PJS4HL" />
         </MantineProvider>
       </body>

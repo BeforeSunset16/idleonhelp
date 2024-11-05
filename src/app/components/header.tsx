@@ -68,15 +68,20 @@ const tabs = [
     key: 'world5',
     link: '/world5',
   },
-  {
-    name: '世界6',
-    key: 'world6',
-    link: '/world6',
-  },
+  // {
+  //   name: '世界6',
+  //   key: 'world6',
+  //   link: '/world6',
+  // },
   {
     name: 'Idle Skiller',
     key: 'idleskiller',
     link: '/idleskiller',
+  },
+  {
+    name: '登录',
+    key: 'auth',
+    link: '/auth',
   },
 ];
 

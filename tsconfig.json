@@ -23,9 +23,13 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "#/*": [
+        "./*"
       ]
     },
     "typeRoots": [

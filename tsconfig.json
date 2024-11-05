@@ -31,9 +31,11 @@
   "include": [
     "pages/**/*",
     "src/**/*",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/lib/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "next.config.js"
   ]
 }

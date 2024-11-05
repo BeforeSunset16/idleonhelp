@@ -8,12 +8,12 @@
     "project": "./tsconfig.json"
   },
   "ignorePatterns": [
-    "postcss.config.cjs",
-    "pages/_document.tsx",
     "amplify/**/*",
-    "amplify-codegen-temp/models/models",
-    "src/ui-components/*",
-    "src/graphql/*"
+    "amplify-codegen-temp/**/*",
+    "src/ui-components/**/*",
+    "src/graphql/**/*",
+    "*.config.js",
+    "*.config.cjs"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",

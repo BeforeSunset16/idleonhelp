@@ -16,6 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "react",
     "incremental": true,
     "plugins": [
       {
@@ -33,7 +34,7 @@
     "src/**/*",
     ".next/types/**/*.ts",
     "src/lib/**/*"
-  ],
+, "postcss.config.cjs"      ],
   "exclude": [
     "node_modules",
     "next.config.js"

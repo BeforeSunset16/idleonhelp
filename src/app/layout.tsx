@@ -2,12 +2,13 @@
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-import HeaderTabs from './components/header';
-import './globals.css';
-// eslint-disable-next-line import/no-extraneous-dependencies, import/order
 import { GoogleAnalytics } from '@next/third-parties/google';
+import './globals.css';
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import HeaderTabs from './components/header';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Idleon Help',
   description: 'My favorite idleon community!',
 };
@@ -15,7 +16,7 @@ export const metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -26,8 +27,8 @@ export default function RootLayout({
         <MantineProvider>
           <HeaderTabs />
           {children}
+          <GoogleAnalytics gaId="G-4510PJS4HL" />
         </MantineProvider>
-        <GoogleAnalytics gaId="G-4510PJS4HL" /> {/* 添加 Google Analytics */}
       </body>
     </html>
   );

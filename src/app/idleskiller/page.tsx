@@ -124,7 +124,7 @@ function Idleskiller(): JSX.Element {
   兑换方式：进入游戏，在第一世界城镇的二楼，商店招牌左侧空地，按一下回车，屏幕底部出现对话框，输入兑换码（每次一个），再按回车发送即可。兑换码需按顺序兑换，每次兑换后，需等待一段时间才能兑换下一个，等待天数见右侧表格。`;
 
   return (
-    <Container className={classes.content} pb="xl" size="full" pt={isSmallScreen ? '2rem' : '7.4rem'}>
+    <Container className={classes.content} pb="xl" size="full" pt={0}>
       <div className={classes.root}>
         <Container size="xl">
           <div className={classes.inner}>

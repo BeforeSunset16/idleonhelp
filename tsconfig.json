@@ -27,14 +27,19 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
   },
   "include": [
     "pages/**/*",
     "src/**/*",
     ".next/types/**/*.ts",
-    "src/lib/**/*"
-, "postcss.config.cjs"      ],
+    "src/app/lib/**/*",
+    "src/types/**/*"
+  ],
   "exclude": [
     "node_modules",
     "next.config.js"

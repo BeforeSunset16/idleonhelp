@@ -1,0 +1,11 @@
+/* breakpoints.css */
+:root {
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1440px;
+}
+
+/* 使用示例 */
+@custom-media --mobile (max-width: var(--breakpoint-mobile));
+@custom-media --tablet (max-width: var(--breakpoint-tablet));
+@custom-media --desktop (min-width: var(--breakpoint-desktop));

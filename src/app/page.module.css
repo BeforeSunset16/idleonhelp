@@ -1,26 +1,36 @@
-.card {
-    /* background-color: var(--mantine-color-body); */
-    transition:
-      transform 150ms ease,
-      box-shadow 150ms ease;
-  
-    &:hover {
-      transform: scale(1.01);
-      box-shadow: var(--mantine-shadow-md);
-    }
-  }
+/* 卡片网格容器样式 */
+.content {
+  /* 桌面端的顶部间距 */
+  margin-top: -120px;  /* 桌面端保持 -120px */
+  position: relative;
+  z-index: var(--z-index-modal);
+}
 
+/* 单个卡片样式 */
+.card {
+  /* 卡片悬浮效果 */
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+  position: relative;
+  z-index: var(--z-index-modal);
+  background-color: var(--mantine-color-body); /* 卡片背景色 */
+  
+  /* 卡片悬浮时的动画效果 */
+  &:hover {
+    transform: scale(1.01);  /* 悬浮时放大倍数，可以调整 */
+    box-shadow: var(--mantine-shadow-md);
+  }
+}
+
+/* 卡片标题样式 */
 .title {
   font-family: 'Greycliff CF', var(--mantine-font-family);
   font-weight: bold;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.08em;  /* 字间距，可以调整 */
 }
 
-.content {
-  margin-top: 1rem;
-  z-index: 1; /* 保证内容在导航栏下方 */
-}
-
+/* 图片样式 */
 .image {
   width: auto;
   height: 100%;
@@ -30,11 +40,13 @@
   object-fit: contain;
 }
 
+/* 全屏容器样式 */
 .fullscreen_container {
   position: relative;
   z-index: 1001;
 }
 
+/* 关闭按钮样式 */
 .closeButton {
   position: absolute;
   top: 0.7vh;
@@ -53,11 +65,21 @@
 
 
 @media (max-width: 768px) {
+  .content {
+    margin-top: 5px;  /* 移动端使用更小的负边距 */
+    padding: 0 var(--mantine-spacing-md); /* 可选：添加左右边距 */
+  }
+
   .image {
     width: 100%;
     height: auto;
-    /* height: 100%;
-    width: auto; */
     margin: auto;
+  }
+}
+
+/* 平板端适配（如果需要） */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .content {
+    margin-top: -60px;  /* 平板端可以使用中间值 */
   }
 }

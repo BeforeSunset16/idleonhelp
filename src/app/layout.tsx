@@ -9,7 +9,31 @@ import type { ReactNode } from 'react';
 import HeaderTabs from './components/header';
 
 const theme = createTheme({
-  /** Put your mantine theme override here */
+  colors: {
+    primary: ['#DFF2EB', '#66BAB7', '#2c8482', '#2c8482', '#2c8482', '#2c8482', '#2c8482', '#2c8482', '#2c8482', '#2c8482'],
+  },
+  spacing: {
+    xs: '0.5rem',
+    sm: '1rem',
+    md: '1.5rem',
+    lg: '2rem',
+    xl: '2.5rem',
+  },
+  breakpoints: {
+    xs: '320px',
+    sm: '768px',
+    md: '1024px',
+    lg: '1440px',
+  },
+  components: {
+    Button: {
+      styles: {
+        root: {
+          transition: 'all var(--transition-speed)',
+        },
+      },
+    },
+  },
 });
 
 export const metadata: Metadata = {
@@ -30,7 +54,9 @@ export default function RootLayout({
       <body>
         <MantineProvider theme={theme}>
           <HeaderTabs />
-          {children}
+          <main className="main-content">
+            {children}
+          </main>
           <GoogleAnalytics gaId="G-4510PJS4HL" />
         </MantineProvider>
       </body>

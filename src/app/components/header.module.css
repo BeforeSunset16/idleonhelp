@@ -1,13 +1,15 @@
 .header {
-  padding-top: var(--mantine-spacing-sm);
-  background-color: light-dark(#66BAB7, var(--mantine-color-dark-6));
-  /* border-bottom: 1px solid light-dark(#66BAB7, transparent); */
-  margin-bottom: 17px;
+  --header-height: 60px;
+  --header-bg: var(--color-secondary);
+  
   position: fixed;
-  width: 100%;
-  max-width: 100vw;
-  box-sizing: border-box;
-  z-index: 100; /* 确保导航栏位于内容之上 */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--header-height) + 44px); /* 桌面端的高度 */
+  background-color: var(--header-bg);
+  z-index: var(--z-index-overlay);
+  padding: var(--spacing-unit);
 }
 
 .mainSection {
@@ -24,9 +26,11 @@
 
 .mobileHeaderGroup {
   display: flex;
-  flex-direction: row; /* 横向排列 */
-  align-items: center;
-  gap: var(--mantine-spacing-sm); /* 控制汉堡图标和 logo 之间的间距 */
+  flex-direction: row;
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  gap: var(--mantine-spacing-sm);
+  height: var(--header-height); /* 确保组件占满header高度 */
 }
 
 .user {
@@ -140,4 +144,24 @@
     color: var(--mantine-color-blue-6);
   }
     
+  .header {
+    height: var(--header-height); /* 手机端只需要基础高度 */
+    padding: 0 var(--mantine-spacing-sm); /* 修改水平内边距 */
+  }
+
+  .mainSection {
+    height: 100%; /* 确保mainSection占满header高度 */
+    display: flex;
+    align-items: center; /* 垂直居中其内容 */
+  }
+
+  .mobileLogo {
+    display: flex;
+    align-items: center; /* 确保logo垂直居中 */
+  }
+}
+
+.tabs {
+  background-color: var(--header-bg);
+  margin-top: -13px; /* 调整与上方的间距 */
 }

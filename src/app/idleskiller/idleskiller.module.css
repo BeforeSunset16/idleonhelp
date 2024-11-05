@@ -28,7 +28,7 @@
   }
   
   .content {
-    padding-top: calc(var(--mantine-spacing-xl) * 1.1);
+    margin-top: -20px;
     margin-left: calc(var(--mantine-spacing-xl) * -1);
     margin-right: calc(var(--mantine-spacing-xl) * -1);
     /* padding-bottom: calc(var(--mantine-spacing-xl) * 2); */
@@ -36,8 +36,12 @@
     z-index: 1; /* 保证内容在导航栏下方 */
     @media (max-width: 768px) {
       /* padding-top: 1em; */
-      margin-left: -1em;
-      max-width: 108%;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+      
+      max-width: 100%;
       
     }
   }

@@ -99,15 +99,12 @@ export default function ImageGallery() {
       p="md"
       radius="md"
       className={classes.card}
-      style={{ cursor: 'pointer' }}
       onClick={() => handleImageClick(article.image)}
     >
-      <Container style={{ margin: "-16px -32px 0 -32px", overflow: "hidden" }}>
-        {/* <Link href={article.image}> */}
+      <Container className={classes.imageContainer}>
         <AspectRatio ratio={1920 / 1080}>
           <Image src={article.image} alt={article.title} />
         </AspectRatio>
-        {/* </Link> */}
       </Container>
       <Text c="dimmed" size="xs" tt="uppercase" fw={700} mt="md">
         {article.date}

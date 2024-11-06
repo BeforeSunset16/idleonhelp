@@ -8,7 +8,7 @@
   right: 0;
   height: var(--header-height);
   background-color: var(--header-bg);
-  z-index: var(--z-index-overlay);
+  z-index: var(--z-index-header);
   padding: 0 var(--mantine-spacing-sm);
 }
 
@@ -170,4 +170,25 @@
 .tabs {
   background-color: var(--header-bg);
   margin-top: -13px; /* 调整与上方的间距 */
+}
+
+.drawerHeader {
+  background-color: #66BAB7;
+}
+
+.drawerContent {
+  background-color: #66BAB7;
+}
+
+.drawerBody {
+  padding: 0;
+  color: var(--mantine-color-white);
+}
+
+.drawerClose {
+  color: var(--mantine-color-white);
+}
+
+.drawerClose:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

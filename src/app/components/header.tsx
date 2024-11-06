@@ -231,23 +231,11 @@ export default function HeaderTabs() {
           onClose={toggle}
           size="280px"
           position="left"
-          styles={{
-            header: {
-              backgroundColor: '#66BAB7',
-            },
-            content: {
-              backgroundColor: '#66BAB7',
-            },
-            body: {
-              padding: 0,
-              color: 'var(--mantine-color-white)',
-            },
-            close: {
-              color: 'var(--mantine-color-white)',
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              },
-            },
+          classNames={{
+            header: classes.drawerHeader,
+            content: classes.drawerContent,
+            body: classes.drawerBody,
+            close: classes.drawerClose,
           }}
         >
           <nav>
@@ -265,7 +253,7 @@ export default function HeaderTabs() {
       </Container>
       <Container size="xl">
         <Tabs
-          defaultValue="攻略"
+          defaultValue="index"
           variant="outline"
           visibleFrom="sm"
           classNames={{

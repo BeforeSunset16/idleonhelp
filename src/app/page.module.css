@@ -15,6 +15,7 @@
   position: relative;
   z-index: var(--z-index-modal);
   background-color: var(--mantine-color-body); /* 卡片背景色 */
+  cursor: pointer;
   
   /* 卡片悬浮时的动画效果 */
   &:hover {
@@ -82,4 +83,9 @@
   .content {
     margin-top: -60px;  /* 平板端可以使用中间值 */
   }
+}
+
+.imageContainer {
+  margin: calc(var(--mantine-spacing-md) * -1) calc(var(--mantine-spacing-md) * -2) 0 calc(var(--mantine-spacing-md) * -2);
+  overflow: hidden;
 }

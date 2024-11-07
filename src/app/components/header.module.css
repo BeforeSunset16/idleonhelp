@@ -1,7 +1,6 @@
 .header {
-  --header-height: 52px;
+  /* --header-height: 7%; */
   --header-bg: var(--color-secondary);
-  
   position: fixed;
   top: 0;
   left: 0;
@@ -24,6 +23,7 @@
 
 .logo {
   display: block; /* 默认显示 */
+  margin-top: 1%;
 }
 
 .mobileLogo {

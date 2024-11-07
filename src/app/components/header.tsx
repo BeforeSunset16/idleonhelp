@@ -44,6 +44,11 @@ const tabs = [
     link: '/',
   },
   {
+    name: '新手教程',
+    key: 'tutorial',
+    link: '/tutorial',
+  },
+  {
     name: '世界1',
     key: 'world1',
     link: '/world1',
@@ -83,11 +88,11 @@ const tabs = [
     key: 'idleskiller',
     link: '/idleskiller',
   },
-  {
-    name: '登录',
-    key: 'auth',
-    link: '/auth',
-  },
+  // {
+  //   name: '登录',
+  //   key: 'auth',
+  //   link: '/auth',
+  // },
 ];
 
 export default function HeaderTabs() {

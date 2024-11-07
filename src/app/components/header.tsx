@@ -79,10 +79,15 @@ const tabs = [
   //   link: '/world6',
   // },
   {
-    name: 'Todos',
-    key: 'todos',
-    link: '/todos',
+    name: '世界5 洞穴攻略',
+    key: 'W5-HOLE-GUIDE',
+    link: '/w5-hole-guide',
   },
+  // {
+  //   name: 'Todos',
+  //   key: 'todos',
+  //   link: '/todos',
+  // },
   {
     name: 'Idle Skiller',
     key: 'idleskiller',

@@ -1,0 +1,13 @@
+.container {
+  padding: var(--mantine-spacing-xl);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--mantine-spacing-md);
+    max-width: 100%;
+  }
+}

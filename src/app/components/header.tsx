@@ -48,6 +48,11 @@ const tabs = [
     key: 'tutorial',
     link: '/tutorial',
   },
+  {
+    name: '个人攻略',
+    key: 'personal-guide',
+    link: '/personal-guide',
+  },
   // {
   //   name: '世界1',
   //   key: 'world1',

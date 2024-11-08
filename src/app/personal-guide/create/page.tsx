@@ -1,21 +1,23 @@
 'use client';
 
 import {
-  Container, Title, TextInput, Button, Stack,
+  Container, Title, TextInput, Button, Stack, Paper,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
+import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
+import { useState } from 'react';
 
 export default function CreateGuidePage() {
   const client = generateClient<Schema>();
+  const [content, setContent] = useState('');
 
   const form = useForm({
     initialValues: {
       title: '',
-      content: '',
-      draft_content: '',
       category: '',
+      draft_content: '',
     },
   });
 
@@ -23,9 +25,10 @@ export default function CreateGuidePage() {
     try {
       await client.models.personalGuide.create({
         ...values,
+        content,
       });
-      // Clear form after successful creation
       form.reset();
+      setContent('');
     } catch (error) {
       console.error('Error creating guide:', error);
     }
@@ -35,37 +38,37 @@ export default function CreateGuidePage() {
     <Container size="lg" py="xl">
       <Title order={2} mb="xl">创建新攻略</Title>
 
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Stack>
-          <TextInput
-            label="标题"
-            placeholder="输入攻略标题"
-            required
-            {...form.getInputProps('title')}
-          />
+      <Paper p="md" withBorder>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Stack>
+            <TextInput
+              label="标题"
+              placeholder="输入攻略标题"
+              required
+              {...form.getInputProps('title')}
+            />
 
-          <TextInput
-            label="分类"
-            placeholder="输入攻略分类"
-            {...form.getInputProps('category')}
-          />
+            <TextInput
+              label="分类"
+              placeholder="输入攻略分类"
+              {...form.getInputProps('category')}
+            />
 
-          <TextInput
-            label="内容"
-            placeholder="输入攻略内容"
-            required
-            {...form.getInputProps('content')}
-          />
+            <CustomRichTextEditor
+              content={content}
+              onChange={setContent}
+            />
 
-          <TextInput
-            label="草稿内容"
-            placeholder="输入草稿内容"
-            {...form.getInputProps('draft_content')}
-          />
+            <TextInput
+              label="草稿内容"
+              placeholder="输入草稿内容"
+              {...form.getInputProps('draft_content')}
+            />
 
-          <Button type="submit">创建</Button>
-        </Stack>
-      </form>
+            <Button type="submit">创建</Button>
+          </Stack>
+        </form>
+      </Paper>
     </Container>
   );
 }

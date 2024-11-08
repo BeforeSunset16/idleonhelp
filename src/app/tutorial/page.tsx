@@ -3,7 +3,7 @@ import getMdxBySlug from '@/app/lib/mdx';
 import classes from './mdx.module.css';
 
 export default async function MdxPage() {
-  const { content, frontmatter } = await getMdxBySlug('my-first-blog');
+  const { content, frontmatter } = await getMdxBySlug('tutorialw1', 'tutorial');
 
   return (
     <Container size="xl" className={classes.container}>

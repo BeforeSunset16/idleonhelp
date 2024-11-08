@@ -21,6 +21,11 @@ const testRoutes = [
     title: 'Rich Text Editor Test',
     description: 'Test rich text editor functionality',
   },
+  {
+    id: 'personalImage',
+    title: 'Personal Image Test',
+    description: 'Test personal image functionality',
+  },
 ];
 
 export default function TestPage() {

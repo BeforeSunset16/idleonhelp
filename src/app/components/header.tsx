@@ -98,11 +98,16 @@ const tabs = [
     key: 'idleskiller',
     link: '/idleskiller',
   },
-  // {
-  //   name: '登录',
-  //   key: 'auth',
-  //   link: '/auth',
-  // },
+  {
+    name: '登录',
+    key: 'auth',
+    link: '/auth',
+  },
+  {
+    name: 'test',
+    key: 'test',
+    link: '/test',
+  },
 ];
 
 export default function HeaderTabs() {

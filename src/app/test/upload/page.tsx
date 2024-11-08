@@ -14,6 +14,8 @@ import {
 } from '@mantine/core';
 import { IconUpload, IconAlertCircle } from '@tabler/icons-react';
 import { useAuth } from '@/app/contexts/AuthContext';
+import PersonalImageUploader from '@/app/components/ImageUploader';
+import outputs from '#/amplify_outputs.json';
 
 const MAX_FILE_SIZE = 300 * 1024; // 300KB in bytes
 
@@ -22,6 +24,17 @@ export default function UploadPage() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+
+  const { createPersonalImageRecord } = PersonalImageUploader({
+    onComplete: (imageUrl) => {
+      console.log('Record created:', imageUrl);
+      // Handle success
+    },
+    onError: (err) => {
+      console.error('Failed to create record:', err);
+      // Handle error
+    },
+  });
 
   const handleFileChange = (newFile: File | null) => {
     setError(null);
@@ -63,13 +76,19 @@ export default function UploadPage() {
       const { result } = await uploadData({
         path: ({ identityId }) => `user-uploads/${identityId}/${file.name}`,
         data: file,
+        options: {
+          contentType: file.type,
+        },
       });
+      const uploadResult = await result;
       console.log('Upload success - Result:', result);
-      console.log('Upload success - Path:', (await result)?.path);
-      console.log('Upload success - Size:', (await result).size);
-      console.log('Upload success - ETag:', (await result).eTag);
-      console.log('Upload success - Content Type:', (await result).contentType);
+      console.log('Upload success - Path:', uploadResult?.path);
+      console.log('Upload success - Size:', uploadResult.size);
+      console.log('Upload success - ETag:', uploadResult.eTag);
+      console.log('Upload success - Content Type:', uploadResult.contentType);
       setFile(null);
+      const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
+      await createPersonalImageRecord(imageUrl);
     } catch (err) {
       console.error('Upload error:', err);
       setError('Failed to upload file. Please try again.');

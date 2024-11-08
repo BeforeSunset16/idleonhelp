@@ -2,6 +2,7 @@
 
 import {
   Container, Title, TextInput, Button, Stack, Paper,
+  Select,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
@@ -19,6 +20,7 @@ export default function CreateGuidePage() {
     initialValues: {
       title: '',
       category: '',
+      active: 'T',
       // draft_content: '',
     },
   });
@@ -27,6 +29,7 @@ export default function CreateGuidePage() {
     try {
       const result = await client.models.personalGuide.create({
         ...values,
+        active: values.active as 'T' | 'F',
         content,
       });
 
@@ -57,10 +60,18 @@ export default function CreateGuidePage() {
               placeholder="输入攻略分类"
               {...form.getInputProps('category')}
             />
+            <Select
+              label="状态"
+              placeholder="选择攻略状态"
+              data={[{ value: 'T', label: '启用' }, { value: 'F', label: '禁用' }]}
+              {...form.getInputProps('active')}
+            />
 
             <CustomRichTextEditor
               content={content}
               onChange={setContent}
+              editable
+              variant="edit"
             />
 
             {/* <TextInput

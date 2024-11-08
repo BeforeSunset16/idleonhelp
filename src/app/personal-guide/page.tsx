@@ -16,7 +16,8 @@ export default function PersonalGuidePage() {
 
   const fetchGuides = async () => {
     try {
-      const { data } = await client.models.personalGuide.list(
+      const { data } = await client.models.personalGuide.listpersonalGuideByActiveAndCreatedAt(
+        { active: 'T' },
         {
           authMode: 'apiKey',
         },

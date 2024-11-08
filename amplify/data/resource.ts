@@ -11,14 +11,27 @@ const schema = a.schema({
     .model({
       content: a.string(),
       isDone: a.boolean(),
-    })
+    }) 
     .authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])]),
     personalGuide: a.model({
       title: a.string(),
       content: a.string(),
       draft_content: a.string(),
       category: a.string(),
-  }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])]),
+      active: a.enum(['T', 'F']),
+      createdAt: a.datetime(),
+  }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])])
+  .secondaryIndexes((index) => [
+    index("active").sortKeys(["createdAt"]),
+  ]),
+  personalImage: a.model({
+    imageUrl: a.string(),
+    active: a.enum(['T', 'F']),
+    createdAt: a.datetime(),
+  }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])])
+  .secondaryIndexes((index) => [
+    index("active").sortKeys(["createdAt"]),
+  ]),
 },);
 
 export type Schema = ClientSchema<typeof schema>;

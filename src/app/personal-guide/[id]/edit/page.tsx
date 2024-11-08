@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import {
   Container, Title, TextInput, Button, Stack, Paper,
+  Select,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
@@ -18,6 +19,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
     initialValues: {
       title: '',
       category: '',
+      active: 'T',
       // draft_content: '',
     },
   });
@@ -32,6 +34,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
         form.setValues({
           title: data.title ?? '',
           category: data.category ?? '',
+          active: data.active ?? 'T',
           // draft_content: data.draft_content ?? '',
         });
         setContent(data.content ?? '');
@@ -48,6 +51,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
       await client.models.personalGuide.update({
         id: params.id,
         ...values,
+        active: values.active as "T" | "F",
         content,
       });
 
@@ -71,6 +75,13 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
               placeholder="输入攻略标题"
               required
               {...form.getInputProps('title')}
+            />
+
+            <Select
+              label="状态"
+              placeholder="选择攻略状态"
+              data={[{ value: 'T', label: '启用' }, { value: 'F', label: '禁用' }]}
+              {...form.getInputProps('active')}
             />
 
             <TextInput

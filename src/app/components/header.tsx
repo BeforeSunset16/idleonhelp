@@ -48,26 +48,26 @@ const tabs = [
     key: 'tutorial',
     link: '/tutorial',
   },
-  {
-    name: '世界1',
-    key: 'world1',
-    link: '/world1',
-  },
-  {
-    name: '世界2',
-    key: 'world2',
-    link: '/world2',
-  },
-  {
-    name: '世界3',
-    key: 'world3',
-    link: '/world3',
-  },
-  {
-    name: '世界4',
-    key: 'world4',
-    link: '/world4',
-  },
+  // {
+  //   name: '世界1',
+  //   key: 'world1',
+  //   link: '/world1',
+  // },
+  // {
+  //   name: '世界2',
+  //   key: 'world2',
+  //   link: '/world2',
+  // },
+  // {
+  //   name: '世界3',
+  //   key: 'world3',
+  //   link: '/world3',
+  // },
+  // {
+  //   name: '世界4',
+  //   key: 'world4',
+  //   link: '/world4',
+  // },
   // {
   //   name: '世界5',
   //   key: 'world5',

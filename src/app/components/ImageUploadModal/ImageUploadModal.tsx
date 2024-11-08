@@ -1,13 +1,16 @@
 import {
-  Modal, TextInput, Button, Group, Stack, FileInput, Alert, Text,
+  Modal, TextInput, Button, Group, Stack, FileInput, Alert, Text, SimpleGrid, Card, Image,
 } from '@mantine/core';
 import { IconUpload, IconAlertCircle } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { useAuth } from '@/app/contexts/AuthContext';
 import PersonalImageUploader from '@/app/components/ImageUploader';
 import outputs from '#/amplify_outputs.json';
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '#/amplify/data/resource';
 
+const client = generateClient<Schema>();
 const MAX_FILE_SIZE = 300 * 1024;
 
 interface ImageUploadModalProps {
@@ -23,6 +26,7 @@ export default function ImageUploadModal({
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [recentImages, setRecentImages] = useState<any[]>([]);
   const { user } = useAuth();
 
   const { createPersonalImageRecord } = PersonalImageUploader({
@@ -100,8 +104,43 @@ export default function ImageUploadModal({
     }
   };
 
+  const fetchRecentImages = async () => {
+    if (!user) return;
+
+    try {
+      const { data } = await client.models.PersonalImage
+        .listPersonalImageByActiveAndCreatedAt(
+          {
+            active: 'T',
+          },
+          {
+            sortDirection: 'DESC',
+            filter: {
+              owner: { beginsWith: user?.username },
+            },
+            authMode: 'userPool',
+            limit: 10, // 只获取最近10张
+          },
+        );
+      setRecentImages(data || []);
+    } catch (error2) {
+      console.error('Error fetching recent images:', error2);
+    }
+  };
+
+  useEffect(() => {
+    if (opened) {
+      fetchRecentImages();
+    }
+  }, [opened, user]);
+
+  const handleRecentImageClick = (selectedImageUrl: string) => {
+    onImageUploaded(selectedImageUrl);
+    onClose();
+  };
+
   return (
-    <Modal opened={opened} onClose={onClose} title="Insert Image">
+    <Modal opened={opened} onClose={onClose} title="Insert Image" size="xl">
       <Stack>
         {error && (
           <Alert icon={<IconAlertCircle size={16} />} color="red">
@@ -110,7 +149,7 @@ export default function ImageUploadModal({
         )}
 
         <TextInput
-          placeholder="Or enter image URL directly"
+          placeholder="Enter image URL directly"
           value={imageUrl}
           onChange={(event) => setImageUrl(event.currentTarget.value)}
           mb="md"
@@ -146,6 +185,36 @@ export default function ImageUploadModal({
             </Button>
           )}
         </Group>
+
+        {recentImages.length > 0 && (
+          <>
+            <Text size="sm" fw={500} mt="md">Recent Images</Text>
+            <SimpleGrid cols={5} spacing="xs">
+              {recentImages.map((image) => (
+                <Card
+                  key={image.id}
+                  p="xs"
+                  radius="md"
+                  withBorder
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => handleRecentImageClick(image.imageUrl)}
+                >
+                  <Card.Section>
+                    <Image
+                      src={image.imageUrl}
+                      alt={image.title || 'Uploaded image'}
+                      height={100}
+                      fit="cover"
+                    />
+                  </Card.Section>
+                  <Text size="xs" c="dimmed" mt={4} lineClamp={1}>
+                    {new Date(image.createdAt).toLocaleDateString()}
+                  </Text>
+                </Card>
+              ))}
+            </SimpleGrid>
+          </>
+        )}
       </Stack>
     </Modal>
   );

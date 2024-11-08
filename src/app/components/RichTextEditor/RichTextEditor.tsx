@@ -62,6 +62,13 @@ export default function CustomRichTextEditor({
             border: variant === 'display' ? 'none' : '1px solid #dee2e6',
             background: variant === 'display' ? 'transparent' : undefined,
           },
+          content: {
+            minHeight: '600px',
+            '& .ProseMirror': {
+              minHeight: '600px',
+              padding: '20px',
+            },
+          },
         }}
       >
         {editable && (

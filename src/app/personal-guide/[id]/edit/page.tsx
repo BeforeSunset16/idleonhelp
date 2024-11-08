@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import {
-  Container, Title, TextInput, Button, Stack, Paper,
-  Select,
+  Container, Title, TextInput, Button, Stack, Paper, Text, Select,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
@@ -15,12 +14,12 @@ const client = generateClient<Schema>();
 
 export default function EditGuidePage({ params }: { params: { id: string } }) {
   const [content, setContent] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const form = useForm({
     initialValues: {
       title: '',
       category: '',
       active: 'T',
-      // draft_content: '',
     },
   });
 
@@ -29,22 +28,34 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchGuide = async () => {
       try {
+        setIsLoading(true);
         const { data } = await client.models.PersonalGuide.get({ id: params.id });
         if (!data) return;
         form.setValues({
           title: data.title ?? '',
           category: data.category ?? '',
           active: data.active ?? 'T',
-          // draft_content: data.draft_content ?? '',
         });
         setContent(data.content ?? '');
       } catch (error) {
         console.error('Error fetching guide:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchGuide();
   }, [params.id]);
+
+  if (isLoading) {
+    return (
+      <Container size="lg" py="xl">
+        <Paper p="md" withBorder>
+          <Text>Loading...</Text>
+        </Paper>
+      </Container>
+    );
+  }
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
@@ -96,12 +107,6 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
               variant="edit"
               editable
             />
-
-            {/* <TextInput
-              label="草稿内容"
-              placeholder="输入草稿内容"
-              {...form.getInputProps('draft_content')}
-            /> */}
 
             <Button type="submit">保存</Button>
           </Stack>

@@ -16,6 +16,7 @@ const schema = a.schema({
   PersonalGuide: a.model({
       title: a.string(),
       content: a.string(),
+      coverImageUrl: a.string(),
       draft_content: a.string(),
       category: a.string(),
       active: a.enum(['T', 'F']),

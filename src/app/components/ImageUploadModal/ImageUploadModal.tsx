@@ -27,6 +27,8 @@ export default function ImageUploadModal({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [recentImages, setRecentImages] = useState<any[]>([]);
+  const [nextToken, setNextToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
   const { createPersonalImageRecord } = PersonalImageUploader({
@@ -104,11 +106,12 @@ export default function ImageUploadModal({
     }
   };
 
-  const fetchRecentImages = async () => {
+  const fetchRecentImages = async (token?: string | null) => {
     if (!user) return;
 
     try {
-      const { data } = await client.models.PersonalImage
+      setLoading(true);
+      const { data, nextToken: newNextToken } = await client.models.PersonalImage
         .listPersonalImageByActiveAndCreatedAt(
           {
             active: 'T',
@@ -119,18 +122,33 @@ export default function ImageUploadModal({
               owner: { beginsWith: user?.username },
             },
             authMode: 'userPool',
-            limit: 10, // 只获取最近10张
+            limit: 2,
+            nextToken: token,
           },
         );
-      setRecentImages(data || []);
+
+      if (token) {
+        setRecentImages((prev) => [...prev, ...(data || [])]);
+      } else {
+        setRecentImages(data || []);
+      }
+      setNextToken(newNextToken || null);
     } catch (error2) {
       console.error('Error fetching recent images:', error2);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (nextToken) {
+      fetchRecentImages(nextToken);
     }
   };
 
   useEffect(() => {
     if (opened) {
-      fetchRecentImages();
+      fetchRecentImages(null);
     }
   }, [opened, user]);
 
@@ -149,15 +167,15 @@ export default function ImageUploadModal({
         )}
 
         <TextInput
-          placeholder="Enter image URL directly"
+          placeholder="输入图片URL"
           value={imageUrl}
           onChange={(event) => setImageUrl(event.currentTarget.value)}
           mb="md"
         />
 
         <FileInput
-          label="Upload JPG file (max 300KB)"
-          placeholder="Click to select file"
+          label="上传jpg 文件 (最大 300KB)"
+          placeholder="点击选择文件"
           leftSection={<IconUpload size={14} />}
           value={file}
           onChange={handleFileChange}
@@ -181,7 +199,7 @@ export default function ImageUploadModal({
               loading={uploading}
               disabled={!file || !user}
             >
-              {uploading ? 'Uploading...' : 'Upload & Insert'}
+              {uploading ? '上传中...' : '上传并插入'}
             </Button>
           )}
         </Group>
@@ -213,6 +231,18 @@ export default function ImageUploadModal({
                 </Card>
               ))}
             </SimpleGrid>
+
+            {nextToken && (
+              <Button
+                variant="light"
+                onClick={handleLoadMore}
+                loading={loading}
+                fullWidth
+                mt="sm"
+              >
+                加载更多图片
+              </Button>
+            )}
           </>
         )}
       </Stack>

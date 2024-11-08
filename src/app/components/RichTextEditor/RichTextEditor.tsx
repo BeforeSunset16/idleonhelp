@@ -28,6 +28,7 @@ export default function CustomRichTextEditor({
 }: CustomRichTextEditorProps) {
   const [imageUrl, setImageUrl] = useState('');
   const [opened, setOpened] = useState(false);
+  console.log(content);
 
   const editor = useEditor({
     extensions: [
@@ -37,7 +38,11 @@ export default function CustomRichTextEditor({
       Superscript,
       SubScript,
       Highlight,
-      Image,
+      Image.configure({
+        HTMLAttributes: {
+          style: 'display: block; margin: 0 auto;',
+        },
+      }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content,

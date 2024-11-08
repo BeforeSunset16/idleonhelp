@@ -13,7 +13,7 @@ const schema = a.schema({
       isDone: a.boolean(),
     }) 
     .authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])]),
-    personalGuide: a.model({
+  PersonalGuide: a.model({
       title: a.string(),
       content: a.string(),
       draft_content: a.string(),
@@ -24,7 +24,7 @@ const schema = a.schema({
   .secondaryIndexes((index) => [
     index("active").sortKeys(["createdAt"]),
   ]),
-  personalImage: a.model({
+  PersonalImage: a.model({
     imageUrl: a.string(),
     active: a.enum(['T', 'F']),
     createdAt: a.datetime(),

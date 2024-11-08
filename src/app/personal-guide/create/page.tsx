@@ -27,7 +27,7 @@ export default function CreateGuidePage() {
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      const result = await client.models.personalGuide.create({
+      const result = await client.models.PersonalGuide.create({
         ...values,
         active: values.active as 'T' | 'F',
         content,

@@ -16,10 +16,15 @@ export default function PersonalGuidePage() {
 
   const fetchGuides = async () => {
     try {
-      const { data } = await client.models.personalGuide.listpersonalGuideByActiveAndCreatedAt(
-        { active: 'T' },
+      const { data } = await client.models.PersonalGuide.listPersonalGuideByActiveAndCreatedAt(
+        {
+          active: 'T',
+          createdAt: { beginsWith: '' },
+        },
         {
           authMode: 'apiKey',
+          limit: 100,
+          sortDirection: 'DESC',
         },
       );
       setGuides(data);

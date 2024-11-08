@@ -29,7 +29,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchGuide = async () => {
       try {
-        const { data } = await client.models.personalGuide.get({ id: params.id });
+        const { data } = await client.models.PersonalGuide.get({ id: params.id });
         if (!data) return;
         form.setValues({
           title: data.title ?? '',
@@ -48,7 +48,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      await client.models.personalGuide.update({
+      await client.models.PersonalGuide.update({
         id: params.id,
         ...values,
         active: values.active as "T" | "F",

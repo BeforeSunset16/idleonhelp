@@ -15,11 +15,36 @@ import {
 import { IconUpload, IconAlertCircle } from '@tabler/icons-react';
 import { useAuth } from '@/app/contexts/AuthContext';
 
+const MAX_FILE_SIZE = 300 * 1024; // 300KB in bytes
+
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+
+  const handleFileChange = (newFile: File | null) => {
+    setError(null);
+
+    if (!newFile) {
+      setFile(null);
+      return;
+    }
+
+    // Check file type
+    if (!newFile.type.includes('jpeg')) {
+      setError('Only JPG/JPEG files are allowed');
+      return;
+    }
+
+    // Check file size
+    if (newFile.size > MAX_FILE_SIZE) {
+      setError(`File size must be less than 300KB. Current size: ${(newFile.size / 1024).toFixed(1)}KB`);
+      return;
+    }
+
+    setFile(newFile);
+  };
 
   const handleUpload = async () => {
     if (!file) {
@@ -55,7 +80,7 @@ export default function UploadPage() {
 
   return (
     <Container size="sm" py="xl">
-      <Title order={2} mb="xl">File Upload</Title>
+      <Title order={2} mb="xl">JPG Upload</Title>
 
       <Paper p="md" withBorder>
         <Stack>
@@ -66,18 +91,18 @@ export default function UploadPage() {
           )}
 
           <FileInput
-            label="Select file"
+            label="Select JPG file (max 300KB)"
             placeholder="Click to select file"
             leftSection={<IconUpload size={14} />}
             value={file}
-            onChange={setFile}
-            accept="image/*"
+            onChange={handleFileChange}
+            accept=".jpg,.jpeg"
             clearable
           />
 
           {file && (
             <Text size="sm" c="dimmed">
-              Selected file: {file.name} ({(file.size / 1024).toFixed(2)} KB)
+              Selected file: {file.name} ({(file.size / 1024).toFixed(1)} KB)
             </Text>
           )}
 

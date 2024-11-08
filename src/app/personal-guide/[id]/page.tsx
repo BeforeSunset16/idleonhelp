@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Container, Title, Text, Paper } from '@mantine/core';
+import {
+  Container, Title, Text, Paper,
+} from '@mantine/core';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
 

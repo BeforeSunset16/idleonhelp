@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   Container, Title, TextInput, Button, Stack, Paper,
 } from '@mantine/core';
@@ -48,7 +48,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
         id: params.id,
         ...values,
       });
-      
+
       alert('保存成功！');
       router.push(`/personal-guide/${params.id}`);
     } catch (error) {

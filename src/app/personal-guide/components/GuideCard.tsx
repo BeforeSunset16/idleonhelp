@@ -1,5 +1,5 @@
 import {
-  Card, Image, Text, Group, Button,
+  Card, Text, Group, Button,
 } from '@mantine/core';
 import Link from 'next/link';
 

@@ -49,25 +49,30 @@ const tabs = [
     link: '/tutorial',
   },
   {
-    name: '世界1',
-    key: 'world1',
-    link: '/world1',
+    name: '个人攻略',
+    key: 'personal-guide',
+    link: '/personal-guide',
   },
-  {
-    name: '世界2',
-    key: 'world2',
-    link: '/world2',
-  },
-  {
-    name: '世界3',
-    key: 'world3',
-    link: '/world3',
-  },
-  {
-    name: '世界4',
-    key: 'world4',
-    link: '/world4',
-  },
+  // {
+  //   name: '世界1',
+  //   key: 'world1',
+  //   link: '/world1',
+  // },
+  // {
+  //   name: '世界2',
+  //   key: 'world2',
+  //   link: '/world2',
+  // },
+  // {
+  //   name: '世界3',
+  //   key: 'world3',
+  //   link: '/world3',
+  // },
+  // {
+  //   name: '世界4',
+  //   key: 'world4',
+  //   link: '/world4',
+  // },
   // {
   //   name: '世界5',
   //   key: 'world5',
@@ -79,10 +84,15 @@ const tabs = [
   //   link: '/world6',
   // },
   {
-    name: 'Todos',
-    key: 'todos',
-    link: '/todos',
+    name: '世界5 洞穴攻略',
+    key: 'W5-HOLE-GUIDE',
+    link: '/w5-hole-guide',
   },
+  // {
+  //   name: 'Todos',
+  //   key: 'todos',
+  //   link: '/todos',
+  // },
   {
     name: 'Idle Skiller',
     key: 'idleskiller',

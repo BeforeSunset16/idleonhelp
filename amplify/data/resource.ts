@@ -13,7 +13,13 @@ const schema = a.schema({
       isDone: a.boolean(),
     })
     .authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])]),
-});
+    personalGuide: a.model({
+      title: a.string(),
+      content: a.string(),
+      draft_content: a.string(),
+      category: a.string(),
+  }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])]),
+},);
 
 export type Schema = ClientSchema<typeof schema>;
 

@@ -7,6 +7,7 @@ import {
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
+import { useRouter } from 'next/navigation';
 
 const client = generateClient<Schema>();
 
@@ -19,6 +20,8 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
       category: '',
     },
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchGuide = async () => {
@@ -45,8 +48,12 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
         id: params.id,
         ...values,
       });
+      
+      alert('保存成功！');
+      router.push(`/personal-guide/${params.id}`);
     } catch (error) {
       console.error('Error updating guide:', error);
+      alert('保存失败，请稍后重试');
     }
   };
 

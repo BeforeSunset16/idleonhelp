@@ -19,7 +19,6 @@ export default function PersonalGuidePage() {
       const { data } = await client.models.PersonalGuide.listPersonalGuideByActiveAndCreatedAt(
         {
           active: 'T',
-          createdAt: { beginsWith: '' },
         },
         {
           authMode: 'apiKey',
@@ -30,11 +29,14 @@ export default function PersonalGuidePage() {
       setGuides(data);
     } catch (error) {
       console.error('Error fetching guides:', error);
+      setGuides([]);
     }
   };
+
   useEffect(() => {
     fetchGuides();
   }, []);
+
   return (
     <Container size="lg" py="xl">
       <Group justify="space-between" mb="xl">
@@ -45,7 +47,7 @@ export default function PersonalGuidePage() {
       </Group>
 
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
-        {guides.map((guide) => (
+        {guides?.map((guide) => (
           <GuideCard key={guide.id} {...guide} />
         ))}
       </SimpleGrid>

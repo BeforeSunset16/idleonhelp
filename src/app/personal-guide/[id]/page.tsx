@@ -6,6 +6,7 @@ import {
 } from '@mantine/core';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
+import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
 
 const client = generateClient<Schema>();
 
@@ -34,7 +35,12 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
       <Paper p="md" withBorder>
         <Title order={2} mb="xl">{guide.title}</Title>
         <Text mb="md">分类: {guide.category || '未分类'}</Text>
-        <Text>{guide.content}</Text>
+        <CustomRichTextEditor
+          content={guide.content}
+          onChange={() => {}}
+          editable={false}
+          variant="display"
+        />
       </Paper>
     </Container>
   );

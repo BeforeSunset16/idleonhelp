@@ -82,6 +82,8 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
             <CustomRichTextEditor
               content={content}
               onChange={setContent}
+              variant="edit"
+              editable
             />
 
             {/* <TextInput

@@ -8,29 +8,33 @@ import type { Schema } from '#/amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function CreateGuidePage() {
   const client = generateClient<Schema>();
+  const router = useRouter();
   const [content, setContent] = useState('');
 
   const form = useForm({
     initialValues: {
       title: '',
       category: '',
-      draft_content: '',
+      // draft_content: '',
     },
   });
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      await client.models.personalGuide.create({
+      const result = await client.models.personalGuide.create({
         ...values,
         content,
       });
-      form.reset();
-      setContent('');
+
+      alert('保存成功！');
+      router.push(`/personal-guide/${result.data?.id}`);
     } catch (error) {
       console.error('Error creating guide:', error);
+      alert('创建失败，请稍后重试');
     }
   };
 
@@ -59,11 +63,11 @@ export default function CreateGuidePage() {
               onChange={setContent}
             />
 
-            <TextInput
+            {/* <TextInput
               label="草稿内容"
               placeholder="输入草稿内容"
               {...form.getInputProps('draft_content')}
-            />
+            /> */}
 
             <Button type="submit">创建</Button>
           </Stack>

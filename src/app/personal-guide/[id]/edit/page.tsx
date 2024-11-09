@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import {
-  Container, Title, TextInput, Button, Stack, Paper, Text, Select,
+  Container, Title, TextInput, Button, Stack, Paper, Text,
+  Textarea,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
@@ -18,7 +19,9 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
   const form = useForm({
     initialValues: {
       title: '',
+      description: '',
       category: '',
+      author: '',
       active: 'T',
     },
   });
@@ -33,7 +36,9 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
         if (!data) return;
         form.setValues({
           title: data.title ?? '',
+          description: data.description ?? '',
           category: data.category ?? '',
+          author: data.author ?? '',
           active: data.active ?? 'T',
         });
         setContent(data.content ?? '');
@@ -88,17 +93,22 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
               {...form.getInputProps('title')}
             />
 
-            <Select
-              label="状态"
-              placeholder="选择攻略状态"
-              data={[{ value: 'T', label: '启用' }, { value: 'F', label: '禁用' }]}
-              {...form.getInputProps('active')}
+            <Textarea
+              label="描述"
+              placeholder="输入攻略描述"
+              {...form.getInputProps('description')}
             />
 
             <TextInput
               label="分类"
               placeholder="输入攻略分类"
               {...form.getInputProps('category')}
+            />
+
+            <TextInput
+              label="作者"
+              placeholder="输入攻略作者"
+              {...form.getInputProps('author')}
             />
 
             <CustomRichTextEditor

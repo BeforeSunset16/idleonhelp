@@ -2,7 +2,7 @@
 
 import {
   Container, Title, TextInput, Button, Stack, Paper,
-  Select,
+  Textarea,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
@@ -19,9 +19,10 @@ export default function CreateGuidePage() {
   const form = useForm({
     initialValues: {
       title: '',
+      description: '',
       category: '',
+      author: '',
       active: 'T',
-      // draft_content: '',
     },
   });
 
@@ -29,7 +30,7 @@ export default function CreateGuidePage() {
     try {
       const result = await client.models.PersonalGuide.create({
         ...values,
-        active: values.active as 'T' | 'F',
+        active: 'T',
         content,
       });
 
@@ -55,16 +56,24 @@ export default function CreateGuidePage() {
               {...form.getInputProps('title')}
             />
 
+            <Textarea
+              label="简介"
+              placeholder="输入攻略简介"
+              minRows={3}
+              maxRows={5}
+              {...form.getInputProps('description')}
+            />
+
+            <TextInput
+              label="作者"
+              placeholder="输入作者名称"
+              {...form.getInputProps('author')}
+            />
+
             <TextInput
               label="分类"
-              placeholder="输入攻略分类"
+              placeholder="输入攻略分类,没啥用"
               {...form.getInputProps('category')}
-            />
-            <Select
-              label="状态"
-              placeholder="选择攻略状态"
-              data={[{ value: 'T', label: '启用' }, { value: 'F', label: '禁用' }]}
-              {...form.getInputProps('active')}
             />
 
             <CustomRichTextEditor
@@ -73,12 +82,6 @@ export default function CreateGuidePage() {
               editable
               variant="edit"
             />
-
-            {/* <TextInput
-              label="草稿内容"
-              placeholder="输入草稿内容"
-              {...form.getInputProps('draft_content')}
-            /> */}
 
             <Button type="submit">创建</Button>
           </Stack>

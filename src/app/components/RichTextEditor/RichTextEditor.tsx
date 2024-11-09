@@ -8,7 +8,14 @@ import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import Image from '@tiptap/extension-image';
 import { IconPhoto } from '@tabler/icons-react';
-import { useState } from 'react';
+import {
+  useState, useCallback, useRef, useEffect,
+} from 'react';
+import { uploadData } from 'aws-amplify/storage';
+import { useAuth } from '@/app/contexts/AuthContext';
+import PersonalImageUploader from '@/app/components/ImageUploader';
+import outputs from '#/amplify_outputs.json';
+import { v4 as uuidv4 } from 'uuid';
 import ImageUploadModal from '../ImageUploadModal/ImageUploadModal';
 
 interface CustomRichTextEditorProps {
@@ -25,6 +32,51 @@ export default function CustomRichTextEditor({
   variant = 'edit',
 }: CustomRichTextEditorProps) {
   const [opened, setOpened] = useState(false);
+  const { user } = useAuth();
+  const editorRef = useRef<any>(null);
+
+  const { createPersonalImageRecord } = PersonalImageUploader({
+    onComplete: (imageUrl) => {
+      editorRef.current?.commands.setImage({ src: imageUrl });
+    },
+    onError: (err) => {
+      console.error('Failed to create record:', err);
+    },
+  });
+
+  const handlePaste = useCallback(async (event: ClipboardEvent) => {
+    const items = event.clipboardData?.items;
+    if (!items) return;
+
+    const imageItem = Array.from(items).find(
+      (item) => item.type.indexOf('image') === 0,
+    );
+
+    if (imageItem) {
+      event.preventDefault();
+      const file = imageItem.getAsFile();
+      if (file && user) {
+        try {
+          const fileExtension = file.name.split('.').pop() || 'jpg';
+          const uniqueFileName = `${uuidv4()}.${fileExtension}`;
+
+          const { result } = await uploadData({
+            path: ({ identityId }) => `user-uploads/${identityId}/${uniqueFileName}`,
+            data: file,
+            options: {
+              contentType: file.type,
+            },
+          });
+          const uploadResult = await result;
+          const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
+
+          await createPersonalImageRecord(imageUrl);
+        } catch (err) {
+          console.error('Upload error:', err);
+        }
+      }
+    }
+  }, [user, createPersonalImageRecord]);
 
   const editor = useEditor({
     extensions: [
@@ -46,12 +98,26 @@ export default function CustomRichTextEditor({
       onChange?.(ed.getHTML());
     },
     editable,
+    editorProps: {
+      handlePaste: (view, event) => {
+        handlePaste(event);
+        return false;
+      },
+    },
+    enableCoreExtensions: true,
     immediatelyRender: false,
   });
 
-  const handleImageUploaded = (imageUrl: string) => {
-    editor?.commands.setImage({ src: imageUrl });
-  };
+  useEffect(() => {
+    if (editor) {
+      editorRef.current = editor;
+    }
+  }, [editor]);
+
+  const handleImageUploaded = useCallback((imageUrl: string) => {
+    editorRef.current?.commands.setImage({ src: imageUrl });
+    setOpened(false);
+  }, []);
 
   return (
     <>

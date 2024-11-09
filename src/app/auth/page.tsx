@@ -15,7 +15,7 @@ export default function AuthPage() {
         {({ signOut, user }) => (
           <main>
             <h1>Hello {user?.username}</h1>
-            <Button onClick={signOut}>Sign out</Button>
+            <Button onClick={signOut}>退出登录</Button>
           </main>
         )}
       </Authenticator>

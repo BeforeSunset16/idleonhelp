@@ -27,13 +27,15 @@
     "@tiptap/pm": "^2.9.1",
     "@tiptap/react": "^2.9.1",
     "@tiptap/starter-kit": "^2.9.1",
+    "@types/uuid": "^10.0.0",
     "aws-amplify": "^6.8.0",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
     "next": "14.2.4",
     "next-mdx-remote": "^5.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.6.1",

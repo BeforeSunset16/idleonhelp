@@ -2,6 +2,7 @@
 
 import {
   Container, Title, TextInput, Button, Stack, Paper,
+  Textarea, Image,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import type { Schema } from '#/amplify/data/resource';
@@ -9,33 +10,43 @@ import { generateClient } from 'aws-amplify/data';
 import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ImageUploadModal from '@/app/components/ImageUploadModal/ImageUploadModal';
 
 export default function CreateGuidePage() {
   const client = generateClient<Schema>();
   const router = useRouter();
   const [content, setContent] = useState('');
+  const [coverImageUrl, setCoverImageUrl] = useState('');
+  const [modalOpened, setModalOpened] = useState(false);
 
   const form = useForm({
     initialValues: {
       title: '',
-      category: '',
-      // draft_content: '',
+      description: '',
+      author: '',
+      active: 'T',
     },
   });
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      const result = await client.models.personalGuide.create({
+      const result = await client.models.GameGuide.create({
         ...values,
+        active: 'T',
         content,
+        coverImageUrl,
       });
 
       alert('保存成功！');
-      router.push(`/personal-guide/${result.data?.id}`);
+      router.push(`/game-guide/${result.data?.id}`);
     } catch (error) {
       console.error('Error creating guide:', error);
       alert('创建失败，请稍后重试');
     }
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    setCoverImageUrl(imageUrl);
   };
 
   return (
@@ -52,27 +63,54 @@ export default function CreateGuidePage() {
               {...form.getInputProps('title')}
             />
 
+            <Button
+              variant="outline"
+              onClick={() => setModalOpened(true)}
+            >
+              选择封面图片
+            </Button>
+
+            {coverImageUrl && (
+              <Image
+                src={coverImageUrl}
+                alt="Cover preview"
+                radius="md"
+                height={200}
+                fit="cover"
+              />
+            )}
+
+            <Textarea
+              label="简介"
+              placeholder="输入攻略简介"
+              minRows={3}
+              maxRows={5}
+              {...form.getInputProps('description')}
+            />
+
             <TextInput
-              label="分类"
-              placeholder="输入攻略分类"
-              {...form.getInputProps('category')}
+              label="作者"
+              placeholder="输入作者名称"
+              {...form.getInputProps('author')}
             />
 
             <CustomRichTextEditor
               content={content}
               onChange={setContent}
+              editable
+              variant="edit"
             />
-
-            {/* <TextInput
-              label="草稿内容"
-              placeholder="输入草稿内容"
-              {...form.getInputProps('draft_content')}
-            /> */}
 
             <Button type="submit">创建</Button>
           </Stack>
         </form>
       </Paper>
+
+      <ImageUploadModal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        onImageUploaded={handleImageUploaded}
+      />
     </Container>
   );
 }

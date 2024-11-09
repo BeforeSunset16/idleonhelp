@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import {
-  Container, Title, Text, Paper,
+  Container, Title, Paper,
 } from '@mantine/core';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
@@ -16,7 +16,10 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     const fetchGuide = async () => {
       try {
-        const { data } = await client.models.personalGuide.get({ id: params.id });
+        const { data } = await client.models.GameGuide.get(
+          { id: params.id },
+          { authMode: 'apiKey' },
+        );
         setGuide(data);
       } catch (error) {
         console.error('Error fetching guide:', error);
@@ -32,9 +35,8 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
 
   return (
     <Container size="lg" py="xl">
-      <Paper p="md" withBorder>
+      <Paper p="md" withBorder={false} style={{ background: 'transparent' }}>
         <Title order={2} mb="xl">{guide.title}</Title>
-        <Text mb="md">分类: {guide.category || '未分类'}</Text>
         <CustomRichTextEditor
           content={guide.content}
           onChange={() => {}}

@@ -1,63 +1,90 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
-  Container, Title, TextInput, Button, Stack, Paper,
+  Container, Title, Paper, Stack, Button, TextInput,
+  Textarea, Text,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import type { Schema } from '#/amplify/data/resource';
-import { generateClient } from 'aws-amplify/data';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '#/amplify/data/resource';
+import { useAuth } from '@/app/contexts/AuthContext';
 import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
 
 const client = generateClient<Schema>();
 
 export default function EditGuidePage({ params }: { params: { id: string } }) {
   const [content, setContent] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const { user } = useAuth();
+
   const form = useForm({
     initialValues: {
       title: '',
-      category: '',
-      // draft_content: '',
+      description: '',
+      active: 'T' as 'T' | 'F',
     },
   });
-
-  const router = useRouter();
 
   useEffect(() => {
     const fetchGuide = async () => {
       try {
-        const { data } = await client.models.personalGuide.get({ id: params.id });
+        setIsLoading(true);
+        const { data } = await client.models.GameGuide.get({ id: params.id });
         if (!data) return;
+
+        // 验证作者限
+        if (data.owner !== user?.username) {
+          alert('您没有权限编辑此攻略');
+          router.push('/dashboard/game-guide');
+          return;
+        }
+
         form.setValues({
           title: data.title ?? '',
-          category: data.category ?? '',
-          // draft_content: data.draft_content ?? '',
+          description: data.description ?? '',
+          active: data.active ?? 'T',
         });
         setContent(data.content ?? '');
       } catch (error) {
         console.error('Error fetching guide:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchGuide();
-  }, [params.id]);
+    if (user?.username) {
+      fetchGuide();
+    }
+  }, [params.id, user]);
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      await client.models.personalGuide.update({
+      await client.models.GameGuide.update({
         id: params.id,
         ...values,
         content,
       });
 
       alert('保存成功！');
-      router.push(`/personal-guide/${params.id}`);
+      router.push(`/game-guide/${params.id}`);
     } catch (error) {
       console.error('Error updating guide:', error);
       alert('保存失败，请稍后重试');
     }
   };
+
+  if (isLoading) {
+    return (
+      <Container size="lg" py="xl">
+        <Paper p="md" withBorder>
+          <Text>Loading...</Text>
+        </Paper>
+      </Container>
+    );
+  }
 
   return (
     <Container size="lg" py="xl">
@@ -73,24 +100,20 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
               {...form.getInputProps('title')}
             />
 
-            <TextInput
-              label="分类"
-              placeholder="输入攻略分类"
-              {...form.getInputProps('category')}
+            <Textarea
+              label="简介"
+              placeholder="输入攻略简介"
+              minRows={3}
+              maxRows={5}
+              {...form.getInputProps('description')}
             />
 
             <CustomRichTextEditor
               content={content}
               onChange={setContent}
-              variant="edit"
               editable
+              variant="edit"
             />
-
-            {/* <TextInput
-              label="草稿内容"
-              placeholder="输入草稿内容"
-              {...form.getInputProps('draft_content')}
-            /> */}
 
             <Button type="submit">保存</Button>
           </Stack>

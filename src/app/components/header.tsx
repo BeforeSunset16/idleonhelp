@@ -39,7 +39,7 @@ const user = {
 
 const tabs = [
   {
-    name: '攻略',
+    name: '快速查看',
     key: 'index',
     link: '/',
   },
@@ -49,9 +49,9 @@ const tabs = [
     link: '/tutorial',
   },
   {
-    name: '个人攻略',
-    key: 'personal-guide',
-    link: '/personal-guide',
+    name: '游戏攻略',
+    key: 'game-guide',
+    link: '/game-guide',
   },
   // {
   //   name: '世界1',
@@ -82,12 +82,12 @@ const tabs = [
   //   name: '世界6',
   //   key: 'world6',
   //   link: '/world6',
+  // // },
+  // {
+  //   name: '世界5 洞穴攻略',
+  //   key: 'W5-HOLE-GUIDE',
+  //   link: '/w5-hole-guide',
   // },
-  {
-    name: '世界5 洞穴攻略',
-    key: 'W5-HOLE-GUIDE',
-    link: '/w5-hole-guide',
-  },
   // {
   //   name: 'Todos',
   //   key: 'todos',
@@ -98,10 +98,15 @@ const tabs = [
     key: 'idleskiller',
     link: '/idleskiller',
   },
+  {
+    name: '登录',
+    key: 'auth',
+    link: '/auth',
+  },
   // {
-  //   name: '登录',
-  //   key: 'auth',
-  //   link: '/auth',
+  //   name: 'test',
+  //   key: 'test',
+  //   link: '/test',
   // },
 ];
 

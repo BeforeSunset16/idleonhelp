@@ -46,7 +46,7 @@ export default function GameGuidePage() {
     <Container size="lg" py="xl">
       <Group justify="space-between" mb="xl">
         <Title order={2}>我的攻略</Title>
-        <Button component={Link} href="/game-guide/create">
+        <Button component={Link} href="/dashboard/game-guide/create">
           创建攻略
         </Button>
       </Group>

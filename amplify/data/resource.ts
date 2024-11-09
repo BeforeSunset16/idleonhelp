@@ -13,21 +13,21 @@ const schema = a.schema({
       isDone: a.boolean(),
     }) 
     .authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])]),
-  PersonalGuide: a.model({
+    GameGuide: a.model({
       title: a.string().required(),
       description: a.string(),
       content: a.string().required(),
       author: a.string(),
       coverImageUrl: a.string(),
       draft_content: a.string(),
-      category: a.string(),
+      // category: a.string(),
       active: a.enum(['T', 'F']),
       createdAt: a.datetime(),
   }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])])
   .secondaryIndexes((index) => [
     index("active").sortKeys(["createdAt"]),
   ]),
-  PersonalImage: a.model({
+  SharedImage: a.model({
     imageUrl: a.string(),
     active: a.enum(['T', 'F']),
     createdAt: a.datetime(),

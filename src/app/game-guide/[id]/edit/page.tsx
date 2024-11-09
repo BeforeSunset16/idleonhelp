@@ -20,7 +20,6 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
     initialValues: {
       title: '',
       description: '',
-      category: '',
       author: '',
       active: 'T',
     },
@@ -32,12 +31,11 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
     const fetchGuide = async () => {
       try {
         setIsLoading(true);
-        const { data } = await client.models.PersonalGuide.get({ id: params.id });
+        const { data } = await client.models.GameGuide.get({ id: params.id });
         if (!data) return;
         form.setValues({
           title: data.title ?? '',
           description: data.description ?? '',
-          category: data.category ?? '',
           author: data.author ?? '',
           active: data.active ?? 'T',
         });
@@ -64,7 +62,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      await client.models.PersonalGuide.update({
+      await client.models.GameGuide.update({
         id: params.id,
         ...values,
         active: values.active as "T" | "F",
@@ -72,7 +70,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
       });
 
       alert('保存成功！');
-      router.push(`/personal-guide/${params.id}`);
+      router.push(`/game-guide/${params.id}`);
     } catch (error) {
       console.error('Error updating guide:', error);
       alert('保存失败，请稍后重试');
@@ -97,12 +95,6 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
               label="描述"
               placeholder="输入攻略描述"
               {...form.getInputProps('description')}
-            />
-
-            <TextInput
-              label="分类"
-              placeholder="输入攻略分类"
-              {...form.getInputProps('category')}
             />
 
             <TextInput

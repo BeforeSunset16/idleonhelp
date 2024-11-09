@@ -52,7 +52,7 @@ export default function GuideCard({
         </div>
         <Button
           component={Link}
-          href={`/personal-guide/${id}`}
+          href={`/game-guide/${id}`}
           variant="light"
         >
           查看

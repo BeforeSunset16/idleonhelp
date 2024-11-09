@@ -49,9 +49,9 @@ const tabs = [
     link: '/tutorial',
   },
   {
-    name: '个人攻略',
-    key: 'personal-guide',
-    link: '/personal-guide',
+    name: '游戏攻略',
+    key: 'game-guide',
+    link: '/game-guide',
   },
   // {
   //   name: '世界1',

@@ -16,7 +16,7 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     const fetchGuide = async () => {
       try {
-        const { data } = await client.models.PersonalGuide.get(
+        const { data } = await client.models.GameGuide.get(
           { id: params.id },
           { authMode: 'apiKey' },
         );
@@ -37,7 +37,6 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
     <Container size="lg" py="xl">
       <Paper p="md" withBorder>
         <Title order={2} mb="xl">{guide.title}</Title>
-        <Text mb="md">分类: {guide.category || '未分类'}</Text>
         <CustomRichTextEditor
           content={guide.content}
           onChange={() => {}}

@@ -13,7 +13,7 @@ import {
 } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { useAuth } from '@/app/contexts/AuthContext';
-import PersonalImageUploader from '@/app/components/ImageUploader';
+import SharedImageUploader from '@/app/components/ImageUploader';
 import outputs from '#/amplify_outputs.json';
 import { v4 as uuidv4 } from 'uuid';
 import ImageUploadModal from '../ImageUploadModal/ImageUploadModal';
@@ -35,7 +35,7 @@ export default function CustomRichTextEditor({
   const { user } = useAuth();
   const editorRef = useRef<any>(null);
 
-  const { createPersonalImageRecord } = PersonalImageUploader({
+  const { createSharedImageRecord } = SharedImageUploader({
     onComplete: (imageUrl) => {
       editorRef.current?.commands.setImage({ src: imageUrl });
     },
@@ -61,7 +61,7 @@ export default function CustomRichTextEditor({
           const uniqueFileName = `${uuidv4()}.${fileExtension}`;
 
           const { result } = await uploadData({
-            path: ({ identityId }) => `user-uploads/${identityId}/${uniqueFileName}`,
+            path: ({ identityId }) => `shared-images/${identityId}/${uniqueFileName}`,
             data: file,
             options: {
               contentType: file.type,
@@ -70,13 +70,13 @@ export default function CustomRichTextEditor({
           const uploadResult = await result;
           const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
 
-          await createPersonalImageRecord(imageUrl);
+          await createSharedImageRecord(imageUrl);
         } catch (err) {
           console.error('Upload error:', err);
         }
       }
     }
-  }, [user, createPersonalImageRecord]);
+  }, [user, createSharedImageRecord]);
 
   const editor = useEditor({
     extensions: [

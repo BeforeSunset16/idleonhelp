@@ -11,14 +11,14 @@ import { useAuth } from '@/app/contexts/AuthContext';
 
 const client = generateClient<Schema>();
 
-export default function PersonalImagePage() {
+export default function SharedImagePage() {
   const [images, setImages] = useState<any[]>([]);
   const { user } = useAuth();
 
   const fetchImages = async () => {
     try {
-      const { data } = await client.models.PersonalImage
-        .listPersonalImageByActiveAndCreatedAt(//! it is a good example
+      const { data } = await client.models.SharedImage
+        .listSharedImageByActiveAndCreatedAt(//! it is a good example
           {
             active: 'T',
           },

@@ -11,12 +11,12 @@ import GuideCard from './components/GuideCard';
 
 const client = generateClient<Schema>();
 
-export default function PersonalGuidePage() {
+export default function GameGuidePage() {
   const [guides, setGuides] = useState<any[]>([]);
 
   const fetchGuides = async () => {
     try {
-      const { data } = await client.models.PersonalGuide.listPersonalGuideByActiveAndCreatedAt(
+      const { data } = await client.models.GameGuide.listGameGuideByActiveAndCreatedAt(
         {
           active: 'T',
         },
@@ -40,10 +40,10 @@ export default function PersonalGuidePage() {
   return (
     <Container size="lg" py="xl">
       <Group justify="space-between" mb="xl">
-        <Title order={2}>玩家攻略</Title>
-        <Button component={Link} href="/personal-guide/create">
+        <Title order={2}>游戏攻略</Title>
+        {/* <Button component={Link} href="/game-guide/create">
           创建攻略
-        </Button>
+        </Button> */}
       </Group>
 
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">

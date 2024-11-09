@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import { IconUpload, IconAlertCircle } from '@tabler/icons-react';
 import { useAuth } from '@/app/contexts/AuthContext';
-import PersonalImageUploader from '@/app/components/ImageUploader';
+import SharedImageUploader from '@/app/components/ImageUploader';
 import outputs from '#/amplify_outputs.json';
 
 const MAX_FILE_SIZE = 300 * 1024; // 300KB in bytes
@@ -26,7 +26,7 @@ export default function UploadPage() {
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
 
-  const { createPersonalImageRecord } = PersonalImageUploader({
+  const { createSharedImageRecord } = SharedImageUploader({
     onComplete: (imageUrl) => {
       console.log('Record created:', imageUrl);
       // Handle success
@@ -77,7 +77,7 @@ export default function UploadPage() {
     const uniqueFileName = `${uuidv4()}.${fileExtension}`;
     try {
       const { result } = await uploadData({
-        path: ({ identityId }) => `user-uploads/${identityId}/${uniqueFileName}`,
+        path: ({ identityId }) => `shared-images/${identityId}/${uniqueFileName}`,
         data: file,
         options: {
           contentType: file.type,
@@ -91,7 +91,7 @@ export default function UploadPage() {
       console.log('Upload success - Content Type:', uploadResult.contentType);
       setFile(null);
       const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
-      await createPersonalImageRecord(imageUrl);
+      await createSharedImageRecord(imageUrl);
     } catch (err) {
       console.error('Upload error:', err);
       setError('Failed to upload file. Please try again.');

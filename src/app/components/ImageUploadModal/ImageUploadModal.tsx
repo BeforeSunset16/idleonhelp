@@ -5,7 +5,7 @@ import { IconUpload, IconAlertCircle } from '@tabler/icons-react';
 import { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { useAuth } from '@/app/contexts/AuthContext';
-import PersonalImageUploader from '@/app/components/ImageUploader';
+import SharedImageUploader from '@/app/components/ImageUploader';
 import outputs from '#/amplify_outputs.json';
 import { v4 as uuidv4 } from 'uuid';
 import { generateClient } from 'aws-amplify/data';
@@ -32,7 +32,7 @@ export default function ImageUploadModal({
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
-  const { createPersonalImageRecord } = PersonalImageUploader({
+  const { createSharedImageRecord } = SharedImageUploader({
     onComplete: (url) => {
       onImageUploaded(url);
       setImageUrl('');
@@ -84,7 +84,7 @@ export default function ImageUploadModal({
       const fileExtension = file.name.split('.').pop() || 'jpg';
       const uniqueFileName = `${uuidv4()}.${fileExtension}`;
       const { result } = await uploadData({
-        path: ({ identityId }) => `user-uploads/${identityId}/${uniqueFileName}`,
+        path: ({ identityId }) => `shared-images/${identityId}/${uniqueFileName}`,
         data: file,
         options: {
           contentType: file.type,
@@ -92,7 +92,7 @@ export default function ImageUploadModal({
       });
       const uploadResult = await result;
       const uploadedImageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
-      await createPersonalImageRecord(uploadedImageUrl);
+      await createSharedImageRecord(uploadedImageUrl);
     } catch (err) {
       console.error('Upload error:', err);
       setError('Failed to upload file. Please try again.');
@@ -114,8 +114,8 @@ export default function ImageUploadModal({
 
     try {
       setLoading(true);
-      const { data, nextToken: newNextToken } = await client.models.PersonalImage
-        .listPersonalImageByActiveAndCreatedAt(
+      const { data, nextToken: newNextToken } = await client.models.SharedImage
+        .listSharedImageByActiveAndCreatedAt(
           {
             active: 'T',
           },

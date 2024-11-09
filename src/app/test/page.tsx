@@ -22,9 +22,9 @@ const testRoutes = [
     description: 'Test rich text editor functionality',
   },
   {
-    id: 'personalImage',
-    title: 'Personal Image Test',
-    description: 'Test personal image functionality',
+    id: 'SharedImage',
+    title: 'shard Image Test',
+    description: 'Test shard image functionality',
   },
 ];
 

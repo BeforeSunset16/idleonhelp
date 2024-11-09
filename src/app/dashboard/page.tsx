@@ -1,6 +1,8 @@
 'use client';
 
-import { Container, Title, Paper, Stack } from '@mantine/core';
+import {
+  Container, Title, Paper, Stack,
+} from '@mantine/core';
 import { useAuth } from '@/app/contexts/AuthContext';
 
 export default function UserDashboardPage() {

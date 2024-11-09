@@ -23,7 +23,6 @@ export default function CreateGuidePage() {
     initialValues: {
       title: '',
       description: '',
-      category: '',
       author: '',
       active: 'T',
     },
@@ -31,7 +30,7 @@ export default function CreateGuidePage() {
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      const result = await client.models.PersonalGuide.create({
+      const result = await client.models.GameGuide.create({
         ...values,
         active: 'T',
         content,
@@ -39,7 +38,7 @@ export default function CreateGuidePage() {
       });
 
       alert('保存成功！');
-      router.push(`/personal-guide/${result.data?.id}`);
+      router.push(`/game-guide/${result.data?.id}`);
     } catch (error) {
       console.error('Error creating guide:', error);
       alert('创建失败，请稍后重试');
@@ -93,12 +92,6 @@ export default function CreateGuidePage() {
               label="作者"
               placeholder="输入作者名称"
               {...form.getInputProps('author')}
-            />
-
-            <TextInput
-              label="分类"
-              placeholder="输入攻略分类"
-              {...form.getInputProps('category')}
             />
 
             <CustomRichTextEditor

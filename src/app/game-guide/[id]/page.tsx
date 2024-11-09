@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import {
-  Container, Title, Text, Paper,
+  Container, Title, Paper,
 } from '@mantine/core';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
@@ -35,7 +35,7 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
 
   return (
     <Container size="lg" py="xl">
-      <Paper p="md" withBorder>
+      <Paper p="md" withBorder={false} style={{ background: 'transparent' }}>
         <Title order={2} mb="xl">{guide.title}</Title>
         <CustomRichTextEditor
           content={guide.content}

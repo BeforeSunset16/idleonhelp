@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { generateClient } from 'aws-amplify/data';
 import { useAuth } from '@/app/contexts/AuthContext';
 import type { Schema } from '#/amplify/data/resource';
-import GuideCard from '@/app/game-guide/components/GuideCard';
+import GuideCard from '@/app/components/GuideCard/GuideCard';
 
 const client = generateClient<Schema>();
 

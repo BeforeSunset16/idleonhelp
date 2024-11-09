@@ -125,14 +125,23 @@ export default function CustomRichTextEditor({
         editor={editor}
         styles={{
           root: {
-            border: variant === 'display' ? 'none' : '1px solid #dee2e6',
-            background: variant === 'display' ? 'transparent' : undefined,
+            border: variant === 'display' ? 'none' : '0px solid #dee2e6',
+            backgroundColor: 'transparent',
           },
           content: {
             minHeight: '600px',
+            backgroundColor: 'transparent',
             '& .ProseMirror': {
               minHeight: '600px',
               padding: '20px',
+              backgroundColor: 'transparent !important',
+              '& p': {
+                backgroundColor: 'transparent !important',
+              },
+              '& img': {
+                maxWidth: '100%',
+                height: 'auto',
+              },
             },
           },
         }}

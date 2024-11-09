@@ -98,11 +98,11 @@ const tabs = [
     key: 'idleskiller',
     link: '/idleskiller',
   },
-  // {
-  //   name: '登录',
-  //   key: 'auth',
-  //   link: '/auth',
-  // },
+  {
+    name: '登录',
+    key: 'auth',
+    link: '/auth',
+  },
   // {
   //   name: 'test',
   //   key: 'test',

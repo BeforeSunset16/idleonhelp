@@ -24,7 +24,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
     initialValues: {
       title: '',
       description: '',
-      active: 'T',
+      active: 'T' as 'T' | 'F',
     },
   });
 
@@ -35,7 +35,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
         const { data } = await client.models.GameGuide.get({ id: params.id });
         if (!data) return;
 
-        // 验证作者���限
+        // 验证作者限
         if (data.owner !== user?.username) {
           alert('您没有权限编辑此攻略');
           router.push('/dashboard/game-guide');

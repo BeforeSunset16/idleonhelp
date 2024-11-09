@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import {
-  Container, Title, SimpleGrid, Button, Group,
+  Container, Title, SimpleGrid, Group,
 } from '@mantine/core';
-import Link from 'next/link';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
-import GuideCard from './components/GuideCard';
+import GuideCard from '@/app/components/GuideCard/GuideCard';
 
 const client = generateClient<Schema>();
 

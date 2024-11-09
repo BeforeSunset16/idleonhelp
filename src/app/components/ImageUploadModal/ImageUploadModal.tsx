@@ -7,6 +7,7 @@ import { uploadData } from 'aws-amplify/storage';
 import { useAuth } from '@/app/contexts/AuthContext';
 import PersonalImageUploader from '@/app/components/ImageUploader';
 import outputs from '#/amplify_outputs.json';
+import { v4 as uuidv4 } from 'uuid';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
 
@@ -80,8 +81,10 @@ export default function ImageUploadModal({
     setUploading(true);
     setError(null);
     try {
+      const fileExtension = file.name.split('.').pop() || 'jpg';
+      const uniqueFileName = `${uuidv4()}.${fileExtension}`;
       const { result } = await uploadData({
-        path: ({ identityId }) => `user-uploads/${identityId}/${file.name}`,
+        path: ({ identityId }) => `user-uploads/${identityId}/${uniqueFileName}`,
         data: file,
         options: {
           contentType: file.type,

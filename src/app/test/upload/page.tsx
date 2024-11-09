@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { uploadData } from 'aws-amplify/storage';
+import { v4 as uuidv4 } from 'uuid';
 import {
   Container,
   Title,
@@ -72,9 +73,11 @@ export default function UploadPage() {
 
     setUploading(true);
     setError(null);
+    const fileExtension = file.name.split('.').pop() || 'jpg';
+    const uniqueFileName = `${uuidv4()}.${fileExtension}`;
     try {
       const { result } = await uploadData({
-        path: ({ identityId }) => `user-uploads/${identityId}/${file.name}`,
+        path: ({ identityId }) => `user-uploads/${identityId}/${uniqueFileName}`,
         data: file,
         options: {
           contentType: file.type,

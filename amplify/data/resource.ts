@@ -14,8 +14,10 @@ const schema = a.schema({
     }) 
     .authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])]),
   PersonalGuide: a.model({
-      title: a.string(),
-      content: a.string(),
+      title: a.string().required(),
+      description: a.string(),
+      content: a.string().required(),
+      author: a.string(),
       coverImageUrl: a.string(),
       draft_content: a.string(),
       category: a.string(),

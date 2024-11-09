@@ -40,7 +40,7 @@ export default function PersonalGuidePage() {
   return (
     <Container size="lg" py="xl">
       <Group justify="space-between" mb="xl">
-        <Title order={2}>个人攻略</Title>
+        <Title order={2}>玩家攻略</Title>
         <Button component={Link} href="/personal-guide/create">
           创建攻略
         </Button>

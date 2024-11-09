@@ -82,12 +82,12 @@ const tabs = [
   //   name: '世界6',
   //   key: 'world6',
   //   link: '/world6',
+  // // },
+  // {
+  //   name: '世界5 洞穴攻略',
+  //   key: 'W5-HOLE-GUIDE',
+  //   link: '/w5-hole-guide',
   // },
-  {
-    name: '世界5 洞穴攻略',
-    key: 'W5-HOLE-GUIDE',
-    link: '/w5-hole-guide',
-  },
   // {
   //   name: 'Todos',
   //   key: 'todos',
@@ -98,16 +98,16 @@ const tabs = [
     key: 'idleskiller',
     link: '/idleskiller',
   },
-  {
-    name: '登录',
-    key: 'auth',
-    link: '/auth',
-  },
-  {
-    name: 'test',
-    key: 'test',
-    link: '/test',
-  },
+  // {
+  //   name: '登录',
+  //   key: 'auth',
+  //   link: '/auth',
+  // },
+  // {
+  //   name: 'test',
+  //   key: 'test',
+  //   link: '/test',
+  // },
 ];
 
 export default function HeaderTabs() {

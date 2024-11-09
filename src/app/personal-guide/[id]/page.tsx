@@ -16,7 +16,10 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     const fetchGuide = async () => {
       try {
-        const { data } = await client.models.PersonalGuide.get({ id: params.id });
+        const { data } = await client.models.PersonalGuide.get(
+          { id: params.id },
+          { authMode: 'apiKey' },
+        );
         setGuide(data);
       } catch (error) {
         console.error('Error fetching guide:', error);

@@ -1,9 +1,10 @@
 'use client';
 
 import {
-  Container, Title, Paper, Stack,
+  Container, Title, Paper, Stack, Button, Group,
 } from '@mantine/core';
 import { useAuth } from '@/app/contexts/AuthContext';
+import Link from 'next/link';
 
 export default function UserDashboardPage() {
   const { user } = useAuth();
@@ -14,7 +15,22 @@ export default function UserDashboardPage() {
       <Paper p="md" withBorder>
         <Stack>
           <Title order={3}>欢迎, {user?.username}</Title>
-          {/* 这里可以添加更多的用户相关功能 */}
+          <Group>
+            <Button
+              component={Link}
+              href="/dashboard/game-guide"
+              variant="light"
+            >
+              我的攻略
+            </Button>
+            <Button
+              component={Link}
+              href="/dashboard/game-guide/create"
+              variant="filled"
+            >
+              创建新攻略
+            </Button>
+          </Group>
         </Stack>
       </Paper>
     </Container>

@@ -65,6 +65,7 @@
 }
 
 .tab {
+  color: var(--mantine-color-white);
   font-weight: 600;
   font-size: large;
   height: 44px;

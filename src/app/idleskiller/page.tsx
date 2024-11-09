@@ -93,7 +93,7 @@ function Idleskiller(): JSX.Element {
   ];
 
   const isSmallScreen = useMediaQuery('(max-width: 768px)');
-  const isMidScreen = useMediaQuery('(max-width: 1182px)');
+  const isMidScreen = useMediaQuery('(max-width: 1370px)');
 
   const handleButtonClick = () => {
     let IdleSkillDN = 0;
@@ -195,7 +195,7 @@ function Idleskiller(): JSX.Element {
               {isMidScreen ? (
                 <Title className={classes.result}>ヽ(ﾟ▽ﾟ)ノ礼包内容</Title>
               ) : (
-                <Title className={classes.result}>______________ヽ(ﾟ▽ﾟ)ノ礼包内容_________________</Title>
+                <Title className={classes.result}>______________ヽ(ﾟ▽ﾟ)ノ礼包内容________________</Title>
               )}
               <Table highlightOnHover>
                 <Table.Thead>

@@ -64,8 +64,8 @@ export default function CreateGuidePage() {
               {...form.getInputProps('title')}
             />
 
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setModalOpened(true)}
             >
               选择封面图片

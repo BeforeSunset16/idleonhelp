@@ -23,14 +23,14 @@
   --transition-speed: 0.2s;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #0a0a0a;
     --color-secondary: #2c8482;
     --color-text-primary: #ededed;
     --color-text-secondary: #ffffff;
   }
-}
+} */
 
 html,
 
@@ -55,11 +55,11 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
-}
+} */
 
 
 /* 针对 Modal 的滚动条样式 */

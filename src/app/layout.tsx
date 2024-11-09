@@ -2,9 +2,9 @@
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
 import '@mantine/tiptap/styles.css';
+import './globals.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import './globals.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { AuthProvider } from '@/app/contexts/AuthContext';

@@ -39,7 +39,7 @@ const user = {
 
 const tabs = [
   {
-    name: '攻略',
+    name: '快速查看',
     key: 'index',
     link: '/',
   },

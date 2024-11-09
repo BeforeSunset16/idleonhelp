@@ -22,7 +22,14 @@ export default function AuthPage() {
               <Button onClick={() => router.push('/dashboard')}>
                 个人中心
               </Button>
-              <Button onClick={signOut} variant="outline" color="red">
+              <Button
+                onClick={() => {
+                  signOut?.();
+                  window.location.reload();
+                }}
+                variant="outline"
+                color="red"
+              >
                 退出登录
               </Button>
             </Group>

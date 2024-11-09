@@ -15,7 +15,6 @@ const client = generateClient<Schema>();
 export default function GameGuidePage() {
   const [guides, setGuides] = useState<any[]>([]);
   const { user } = useAuth();
-
   const fetchGuides = async () => {
     try {
       const { data } = await client.models.GameGuide.listGameGuideByActiveAndCreatedAt(
@@ -43,12 +42,11 @@ export default function GameGuidePage() {
   useEffect(() => {
     fetchGuides();
   }, []);
-
   return (
     <Container size="lg" py="xl">
       <Group justify="space-between" mb="xl">
         <Title order={2}>我的攻略</Title>
-        <Button component={Link} href="/dashboard/game-guide/create">
+        <Button component={Link} href="/game-guide/create">
           创建攻略
         </Button>
       </Group>

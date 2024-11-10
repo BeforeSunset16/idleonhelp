@@ -1,5 +1,5 @@
 import { RichTextEditor, Link } from '@mantine/tiptap';
-import { useEditor } from '@tiptap/react';
+import { BubbleMenu, useEditor } from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -200,6 +200,50 @@ export default function CustomRichTextEditor({
               <RichTextEditor.Redo />
             </RichTextEditor.ControlsGroup>
           </RichTextEditor.Toolbar>
+        )}
+        {editor && editable && (
+          <BubbleMenu editor={editor}>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '4px',
+              padding: '6px',
+              backgroundColor: 'white',
+              borderRadius: '4px',
+              boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+              maxWidth: '500px',
+            }}>
+              <RichTextEditor.ControlsGroup style={{ padding: '2px' }}>
+                <RichTextEditor.Bold />
+                <RichTextEditor.Italic />
+                <RichTextEditor.Underline />
+                <RichTextEditor.Strikethrough />
+                <RichTextEditor.Highlight />
+              </RichTextEditor.ControlsGroup>
+
+              <RichTextEditor.ControlsGroup style={{ padding: '2px' }}>
+                <RichTextEditor.H1 />
+                <RichTextEditor.H2 />
+                <RichTextEditor.H3 />
+              </RichTextEditor.ControlsGroup>
+
+              <RichTextEditor.ControlsGroup style={{ padding: '2px' }}>
+                <RichTextEditor.Link />
+                <RichTextEditor.Unlink />
+              </RichTextEditor.ControlsGroup>
+              <RichTextEditor.ControlsGroup style={{ padding: '2px' }}>
+                <RichTextEditor.AlignLeft />
+                <RichTextEditor.AlignCenter />
+                <RichTextEditor.AlignRight />
+                <RichTextEditor.AlignJustify />
+              </RichTextEditor.ControlsGroup>
+              <RichTextEditor.ControlsGroup style={{ padding: '2px' }}>
+                <RichTextEditor.BulletList />
+                <RichTextEditor.OrderedList />
+                <RichTextEditor.Blockquote />
+              </RichTextEditor.ControlsGroup>
+            </div>
+          </BubbleMenu>
         )}
         <RichTextEditor.Content />
       </RichTextEditor>

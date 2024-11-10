@@ -32,6 +32,7 @@ export default function ImageUploadModal({
   const [nextToken, setNextToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const [originalSize, setOriginalSize] = useState<number | null>(null);
 
   const { createSharedImageRecord } = SharedImageUploader({
     onComplete: (url) => {
@@ -47,10 +48,10 @@ export default function ImageUploadModal({
   });
 
   const compressionOptions = {
-    maxSizeMB: 0.3,          // 压缩后最大尺寸为300KB
-    maxWidthOrHeight: 1920,   // 限制最大宽度/高度
-    useWebWorker: true,      // 使用 Web Worker 进行压缩
-    fileType: 'image/webp'   // 统一转换为 WebP 格式
+    maxSizeMB: 0.3, // 压缩后最大尺寸为300KB
+    maxWidthOrHeight: 1920, // 限制最大宽度/高度
+    useWebWorker: true, // 使用 Web Worker 进行压缩
+    fileType: 'image/webp', // 统一转换为 WebP 格式
   };
 
   const handleFileChange = async (newFile: File | null) => {
@@ -59,6 +60,7 @@ export default function ImageUploadModal({
 
     if (!newFile) {
       setFile(null);
+      setOriginalSize(null);
       return;
     }
 
@@ -68,15 +70,8 @@ export default function ImageUploadModal({
     }
 
     try {
+      setOriginalSize(newFile.size);
       const compressedFile = await imageCompression(newFile, compressionOptions);
-      console.log('原始大小:', (newFile.size / 1024).toFixed(1), 'KB');
-      console.log('压缩后大小:', (compressedFile.size / 1024).toFixed(1), 'KB');
-      
-      if (compressedFile.size > MAX_FILE_SIZE) {
-        setError(`File is still too large after compression. Please use a smaller image.`);
-        return;
-      }
-
       setFile(compressedFile);
     } catch (err) {
       console.error('Compression error:', err);
@@ -204,7 +199,17 @@ export default function ImageUploadModal({
 
         {file && (
           <Text size="sm" c="dimmed">
-            Selected file: {file.name} ({(file.size / 1024).toFixed(1)} KB)
+            Selected file: {file.name}
+            {originalSize && (
+              <>
+                <br />
+                Original: {(originalSize / 1024).toFixed(1)} KB
+                {' → '}
+                Compressed: {(file.size / 1024).toFixed(1)} KB
+                {' '}
+                ({Math.round((1 - file.size / originalSize) * 100)}% reduction)
+              </>
+            )}
           </Text>
         )}
 

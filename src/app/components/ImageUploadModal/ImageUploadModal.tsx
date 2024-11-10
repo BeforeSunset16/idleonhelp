@@ -10,6 +10,7 @@ import outputs from '#/amplify_outputs.json';
 import { v4 as uuidv4 } from 'uuid';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
+import imageCompression from 'browser-image-compression';
 
 const client = generateClient<Schema>();
 const MAX_FILE_SIZE = 300 * 1024;
@@ -45,7 +46,14 @@ export default function ImageUploadModal({
     },
   });
 
-  const handleFileChange = (newFile: File | null) => {
+  const compressionOptions = {
+    maxSizeMB: 0.3,          // 压缩后最大尺寸为300KB
+    maxWidthOrHeight: 1920,   // 限制最大宽度/高度
+    useWebWorker: true,      // 使用 Web Worker 进行压缩
+    fileType: 'image/webp'   // 统一转换为 WebP 格式
+  };
+
+  const handleFileChange = async (newFile: File | null) => {
     setError(null);
     setImageUrl('');
 
@@ -54,17 +62,26 @@ export default function ImageUploadModal({
       return;
     }
 
-    if (!newFile.type.includes('jpeg')) {
-      setError('Only JPG/JPEG files are allowed');
+    if (!newFile.type.startsWith('image/')) {
+      setError('Please upload an image file');
       return;
     }
 
-    if (newFile.size > MAX_FILE_SIZE) {
-      setError(`File size must be less than 300KB. Current size: ${(newFile.size / 1024).toFixed(1)}KB`);
-      return;
-    }
+    try {
+      const compressedFile = await imageCompression(newFile, compressionOptions);
+      console.log('原始大小:', (newFile.size / 1024).toFixed(1), 'KB');
+      console.log('压缩后大小:', (compressedFile.size / 1024).toFixed(1), 'KB');
+      
+      if (compressedFile.size > MAX_FILE_SIZE) {
+        setError(`File is still too large after compression. Please use a smaller image.`);
+        return;
+      }
 
-    setFile(newFile);
+      setFile(compressedFile);
+    } catch (err) {
+      console.error('Compression error:', err);
+      setError('Failed to process image. Please try again.');
+    }
   };
 
   const handleUpload = async () => {
@@ -81,8 +98,7 @@ export default function ImageUploadModal({
     setUploading(true);
     setError(null);
     try {
-      const fileExtension = file.name.split('.').pop() || 'jpg';
-      const uniqueFileName = `${uuidv4()}.${fileExtension}`;
+      const uniqueFileName = `${uuidv4()}.webp`;
       const { result } = await uploadData({
         path: ({ identityId }) => `shared-images/${identityId}/${uniqueFileName}`,
         data: file,
@@ -177,12 +193,12 @@ export default function ImageUploadModal({
         />
 
         <FileInput
-          label="上传jpg 文件 (最大 300KB)"
+          label="上传图片 (自动压缩至 300KB 以内)"
           placeholder="点击选择文件"
           leftSection={<IconUpload size={14} />}
           value={file}
           onChange={handleFileChange}
-          accept=".jpg,.jpeg"
+          accept="image/*"
           clearable
         />
 

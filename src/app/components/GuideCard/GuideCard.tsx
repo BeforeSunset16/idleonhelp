@@ -18,7 +18,6 @@ type GuideCardProps = {
   coverImageUrl: string | null;
   createdAt: Date;
   owner: string;
-  editable: boolean;
 };
 
 export default function GuideCard({
@@ -30,7 +29,6 @@ export default function GuideCard({
   coverImageUrl = null,
   createdAt,
   owner,
-  editable,
 }: GuideCardProps) {
   const form = useForm({
     initialValues: {
@@ -43,7 +41,7 @@ export default function GuideCard({
   const client = generateClient<Schema>();
 
   // 检查用户是否有权限编辑
-  const canEdit = user?.username === owner && editable;
+  const canEdit = user?.username === owner;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -56,7 +54,7 @@ export default function GuideCard({
       });
 
       setIsModalOpen(false);
-      router.push('/dashboard/my-game-guide');
+      window.location.reload();
     } catch (error) {
       console.error('删除请求出错:', error);
     }

@@ -46,14 +46,14 @@ export default function GameGuidePage() {
     <Container size="lg" py="xl">
       <Group justify="space-between" mb="xl">
         <Title order={2}>我的攻略</Title>
-        <Button component={Link} href="/dashboard/game-guide/create">
+        <Button component={Link} href="/dashboard/my-game-guide/create">
           创建攻略
         </Button>
       </Group>
 
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
         {guides?.map((guide) => (
-          <GuideCard key={guide.id} editable="true" {...guide} />
+          <GuideCard key={guide.id} {...guide} />
         ))}
       </SimpleGrid>
     </Container>

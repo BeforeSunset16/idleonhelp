@@ -18,14 +18,14 @@ export default function UserDashboardPage() {
           <Group>
             <Button
               component={Link}
-              href="/dashboard/game-guide"
+              href="/dashboard/my-game-guide"
               variant="light"
             >
               我的攻略
             </Button>
             <Button
               component={Link}
-              href="/dashboard/game-guide/create"
+              href="/dashboard/my-game-guide/create"
               variant="filled"
             >
               创建新攻略

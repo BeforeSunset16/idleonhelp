@@ -212,7 +212,8 @@ export default function CustomRichTextEditor({
               borderRadius: '4px',
               boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
               maxWidth: '500px',
-            }}>
+            }}
+            >
               <RichTextEditor.ControlsGroup style={{ padding: '2px' }}>
                 <RichTextEditor.Bold />
                 <RichTextEditor.Italic />

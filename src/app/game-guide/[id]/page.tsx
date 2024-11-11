@@ -16,11 +16,18 @@ export default function GuideDetailPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     const fetchGuide = async () => {
       try {
-        const { data } = await client.models.GameGuide.get(
-          { id: params.id },
-          { authMode: 'apiKey' },
-        );
-        setGuide(data);
+        const { data } = await client.models.GameGuide.get({
+          id: params.id,
+        }, {
+          authMode: 'apiKey',
+        });
+
+        // 手动筛选 active 属性为 'T' 的 guide
+        if (data && data.active === 'T') {
+          setGuide(data);
+        } else {
+          setGuide(null); // 或者处理未找到符合条件的 guide 的情况
+        }
       } catch (error) {
         console.error('Error fetching guide:', error);
       }

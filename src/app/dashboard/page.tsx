@@ -14,7 +14,7 @@ export default function UserDashboardPage() {
       <Title order={2} mb="xl">个人中心</Title>
       <Paper p="md" withBorder>
         <Stack>
-          <Title order={3}>欢迎, {user?.username}</Title>
+          <Title order={3}>欢迎, {user?.signInDetails?.loginId}</Title>
           <Group>
             <Button
               component={Link}

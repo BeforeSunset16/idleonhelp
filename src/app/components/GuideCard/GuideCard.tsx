@@ -1,9 +1,13 @@
 import {
-  Card, Text, Group, Button, Image,
+  Card, Text, Group, Button, Image, Modal,
 } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/contexts/AuthContext';
+import { useState } from 'react';
+import { useForm } from '@mantine/form';
+import type { Schema } from '#/amplify/data/resource';
+import { generateClient } from 'aws-amplify/data';
 
 type GuideCardProps = {
   id: string;
@@ -14,6 +18,7 @@ type GuideCardProps = {
   coverImageUrl: string | null;
   createdAt: Date;
   owner: string;
+  editable: boolean;
 };
 
 export default function GuideCard({
@@ -25,12 +30,37 @@ export default function GuideCard({
   coverImageUrl = null,
   createdAt,
   owner,
+  editable,
 }: GuideCardProps) {
+  const form = useForm({
+    initialValues: {
+      active: 'F' as 'T' | 'F',
+    },
+  });
+
   const router = useRouter();
   const { user } = useAuth();
+  const client = generateClient<Schema>();
 
   // 检查用户是否有权限编辑
-  const canEdit = user?.username === owner;
+  const canEdit = user?.username === owner && editable;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDelete = async (values: typeof form.values) => {
+    try {
+      await client.models.GameGuide.update({
+        id,
+        ...values,
+        content,
+      });
+
+      setIsModalOpen(false);
+      router.push('/dashboard/my-game-guide');
+    } catch (error) {
+      console.error('删除请求出错:', error);
+    }
+  };
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -57,9 +87,36 @@ export default function GuideCard({
         )}
       </Group>
 
-      <Text size="sm" c="dimmed" lineClamp={2} mb="md">
-        {description || content}
-      </Text>
+      <Group justify="space-between" mt="md" mb="xs">
+        <Text size="sm" c="dimmed" lineClamp={2} mb="md">
+          {description }
+        </Text>
+        {canEdit && (
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            variant="outline"
+          >
+            删除
+          </Button>
+        )}
+      </Group>
+
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="确认删除"
+        centered
+      >
+        <Text>您确定要删除这篇文章吗？</Text>
+        <Group justify="flex-end" mt="md">
+          <Button onClick={() => handleDelete(form.values)} color="red">
+            确认
+          </Button>
+          <Button onClick={() => setIsModalOpen(false)}>
+            取消
+          </Button>
+        </Group>
+      </Modal>
 
       <Group mt="md" justify="space-between">
         <div>

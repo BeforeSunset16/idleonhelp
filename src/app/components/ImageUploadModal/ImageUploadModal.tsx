@@ -13,7 +13,6 @@ import type { Schema } from '#/amplify/data/resource';
 import imageCompression from 'browser-image-compression';
 
 const client = generateClient<Schema>();
-const MAX_FILE_SIZE = 300 * 1024;
 
 interface ImageUploadModalProps {
   opened: boolean;

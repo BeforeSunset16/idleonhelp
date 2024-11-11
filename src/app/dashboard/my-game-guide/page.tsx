@@ -53,7 +53,7 @@ export default function GameGuidePage() {
 
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
         {guides?.map((guide) => (
-          <GuideCard key={guide.id} {...guide} />
+          <GuideCard key={guide.id} editable="true" {...guide} />
         ))}
       </SimpleGrid>
     </Container>

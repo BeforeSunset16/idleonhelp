@@ -1,6 +1,7 @@
 'use client';
 
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator, translations } from '@aws-amplify/ui-react';
+import { I18n } from 'aws-amplify/utils';
 import { Amplify } from 'aws-amplify';
 import { Container, Button, Group } from '@mantine/core';
 import { useRouter } from 'next/navigation';
@@ -8,6 +9,8 @@ import { useAuth } from '@/app/contexts/AuthContext';
 import outputs from '#/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 
+I18n.putVocabularies(translations);
+I18n.setLanguage('zh');
 Amplify.configure(outputs);
 
 export default function AuthPage() {

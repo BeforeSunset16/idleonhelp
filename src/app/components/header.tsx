@@ -1,7 +1,9 @@
 'use client';
 
 import cx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/app/contexts/AuthContext';
+import { signOut } from 'aws-amplify/auth';
 import {
   Container,
   Avatar,
@@ -18,24 +20,19 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import {
   IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconPlayerPause,
-  IconTrash,
-  IconSwitchHorizontal,
+  // IconHeart,
+  // IconStar,
+  // IconMessage,
+  // IconSettings,
+  IconUserCircle,
+  // IconPlayerPause,
+  // IconTrash,
+  // IconSwitchHorizontal,
   IconChevronDown,
 } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import classes from './header.module.css';
-
-const user = {
-  name: 'Username',
-  email: 'janspoon@fighter.dev',
-  image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
-};
 
 const tabs = [
   {
@@ -114,6 +111,18 @@ export default function HeaderTabs() {
   const theme = useMantineTheme();
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const [userName, setUserName] = useState<string>('未登录');
+  const { user, refreshUser } = useAuth();
+
+  useEffect(() => {
+    setUserName(user?.signInDetails?.loginId || '未登录');
+  }, [user]);
+
+  const userinfo = {
+    name: userName,
+    email: 'janspoon@fighter.dev',
+    image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
+  };
 
   const items = tabs.map((tab) => (
     <Link href={tab.link} key={tab.key}>
@@ -150,7 +159,7 @@ export default function HeaderTabs() {
           </Group>
 
           <Menu
-            width={260}
+            width={180}
             position="bottom-end"
             transitionProps={{ transition: 'pop-top-right' }}
             onClose={() => setUserMenuOpened(false)}
@@ -162,72 +171,108 @@ export default function HeaderTabs() {
                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
               >
                 <Group gap={7}>
-                  <Avatar src={user.image} alt={user.name} radius="xl" size={20} />
-                  <Text fw={500} size="md" lh={1} mr={3}>
-                    {user.name}
+                  <Avatar src={userinfo.image} alt={userinfo.name} radius="xl" size={22} />
+                  <Text fw={500} size="lg" lh={1} mr={3}>
+                    {userinfo.name}
                   </Text>
                   <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
                 </Group>
               </UnstyledButton>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item
-                leftSection={(
-                  <IconHeart
-                    style={{ width: rem(16), height: rem(16) }}
-                    color={theme.colors.red[6]}
-                    stroke={1.5}
-                  />
-                )}
-              >
-                Liked posts
-              </Menu.Item>
-              <Menu.Item
-                leftSection={(
-                  <IconStar
-                    style={{ width: rem(16), height: rem(16) }}
-                    color={theme.colors.yellow[6]}
-                    stroke={1.5}
-                  />
-                )}
-              >
-                Saved posts
-              </Menu.Item>
-              <Menu.Item
-                leftSection={(
-                  <IconMessage
-                    style={{ width: rem(16), height: rem(16) }}
-                    color={theme.colors.blue[6]}
-                    stroke={1.5}
-                  />
-                )}
-              >
-                Your comments
-              </Menu.Item>
-              <Menu.Label>Settings</Menu.Label>
-              <Menu.Item
-                leftSection={
-                  <IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                }
-              >
-                Account settings
-              </Menu.Item>
-              <Menu.Item
-                leftSection={
-                  <IconSwitchHorizontal style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                }
-              >
-                Change account
-              </Menu.Item>
-              <Menu.Item
-                leftSection={
-                  <IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                }
-              >
-                Logout
-              </Menu.Item>
+              {user ? (
+                <>
+                  {/* <Menu.Item
+                    leftSection={(
+                      <IconHeart
+                        style={{ width: rem(16), height: rem(16) }}
+                        color={theme.colors.red[6]}
+                        stroke={1.5}
+                      />
+                    )}
+                  >
+                    Liked posts
+                  </Menu.Item>
+                  <Menu.Item
+                    leftSection={(
+                      <IconStar
+                        style={{ width: rem(16), height: rem(16) }}
+                        color={theme.colors.yellow[6]}
+                        stroke={1.5}
+                      />
+                    )}
+                  >
+                    Saved posts
+                  </Menu.Item>
+                  <Menu.Item
+                    leftSection={(
+                      <IconMessage
+                        style={{ width: rem(16), height: rem(16) }}
+                        color={theme.colors.blue[6]}
+                        stroke={1.5}
+                      />
+                    )}
+                  >
+                    Your comments
+                  </Menu.Item> */}
+                  {/* <Menu.Label>Settings</Menu.Label>
+                  <Menu.Item
+                    leftSection={
+                      <IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+                    }
+                  >
+                    Account settings
+                  </Menu.Item>
+                  <Menu.Item
+                    leftSection={(
+                      <IconSwitchHorizontal
+                        style={{ width: rem(16), height: rem(16) }}
+                        stroke={1.5}
+                      />
+                    )}
+                  >
+                    Change account
+                  </Menu.Item> */}
+                  <Menu.Item
+                    leftSection={(
+                      <IconUserCircle
+                        style={{ width: rem(20), height: rem(20) }}
+                        color={theme.colors.blue[6]}
+                        stroke={1.5}
+                      />
+                    )}
+                    component={Link}
+                    href="/dashboard"
+                  >
+                    个人中心
+                  </Menu.Item>
+                  <Menu.Item
+                    leftSection={(
+                      <IconLogout
+                        style={{ width: rem(20), height: rem(20) }}
+                        color={theme.colors.red[6]}
+                        stroke={1.5}
+                      />
+                    )}
+                    onClick={async () => {
+                      await signOut();
+                      await refreshUser();
+                      window.location.href = '/';
+                    }}
+                  >
+                    退出登录
+                  </Menu.Item>
+                </>
+              ) : (
+                <Menu.Item
+                  component={Link}
+                  href="/auth"
+                >
+                  登录
+                </Menu.Item>
+              )}
 
-              <Menu.Divider />
+              {/* <Menu.Divider />
 
               <Menu.Label>Danger zone</Menu.Label>
               <Menu.Item
@@ -242,7 +287,7 @@ export default function HeaderTabs() {
                 leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
               >
                 Delete account
-              </Menu.Item>
+              </Menu.Item> */}
             </Menu.Dropdown>
           </Menu>
         </Group>

@@ -1,10 +1,10 @@
 'use client';
 
 import {
-  createContext, useContext, ReactNode, useState, useEffect, useMemo,
+  createContext, useContext, ReactNode, useState, useEffect, useMemo, useCallback,
 } from 'react';
 import { Amplify } from 'aws-amplify';
-import { signOut as amplifySignOut, getCurrentUser } from 'aws-amplify/auth';
+import { signOut as amplifySignOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
 import outputs from '#/amplify_outputs.json';
 
 Amplify.configure(outputs);
@@ -12,6 +12,7 @@ Amplify.configure(outputs);
 interface AuthContextType {
   user: any | null;
   signOut: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,18 +20,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<any | null>(null);
 
-  async function checkUser() {
+  const refreshUser = useCallback(async () => {
     try {
       const currentUser = await getCurrentUser();
-      setUser(currentUser);
+      const attributes = await fetchUserAttributes();
+      setUser({
+        ...currentUser,
+        signInDetails: {
+          loginId: attributes.email || currentUser.username,
+        },
+      });
     } catch (err) {
       setUser(null);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    checkUser();
-  }, []);
+    refreshUser();
+  }, [refreshUser]);
 
   async function signOut() {
     try {
@@ -44,7 +51,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(() => ({
     user,
     signOut,
-  }), [user]);
+    refreshUser,
+  }), [user, refreshUser]);
 
   return (
     <AuthContext.Provider value={contextValue}>

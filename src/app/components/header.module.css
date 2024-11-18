@@ -40,7 +40,7 @@
 }
 
 .user {
-  display: none;
+  /* display: none; */
   color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-0));
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
   border-radius: var(--mantine-radius-sm);
@@ -52,7 +52,7 @@
 }
 
 .userActive {
-  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+  background-color: light-dark(#B9E5E8, var(--mantine-color-dark-8));
 }
 
 .tabsList {

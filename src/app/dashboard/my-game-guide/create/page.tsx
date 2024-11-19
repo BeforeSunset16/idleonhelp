@@ -31,7 +31,7 @@ export default function CreateGuidePage() {
   const handleSubmit = async (values: typeof form.values) => {
   // const handleSubmit = async () => {
     try {
-      const result = await client.models.GameGuide.create({
+      await client.models.GameGuide.create({
         ...values,
         active: 'T',
         content,
@@ -39,8 +39,8 @@ export default function CreateGuidePage() {
       });
 
       alert('保存成功！');
-      router.push(`/game-guide/${result.data?.id}`);
-      // router.push('/dashboard/my-game-guide');
+      // router.push(`/game-guide/${result.data?.id}`);
+      router.push('/dashboard/my-game-guide');
     } catch (error) {
       console.error('Error creating guide:', error);
       alert('创建失败，请稍后重试');

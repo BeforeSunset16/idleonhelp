@@ -171,7 +171,7 @@ export default function ImageUploadModal({
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Insert Image" size="xl">
+    <Modal opened={opened} onClose={onClose} title="插入图片" size="xl">
       <Stack>
         {error && (
           <Alert icon={<IconAlertCircle size={16} />} color="red">
@@ -213,9 +213,9 @@ export default function ImageUploadModal({
         )}
 
         <Group justify="flex-end">
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="outline" onClick={onClose}>取消</Button>
           {imageUrl ? (
-            <Button onClick={handleImageSubmit}>Insert URL</Button>
+            <Button onClick={handleImageSubmit}>插入链接</Button>
           ) : (
             <Button
               onClick={handleUpload}

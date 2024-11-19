@@ -5,15 +5,15 @@ import {
   Textarea, Image,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-// import type { Schema } from '#/amplify/data/resource';
-// import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '#/amplify/data/resource';
+import { generateClient } from 'aws-amplify/data';
 import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ImageUploadModal from '@/app/components/ImageUploadModal/ImageUploadModal';
 
 export default function CreateGuidePage() {
-  // const client = generateClient<Schema>();
+  const client = generateClient<Schema>();
   const router = useRouter();
   const [content, setContent] = useState('');
   const [coverImageUrl, setCoverImageUrl] = useState('');
@@ -28,18 +28,19 @@ export default function CreateGuidePage() {
     },
   });
 
-  // const handleSubmit = async (values: typeof form.values) => {
-  const handleSubmit = async () => {
+  const handleSubmit = async (values: typeof form.values) => {
+  // const handleSubmit = async () => {
     try {
-      // const result = await client.models.GameGuide.create({
-      //   ...values,
-      //   active: 'T',
-      //   content,
-      //   coverImageUrl,
-      // });
+      const result = await client.models.GameGuide.create({
+        ...values,
+        active: 'T',
+        content,
+        coverImageUrl,
+      });
 
       alert('保存成功！');
-      router.push('/dashboard/my-game-guide');
+      router.push(`/game-guide/${result.data?.id}`);
+      // router.push('/dashboard/my-game-guide');
     } catch (error) {
       console.error('Error creating guide:', error);
       alert('创建失败，请稍后重试');

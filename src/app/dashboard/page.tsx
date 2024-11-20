@@ -28,8 +28,8 @@ export default function UserDashboardPage() {
               href="/dashboard/my-game-guide"
               variant="light"
               style={{
-                backgroundColor: '#ffffff',
-                color: 'pink',
+                backgroundColor: 'white',
+                color: '#ff6daf',
               }}
             >
               我的攻略

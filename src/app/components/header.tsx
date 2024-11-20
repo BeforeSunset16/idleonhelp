@@ -113,10 +113,17 @@ export default function HeaderTabs() {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [userName, setUserName] = useState<string>('未登录');
   const { user, refreshUser } = useAuth();
+  const [defaultValue, setDefaultValue] = useState<string>('index');
 
   useEffect(() => {
     setUserName(user?.signInDetails?.loginId || '未登录');
   }, [user]);
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    const lastSegment = path.split('/').pop();
+    setDefaultValue(lastSegment || 'index');
+  }, []);
 
   const userinfo = {
     name: userName,
@@ -318,7 +325,7 @@ export default function HeaderTabs() {
       </Container>
       <Container size="xl">
         <Tabs
-          defaultValue="index"
+          defaultValue={defaultValue}
           variant="outline"
           visibleFrom="sm"
           classNames={{

@@ -11,7 +11,7 @@ export default function UserDashboardPage() {
   const { user } = useAuth();
 
   return (
-    <Container size="lg" py="xl" className={classes.WithBackground}>
+    <Container size="lg" py="xl" px="xl" className={classes.WithBackground}>
       <Title order={2} mb="xl">个人中心</Title>
       <Paper
         p="md"
@@ -26,11 +26,7 @@ export default function UserDashboardPage() {
             <Button
               component={Link}
               href="/dashboard/my-game-guide"
-              variant="light"
-              style={{
-                backgroundColor: 'white',
-                color: '#ff6daf',
-              }}
+              variant="outline"
             >
               我的攻略
             </Button>

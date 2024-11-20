@@ -77,7 +77,7 @@ export default function GuideCard({
         <Text fw={500} size="lg" lineClamp={2}>{title}</Text>
         {canEdit && (
           <Button
-            onClick={() => router.push(`/dashboard/game-guide/${id}/edit`)}
+            onClick={() => router.push(`/dashboard/my-game-guide/${id}/edit`)}
             variant="outline"
           >
             编辑

@@ -5,14 +5,21 @@ import {
 } from '@mantine/core';
 import { useAuth } from '@/app/contexts/AuthContext';
 import Link from 'next/link';
+import classes from './dashboard.module.css';
 
 export default function UserDashboardPage() {
   const { user } = useAuth();
 
   return (
-    <Container size="lg" py="xl">
+    <Container size="lg" py="xl" className={classes.WithBackground}>
       <Title order={2} mb="xl">个人中心</Title>
-      <Paper p="md" withBorder>
+      <Paper
+        p="md"
+        withBorder
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        }}
+      >
         <Stack>
           <Title order={3}>欢迎, {user?.signInDetails?.loginId}</Title>
           <Group>
@@ -20,6 +27,10 @@ export default function UserDashboardPage() {
               component={Link}
               href="/dashboard/my-game-guide"
               variant="light"
+              style={{
+                backgroundColor: '#ffffff',
+                color: 'pink',
+              }}
             >
               我的攻略
             </Button>

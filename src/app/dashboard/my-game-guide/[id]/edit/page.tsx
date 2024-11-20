@@ -11,12 +11,15 @@ import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
 import { useAuth } from '@/app/contexts/AuthContext';
 import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
+import ImageUploadModal from '@/app/components/ImageUploadModal/ImageUploadModal';
 
 const client = generateClient<Schema>();
 
 export default function EditGuidePage({ params }: { params: { id: string } }) {
   const [content, setContent] = useState('');
+  const [coverImageUrl, setCoverImageUrl] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [modalOpened, setModalOpened] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -66,6 +69,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
         id: params.id,
         ...values,
         content,
+        coverImageUrl,
       });
 
       alert('保存成功！');
@@ -74,6 +78,10 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
       console.error('Error updating guide:', error);
       alert('保存失败，请稍后重试');
     }
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    setCoverImageUrl(imageUrl);
   };
 
   if (isLoading) {
@@ -100,6 +108,13 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
               {...form.getInputProps('title')}
             />
 
+            <Button
+              variant="outline"
+              onClick={() => setModalOpened(true)}
+            >
+              修改封面图片
+            </Button>
+
             <Textarea
               label="简介"
               placeholder="输入攻略简介"
@@ -119,6 +134,11 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
           </Stack>
         </form>
       </Paper>
+      <ImageUploadModal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        onImageUploaded={handleImageUploaded}
+      />
     </Container>
   );
 }

@@ -22,8 +22,8 @@ export default function AuthPage() {
       <Authenticator>
         {({ signOut, user }) => (
           <main>
-            <h1>Hello {user?.signInDetails?.loginId}</h1>
-            <Group>
+            <h1>Hello, {user?.signInDetails?.loginId}</h1>
+            <Group mt="sm">
               <Button onClick={async () => {
                 await refreshUser();
                 router.push('/dashboard');

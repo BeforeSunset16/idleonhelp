@@ -43,7 +43,7 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
-    apiKeyAuthorizationMode: { expiresInDays: 365 }
+    apiKeyAuthorizationMode: { expiresInDays: 365 } //过期了看这个: https://docs.amplify.aws/react/build-a-backend/data/customize-authz/public-data-access/
   },
 });
 

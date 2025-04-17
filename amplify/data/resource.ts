@@ -1,4 +1,5 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
+import { sayHello } from "../functions/say-hello/resource"
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -7,6 +8,18 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
+    
+  sayHello: a
+    .query()
+    .arguments({
+      name: a.string(),
+    })
+    .returns(a.string())
+    .authorization(allow => [
+      allow.guest(),             
+      allow.authenticated(),     
+    ])    
+    .handler(a.handler.function(sayHello)),
   Todo: a
     .model({
       content: a.string(),
@@ -43,6 +56,7 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
+    //defaultAuthorizationMode: 'iam',
     apiKeyAuthorizationMode: { expiresInDays: 365 } //过期了看这个: https://docs.amplify.aws/react/build-a-backend/data/customize-authz/public-data-access/
   },
 });

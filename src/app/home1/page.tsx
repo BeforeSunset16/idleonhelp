@@ -138,10 +138,10 @@ export default function newtest() {
         </div>
 
         <div className={classes.body}>
-          <Text tt="uppercase" fw={700} size="md">
+          <Text tt="uppercase" fw={700} size="md" mt="md">
             Misc + 奖杯 <IconTrophy size={20} />
           </Text>
-          <Table miw={300}>
+          <Table miw={285}>
             <Table.Tbody>{rowt}</Table.Tbody>
           </Table>
         </div>

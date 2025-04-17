@@ -36,9 +36,14 @@ import classes from './header.module.css';
 
 const tabs = [
   {
-    name: '快速查看',
+    name: '快捷查看',
     key: 'index',
     link: '/',
+  },
+  {
+    name: '主页',
+    key: 'home1',
+    link: '/home1',
   },
   {
     name: '新手教程',

@@ -1,0 +1,65 @@
+.header {
+  position: sticky;
+  top: 0;
+  background-color: var(--mantine-color-body);
+  transition: box-shadow 150ms ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-3));
+  }
+}
+
+.container {
+  padding: var(--mantine-spacing-lg);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.description {
+  max-width: 600px;
+  margin: auto;
+
+  &::after {
+    content: '';
+    display: block;
+    /*background-color: var(--mantine-color-blue-filled); */
+    width: 45px;
+    height: 2px;
+    margin-top: var(--mantine-spacing-sm);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.card {
+  background-color: #ecfdf7;
+}
+
+.title {
+  font-weight: bold;
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  line-height: 1.2;
+}
+
+.body {
+  padding: var(--mantine-spacing-md);
+}
+
+.cardGroup {
+  display: flex;
+  flex-direction: row; /* 默认横向布局 */
+}
+
+@media (max-width: 768px) {
+  .cardGroup {
+    flex-direction: column; /* 小屏幕竖着排 */
+  }
+}

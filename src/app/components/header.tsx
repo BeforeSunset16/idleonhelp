@@ -1,7 +1,9 @@
+/* eslint-disable max-len */
+
 'use client';
 
-import cx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { signOut } from 'aws-amplify/auth';
 import {
@@ -20,14 +22,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import {
   IconLogout,
-  // IconHeart,
-  // IconStar,
-  // IconMessage,
-  // IconSettings,
   IconUserCircle,
-  // IconPlayerPause,
-  // IconTrash,
-  // IconSwitchHorizontal,
   IconChevronDown,
 } from '@tabler/icons-react';
 import Image from 'next/image';
@@ -36,65 +31,25 @@ import classes from './header.module.css';
 
 const tabs = [
   {
-    name: '快捷查看',
+    name: '游戏攻略',
     key: 'index',
-    link: '/',
+    link: '/game-guide',
   },
-  {
+  /* {
     name: '主页',
     key: 'home1',
     link: '/home1',
-  },
+  }, */
   {
     name: '新手教程',
     key: 'tutorial',
     link: '/tutorial',
   },
   {
-    name: '游戏攻略',
-    key: 'game-guide',
-    link: '/game-guide',
+    name: '快捷查看',
+    key: 'one-picture',
+    link: '/one-picture',
   },
-  // {
-  //   name: '世界1',
-  //   key: 'world1',
-  //   link: '/world1',
-  // },
-  // {
-  //   name: '世界2',
-  //   key: 'world2',
-  //   link: '/world2',
-  // },
-  // {
-  //   name: '世界3',
-  //   key: 'world3',
-  //   link: '/world3',
-  // },
-  // {
-  //   name: '世界4',
-  //   key: 'world4',
-  //   link: '/world4',
-  // },
-  // {
-  //   name: '世界5',
-  //   key: 'world5',
-  //   link: '/world5',
-  // },
-  // {
-  //   name: '世界6',
-  //   key: 'world6',
-  //   link: '/world6',
-  // // },
-  // {
-  //   name: '世界5 洞穴攻略',
-  //   key: 'W5-HOLE-GUIDE',
-  //   link: '/w5-hole-guide',
-  // },
-  // {
-  //   name: 'Todos',
-  //   key: 'todos',
-  //   link: '/todos',
-  // },
   {
     name: 'Idle Skiller',
     key: 'idleskiller',
@@ -105,11 +60,6 @@ const tabs = [
     key: 'auth',
     link: '/auth',
   },
-  // {
-  //   name: 'test',
-  //   key: 'test',
-  //   link: '/test',
-  // },
 ];
 
 export default function HeaderTabs() {
@@ -118,17 +68,25 @@ export default function HeaderTabs() {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [userName, setUserName] = useState<string>('未登录');
   const { user, refreshUser } = useAuth();
-  const [defaultValue, setDefaultValue] = useState<string>('index');
+  const pathname = usePathname(); // ✅ Next.js 路径钩子
+  const [activeTab, setActiveTab] = useState<string | null>(null);
 
+  // 用户名设置
   useEffect(() => {
     setUserName(user?.signInDetails?.loginId || '未登录');
   }, [user]);
 
+  // 高亮当前 tab
   useEffect(() => {
-    const path = window.location.pathname;
-    const lastSegment = path.split('/').pop();
-    setDefaultValue(lastSegment || 'index');
-  }, []);
+    const matchedTab = tabs.find((tab) => tab.link === pathname);
+    setActiveTab(matchedTab?.key || 'index');
+  }, [pathname]);
+
+  const items = tabs.map((tab) => (
+    <Link href={tab.link} key={tab.key}>
+      <Tabs.Tab value={tab.key}>{tab.name}</Tabs.Tab>
+    </Link>
+  ));
 
   const userinfo = {
     name: userName,
@@ -136,57 +94,31 @@ export default function HeaderTabs() {
     image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
   };
 
-  const items = tabs.map((tab) => (
-    <Link href={tab.link} key={tab.key}>
-      <Tabs.Tab value={tab.key}>
-        {tab.name}
-      </Tabs.Tab>
-    </Link>
-  ));
-
   return (
     <div className={classes.header}>
       <Container className={classes.mainSection} size="xl">
         <Group justify="space-between">
+          {/* Logo & Burger */}
           <Link href="/" className={classes.logo}>
-            <Image
-              src="/images/logo.png"
-              alt="Logo"
-              width={214.4}
-              height={42}
-              priority
-            />
+            <Image src="/images/logo.png" alt="Logo" width={214} height={42} />
           </Link>
+
           <Group className={classes.mobileHeaderGroup} hiddenFrom="sm">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="md" />
-            <Link href="/" className={classes.mobileLogo}>
-              <Image
-                src="/images/logo.png"
-                alt="Logo"
-                width={132.7} // 调整小屏幕下的 logo 大小
-                height={26}
-                priority
-              />
-            </Link>
           </Group>
 
+          {/* 用户菜单 */}
           <Menu
             width={180}
             position="bottom-end"
-            transitionProps={{ transition: 'pop-top-right' }}
             onClose={() => setUserMenuOpened(false)}
             onOpen={() => setUserMenuOpened(true)}
-            withinPortal
           >
             <Menu.Target>
-              <UnstyledButton
-                className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-              >
+              <UnstyledButton className={classes.user}>
                 <Group gap={7}>
-                  <Avatar src={userinfo.image} alt={userinfo.name} radius="xl" size={22} />
-                  <Text fw={500} size="lg" lh={1} mr={3}>
-                    {userinfo.name}
-                  </Text>
+                  <Avatar src={userinfo.image} radius="xl" size={22} />
+                  <Text fw={500} size="lg" lh={1} mr={3}>{userinfo.name}</Text>
                   <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
                 </Group>
               </UnstyledButton>
@@ -194,78 +126,15 @@ export default function HeaderTabs() {
             <Menu.Dropdown>
               {user ? (
                 <>
-                  {/* <Menu.Item
-                    leftSection={(
-                      <IconHeart
-                        style={{ width: rem(16), height: rem(16) }}
-                        color={theme.colors.red[6]}
-                        stroke={1.5}
-                      />
-                    )}
-                  >
-                    Liked posts
-                  </Menu.Item>
                   <Menu.Item
-                    leftSection={(
-                      <IconStar
-                        style={{ width: rem(16), height: rem(16) }}
-                        color={theme.colors.yellow[6]}
-                        stroke={1.5}
-                      />
-                    )}
-                  >
-                    Saved posts
-                  </Menu.Item>
-                  <Menu.Item
-                    leftSection={(
-                      <IconMessage
-                        style={{ width: rem(16), height: rem(16) }}
-                        color={theme.colors.blue[6]}
-                        stroke={1.5}
-                      />
-                    )}
-                  >
-                    Your comments
-                  </Menu.Item> */}
-                  {/* <Menu.Label>Settings</Menu.Label>
-                  <Menu.Item
-                    leftSection={
-                      <IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                    }
-                  >
-                    Account settings
-                  </Menu.Item>
-                  <Menu.Item
-                    leftSection={(
-                      <IconSwitchHorizontal
-                        style={{ width: rem(16), height: rem(16) }}
-                        stroke={1.5}
-                      />
-                    )}
-                  >
-                    Change account
-                  </Menu.Item> */}
-                  <Menu.Item
-                    leftSection={(
-                      <IconUserCircle
-                        style={{ width: rem(20), height: rem(20) }}
-                        color={theme.colors.blue[6]}
-                        stroke={1.5}
-                      />
-                    )}
+                    leftSection={<IconUserCircle style={{ width: rem(20), height: rem(20) }} color={theme.colors.blue[6]} stroke={1.5} />}
                     component={Link}
                     href="/dashboard"
                   >
                     个人中心
                   </Menu.Item>
                   <Menu.Item
-                    leftSection={(
-                      <IconLogout
-                        style={{ width: rem(20), height: rem(20) }}
-                        color={theme.colors.red[6]}
-                        stroke={1.5}
-                      />
-                    )}
+                    leftSection={<IconLogout style={{ width: rem(20), height: rem(20) }} color={theme.colors.red[6]} stroke={1.5} />}
                     onClick={async () => {
                       await signOut();
                       await refreshUser();
@@ -276,45 +145,14 @@ export default function HeaderTabs() {
                   </Menu.Item>
                 </>
               ) : (
-                <Menu.Item
-                  component={Link}
-                  href="/auth"
-                >
-                  登录
-                </Menu.Item>
+                <Menu.Item component={Link} href="/auth">登录</Menu.Item>
               )}
-
-              {/* <Menu.Divider />
-
-              <Menu.Label>Danger zone</Menu.Label>
-              <Menu.Item
-                leftSection={
-                  <IconPlayerPause style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                }
-              >
-                Pause subscription
-              </Menu.Item>
-              <Menu.Item
-                color="red"
-                leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-              >
-                Delete account
-              </Menu.Item> */}
             </Menu.Dropdown>
           </Menu>
         </Group>
-        <Drawer
-          opened={opened}
-          onClose={toggle}
-          size="280px"
-          position="left"
-          classNames={{
-            header: classes.drawerHeader,
-            content: classes.drawerContent,
-            body: classes.drawerBody,
-            close: classes.drawerClose,
-          }}
-        >
+
+        {/* 移动端菜单 */}
+        <Drawer opened={opened} onClose={toggle} size="280px" position="left">
           <nav>
             <ul>
               {tabs.map((tab) => (
@@ -328,9 +166,13 @@ export default function HeaderTabs() {
           </nav>
         </Drawer>
       </Container>
+
+      {/* Tabs 显示区域 */}
       <Container size="xl">
+        {activeTab && (
         <Tabs
-          defaultValue={defaultValue}
+          value={activeTab}
+          onChange={setActiveTab}
           variant="outline"
           visibleFrom="sm"
           classNames={{
@@ -341,6 +183,7 @@ export default function HeaderTabs() {
         >
           <Tabs.List>{items}</Tabs.List>
         </Tabs>
+        )}
       </Container>
     </div>
   );

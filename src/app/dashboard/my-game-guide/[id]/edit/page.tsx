@@ -51,6 +51,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
           active: data.active ?? 'T',
         });
         setContent(data.content ?? '');
+        setCoverImageUrl(data.coverImageUrl ?? '');
       } catch (error) {
         console.error('Error fetching guide:', error);
       } finally {

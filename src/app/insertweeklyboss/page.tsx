@@ -7,13 +7,22 @@ import type { Schema } from '#/amplify/data/resource';
 const client = generateClient<Schema>();
 
 const SAMPLE_DATA = {
-  name: 'Decibop Box',
-  start_date: '2025-05-15',
-  end_date: '2025-05-22',
-  skull_fight: '{"1":"3 1 1 - 3 1 2 - 3 2","2":"3 (FR)","3":"2 3 1 - 1 3 1","4":"3 2 2 - 2","5":"2 2 3 - 1 3"}',
-  misc_fight: '{"6":"2 3 2 - 3 2 1","7":"2 3 3 (FR)","8":"2 3 2 - 1 2 1","9":"2 (FR)","10":"1 3 2 - 3 3 3 - 3 3 3 - 3 3 3"}',
+  name: 'Jupiteye Major',
+  start_date: '2025-05-08',
+  end_date: '2025-05-15',
+  skull_fight: '{"1":"2 3 2 - 2 1 1(FR)","2":"2 3 1 - 2 1","3":"3 3 3 - 1 2 1 - 2 2 1","4":"1 2"}',
+  misc_fight: '{"1":"3 2 2 - 3 3 1(FR)","2":"3 2 3","3":"2 2 3 - 3 3 1 - 3 3 3"}',
   active: 'T' as 'T' | 'F',
 };
+
+// const SAMPLE_DATA = {
+//   name: 'Jupiteye Major',
+//   start_date: '2025-05-08',
+//   end_date: '2025-05-15',
+// skull_fight: '{"1":"2 3 2 - 2 1 1(FR)","2":"2 3 1 - 2 1","3":"3 3 3 - 1 2 1 - 2 2 1","4":"1 2"}',
+//   misc_fight: '{"1":"3 2 2 - 3 3 1(FR)","2":"3 2 3","3":"2 2 3 - 3 3 1 - 3 3 3"}',
+//   active: 'T' as 'T' | 'F',
+// };
 
 // WeeklyBoss: a.model({
 //   name: a.string(),

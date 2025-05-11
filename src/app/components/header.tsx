@@ -65,6 +65,7 @@ const tabs = [
 export default function HeaderTabs() {
   const theme = useMantineTheme();
   const [opened, { toggle }] = useDisclosure(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [userName, setUserName] = useState<string>('未登录');
   const { user, refreshUser } = useAuth();

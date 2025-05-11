@@ -30,7 +30,7 @@ export default function WeeklyBoss() {
             end_date: { ge: today },
             active: { eq: 'T' },
           },
-          limit: 1,
+          limit: 100, //! 以后这里要注意，表里最多存100条数据
         });
         const boss = data[0];
         if (boss) {

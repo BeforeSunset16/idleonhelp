@@ -50,10 +50,10 @@ const schema = a.schema({
   ]),
   WeeklyBoss: a.model({
     name: a.string(),
-    startdate: a.date(),
-    enddate:a.date(),
-    skullfight: a.string(),
-    miscfight:a.string(),
+    start_date: a.date(),
+    end_date:a.date(),
+    skull_fight: a.json(),
+    misc_fight:a.json(),
     active: a.enum(['T', 'F']),
     createdAt: a.datetime(),
   }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])])

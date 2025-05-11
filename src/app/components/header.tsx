@@ -35,11 +35,11 @@ const tabs = [
     key: 'index',
     link: '/game-guide',
   },
-  /* {
-    name: '主页',
+  {
+    name: '每周BOSS',
     key: 'home1',
     link: '/home1',
-  }, */
+  },
   {
     name: '新手教程',
     key: 'tutorial',

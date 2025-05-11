@@ -48,6 +48,18 @@ const schema = a.schema({
   .secondaryIndexes((index) => [
     index("active").sortKeys(["createdAt"]),
   ]),
+  WeeklyBoss: a.model({
+    name: a.string(),
+    startdate: a.date(),
+    enddate:a.date(),
+    skullfight: a.string(),
+    miscfight:a.string(),
+    active: a.enum(['T', 'F']),
+    createdAt: a.datetime(),
+  }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])])
+  .secondaryIndexes((index) => [
+    index("active").sortKeys(["createdAt"]),
+  ]),
 },);
 
 export type Schema = ClientSchema<typeof schema>;

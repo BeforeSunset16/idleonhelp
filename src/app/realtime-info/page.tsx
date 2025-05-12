@@ -8,12 +8,12 @@ import {
 import { IconSkull, IconTrophy } from '@tabler/icons-react';
 import { useMediaQuery } from '@mantine/hooks';
 import type { Schema } from '#/amplify/data/resource';
-import classes from './home1.module.css';
+import classes from './realtime-info.module.css';
 
 const client = generateClient<Schema>();
 
 export default function WeeklyBoss() {
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 1024px)');
   const [skullData, setSkullData] = useState<string[]>([]);
   const [trophyData, setTrophyData] = useState<string[]>([]);
   const [startDate, setStartDate] = useState<string>('');
@@ -77,8 +77,10 @@ export default function WeeklyBoss() {
       className={classes.card}
       style={{
         width: isMobile ? '85%' : '50%',
-        margin: '0 auto',
-        marginTop: '8rem',
+        marginTop: isMobile ? '9rem' : '4rem',
+        marginRight: 'auto',
+        marginBottom: '2rem',
+        marginLeft: 'auto',
         paddingTop: '0',
       }}
     >

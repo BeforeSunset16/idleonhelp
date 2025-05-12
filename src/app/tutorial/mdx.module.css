@@ -1,12 +1,14 @@
 .container {
   padding: var(--mantine-spacing-xl);
+  margin-top: 3rem;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .container {
+    margin-top: 5rem;
     padding: var(--mantine-spacing-md);
     max-width: 100%;
   }

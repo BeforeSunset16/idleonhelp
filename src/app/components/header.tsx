@@ -37,8 +37,8 @@ const tabs = [
   },
   {
     name: '每周BOSS',
-    key: 'home1',
-    link: '/home1',
+    key: 'realtime-info',
+    link: '/realtime-info',
   },
   {
     name: '新手教程',
@@ -155,10 +155,10 @@ export default function HeaderTabs() {
         {/* 移动端菜单 */}
         <Drawer opened={opened} onClose={toggle} size="280px" position="left">
           <nav>
-            <ul>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {tabs.map((tab) => (
                 <li key={tab.key} className={classes.mobileMenuItem}>
-                  <Link href={tab.link} onClick={toggle}>
+                  <Link href={tab.link} onClick={toggle} style={{ color: '#222' }}>
                     {tab.name}
                   </Link>
                 </li>

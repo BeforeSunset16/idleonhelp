@@ -31,6 +31,7 @@ export default function WeeklyBoss() {
             active: { eq: 'T' },
           },
           limit: 100, //! 以后这里要注意，表里最多存100条数据
+          authMode: 'apiKey',
         });
         const boss = data[0];
         if (boss) {

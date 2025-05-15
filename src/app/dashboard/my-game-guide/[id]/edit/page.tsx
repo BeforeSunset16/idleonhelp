@@ -21,7 +21,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
   const [isLoading, setIsLoading] = useState(true);
   const [modalOpened, setModalOpened] = useState(false);
   const router = useRouter();
-  // const { user } = useAuth();
+  const { user } = useAuth();
 
   const form = useForm({
     initialValues: {
@@ -66,7 +66,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
     // if (user?.username) {
     //   fetchGuide();
     // }
-  }, [params.id]);
+  }, [params.id, user]);
 
   const handleSubmit = async (values: typeof form.values) => {
     try {

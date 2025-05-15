@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
-// import { useAuth } from '@/app/contexts/AuthContext';
+import { useAuth } from '@/app/contexts/AuthContext';
 import CustomRichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
 import ImageUploadModal from '@/app/components/ImageUploadModal/ImageUploadModal';
 

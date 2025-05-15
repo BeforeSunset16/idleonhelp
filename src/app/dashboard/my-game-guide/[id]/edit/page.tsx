@@ -21,7 +21,7 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
   const [isLoading, setIsLoading] = useState(true);
   const [modalOpened, setModalOpened] = useState(false);
   const router = useRouter();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const form = useForm({
     initialValues: {
@@ -36,14 +36,18 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
       try {
         setIsLoading(true);
         const { data } = await client.models.GameGuide.get({ id: params.id });
-        if (!data) return;
-
-        // 验证作者限
-        if (data.owner !== user?.username) {
-          alert('您没有权限编辑此攻略');
+        if (!data) {
+          alert('未找到数据');
           router.push('/dashboard/game-guide');
           return;
         }
+
+        // 验证作者权限
+        // if (data.owner !== user?.username) {
+        //   alert('您没有权限编辑此攻略');
+        //   router.push('/dashboard/game-guide');
+        //   return;
+        // }
 
         form.setValues({
           title: data.title ?? '',
@@ -58,11 +62,11 @@ export default function EditGuidePage({ params }: { params: { id: string } }) {
         setIsLoading(false);
       }
     };
-
-    if (user?.username) {
-      fetchGuide();
-    }
-  }, [params.id, user]);
+    fetchGuide();
+    // if (user?.username) {
+    //   fetchGuide();
+    // }
+  }, [params.id]);
 
   const handleSubmit = async (values: typeof form.values) => {
     try {

@@ -36,7 +36,7 @@ const schema = a.schema({
       // category: a.string(),
       active: a.enum(['T', 'F']),
       createdAt: a.datetime(),
-  }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read'])])
+  }).authorization((allow) => [allow.owner(), allow.publicApiKey().to(['read']), allow.group('Admin')])
   .secondaryIndexes((index) => [
     index("active").sortKeys(["createdAt"]),
   ]),

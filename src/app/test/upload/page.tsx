@@ -16,7 +16,7 @@ import {
 import { IconUpload, IconAlertCircle } from '@tabler/icons-react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import SharedImageUploader from '@/app/components/ImageUploader';
-import outputs from '#/amplify_outputs.json';
+// import outputs from '#/amplify_outputs.json';
 
 const MAX_FILE_SIZE = 300 * 1024; // 300KB in bytes
 
@@ -90,7 +90,9 @@ export default function UploadPage() {
       console.log('Upload success - ETag:', uploadResult.eTag);
       console.log('Upload success - Content Type:', uploadResult.contentType);
       setFile(null);
-      const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
+      const imageBaseURL = process.env.NEXT_PUBLIC_CDN_URL;
+      const imageUrl = `${imageBaseURL}/${uploadResult?.path}`;
+      // const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
       await createSharedImageRecord(imageUrl);
     } catch (err) {
       console.error('Upload error:', err);

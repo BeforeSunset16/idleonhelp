@@ -14,7 +14,7 @@ import {
 import { uploadData } from 'aws-amplify/storage';
 import { useAuth } from '@/app/contexts/AuthContext';
 import SharedImageUploader from '@/app/components/ImageUploader';
-import outputs from '#/amplify_outputs.json';
+// import outputs from '#/amplify_outputs.json';
 import { v4 as uuidv4 } from 'uuid';
 import ImageUploadModal from '../ImageUploadModal/ImageUploadModal';
 
@@ -68,7 +68,9 @@ export default function CustomRichTextEditor({
             },
           });
           const uploadResult = await result;
-          const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
+          const imageBaseURL = process.env.NEXT_PUBLIC_CDN_URL;
+          const imageUrl = `${imageBaseURL}/${uploadResult?.path}`;
+          // const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
 
           await createSharedImageRecord(imageUrl);
         } catch (err) {

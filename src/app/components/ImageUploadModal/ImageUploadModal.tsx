@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { uploadData } from 'aws-amplify/storage';
 import { useAuth } from '@/app/contexts/AuthContext';
 import SharedImageUploader from '@/app/components/ImageUploader';
-import outputs from '#/amplify_outputs.json';
+// import outputs from '#/amplify_outputs.json';
 import { v4 as uuidv4 } from 'uuid';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '#/amplify/data/resource';
@@ -101,7 +101,9 @@ export default function ImageUploadModal({
         },
       });
       const uploadResult = await result;
-      const uploadedImageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
+      const imageBaseURL = process.env.NEXT_PUBLIC_CDN_URL;
+      const uploadedImageUrl = `${imageBaseURL}/${uploadResult?.path}`;
+      // const uploadedImageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
       await createSharedImageRecord(uploadedImageUrl);
     } catch (err) {
       console.error('Upload error:', err);

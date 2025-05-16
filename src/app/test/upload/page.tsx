@@ -91,7 +91,7 @@ export default function UploadPage() {
       console.log('Upload success - Content Type:', uploadResult.contentType);
       setFile(null);
       const imageBaseURL = process.env.NEXT_PUBLIC_CDN_URL;
-      const imageUrl = `${imageBaseURL}/${uploadResult?.path}`;
+      const imageUrl = `https://${imageBaseURL}/${uploadResult?.path}`;
       // const imageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
       await createSharedImageRecord(imageUrl);
     } catch (err) {

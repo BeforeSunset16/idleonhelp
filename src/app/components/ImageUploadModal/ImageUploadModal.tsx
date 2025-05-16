@@ -102,7 +102,7 @@ export default function ImageUploadModal({
       });
       const uploadResult = await result;
       const imageBaseURL = process.env.NEXT_PUBLIC_CDN_URL;
-      const uploadedImageUrl = `${imageBaseURL}/${uploadResult?.path}`;
+      const uploadedImageUrl = `https://${imageBaseURL}/${uploadResult?.path}`;
       // const uploadedImageUrl = `https://${outputs.storage.bucket_name}.s3.${outputs.storage.aws_region}.amazonaws.com/${uploadResult?.path}`;
       await createSharedImageRecord(uploadedImageUrl);
     } catch (err) {

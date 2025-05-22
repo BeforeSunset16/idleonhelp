@@ -27,7 +27,7 @@ export default function WeeklyBoss() {
         const { data } = await client.models.WeeklyBoss.list({
           filter: {
             start_date: { le: today },
-            end_date: { ge: today },
+            end_date: { gt: today },
             active: { eq: 'T' },
           },
           limit: 100, //! 以后这里要注意，表里最多存100条数据

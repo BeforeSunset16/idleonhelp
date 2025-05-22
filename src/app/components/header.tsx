@@ -67,15 +67,9 @@ export default function HeaderTabs() {
   const [opened, { toggle }] = useDisclosure(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const [userName, setUserName] = useState<string>('未登录');
   const { user, refreshUser } = useAuth();
   const pathname = usePathname(); // ✅ Next.js 路径钩子
   const [activeTab, setActiveTab] = useState<string | null>(null);
-
-  // 用户名设置
-  useEffect(() => {
-    setUserName(user?.signInDetails?.loginId || '未登录');
-  }, [user]);
 
   // 高亮当前 tab
   useEffect(() => {
@@ -90,9 +84,9 @@ export default function HeaderTabs() {
   ));
 
   const userinfo = {
-    name: userName,
+    name: user ? '已登录' : '未登录',
     email: 'janspoon@fighter.dev',
-    image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
+    image: './images/Green_Mushroom.png',
   };
 
   return (
@@ -118,7 +112,7 @@ export default function HeaderTabs() {
             <Menu.Target>
               <UnstyledButton className={classes.user}>
                 <Group gap={7}>
-                  <Avatar src={userinfo.image} radius="xl" size={22} />
+                  <Avatar src={userinfo.image} radius="xl" size={25} />
                   <Text fw={500} size="lg" lh={1} mr={3}>{userinfo.name}</Text>
                   <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
                 </Group>

@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Table,
+  Textarea,
+  Button,
+  Container,
+  ScrollArea,
+  Group,
+} from '@mantine/core';
 import { useState } from 'react';
 import grimoireStatic from './grimoire_static.json';
 
@@ -64,29 +72,56 @@ export default function GrimoireCalculator() {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <Container size="lg" px="md" py="md">
       <h1 className="text-xl font-bold mb-4">Grimoire计算助手</h1>
+      <ScrollArea h={400} mb="md">
+        <Table striped highlightOnHover withTableBorder withColumnBorders>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>index</Table.Th>
+              <Table.Th>name</Table.Th>
+              <Table.Th>current_lv</Table.Th>
+              <Table.Th>target_lv</Table.Th>
+              <Table.Th>targetlv - current_lv</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {Array.isArray(grimoireStatic)
+              && grimoireStatic
+                .filter((item) => item.index >= 1 && item.index <= 52)
+                .map((item) => (
+                  <Table.Tr key={item.index}>
+                    <Table.Td>{item.index}</Table.Td>
+                    <Table.Td>{item.name}</Table.Td>
+                    <Table.Td>-</Table.Td>
+                    <Table.Td>-</Table.Td>
+                    <Table.Td>-</Table.Td>
+                  </Table.Tr>
+                ))}
+          </Table.Tbody>
+        </Table>
+      </ScrollArea>
       <form onSubmit={handleProcessJson}>
-        <textarea
+        <Textarea
           value={jsonText}
           onChange={(e) => setJsonText(e.target.value)}
-          rows={10}
-          className="w-full border p-2 mb-4 font-mono text-sm"
+          minRows={10}
+          autosize
+          label="Data粘贴区"
           placeholder="请把idleontoolbox的Data粘贴到这里，3秒后点击提交"
+          mb="md"
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-          提交
-        </button>
+        <Group justify="flex-start">
+          <Button type="submit" color="blue">提交</Button>
+        </Group>
       </form>
-
-      {error && <p className="text-red-600 mt-4">Error: {error}</p>}
-
+      {error && <div style={{ color: 'red', marginTop: 16 }}>Error: {error}</div>}
       {output && (
         <div className="mt-4 bg-gray-100 p-4 rounded">
           <h2 className="font-semibold mb-2">Result:</h2>
           <pre>{JSON.stringify(output, null, 2)}</pre>
         </div>
       )}
-    </div>
+    </Container>
   );
 }

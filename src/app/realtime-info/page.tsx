@@ -6,14 +6,12 @@ import {
   Card, Group, Text, Table,
 } from '@mantine/core';
 import { IconSkull, IconTrophy } from '@tabler/icons-react';
-import { useMediaQuery } from '@mantine/hooks';
 import type { Schema } from '#/amplify/data/resource';
 import classes from './realtime-info.module.css';
 
 const client = generateClient<Schema>();
 
-export default function WeeklyBoss() {
-  const isMobile = useMediaQuery('(max-width: 1024px)');
+export default function RealtimeInfo() {
   const [skullData, setSkullData] = useState<string[]>([]);
   const [trophyData, setTrophyData] = useState<string[]>([]);
   const [startDate, setStartDate] = useState<string>('');
@@ -75,15 +73,7 @@ export default function WeeklyBoss() {
     <Card
       withBorder
       radius="md"
-      className={classes.card}
-      style={{
-        width: isMobile ? '85%' : '50%',
-        marginTop: isMobile ? '9rem' : '4rem',
-        marginRight: 'auto',
-        marginBottom: '2rem',
-        marginLeft: 'auto',
-        paddingTop: '0',
-      }}
+      className={classes.wbcard}
     >
       <Group
         wrap="nowrap"
@@ -95,7 +85,7 @@ export default function WeeklyBoss() {
             <Text className={classes.title} mt="sm" mb="sm" size="xl">
               Weekly Boss： {name}
             </Text>
-            <Text className={classes.title} color="dimmed" mt="sm" mb="sm">
+            <Text className={classes.title} c="dimmed" mt="sm" mb="sm">
               {startDate} ~ {endDate}
             </Text>
           </Group>

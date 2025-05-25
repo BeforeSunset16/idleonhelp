@@ -250,17 +250,6 @@ function GrimoireForm({
   return (
     <form onSubmit={handleFormSubmit}>
       <Group align="stretch" wrap="nowrap">
-        <Textarea
-          value={jsonText}
-          onChange={(e) => setJsonText(e.target.value)}
-          label="Data粘贴区"
-          placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右，点击提交"
-          mb="md"
-          autosize
-          minRows={14}
-          maxRows={14}
-          style={{ width: '23%' }}
-        />
         <Stack style={{ width: '30%' }}>
           <BoneInputRow
             label="大腿骨"
@@ -270,7 +259,7 @@ function GrimoireForm({
             onUnitChange={setFemurUnit}
             exponent={femurExp}
             onExponentChange={setFemurExp}
-            inputWidth="100%"
+            inputWidth="90%"
           />
           <BoneInputRow
             label="肋骨"
@@ -280,7 +269,7 @@ function GrimoireForm({
             onUnitChange={setRibUnit}
             exponent={ribExp}
             onExponentChange={setRibExp}
-            inputWidth="100%"
+            inputWidth="90%"
           />
           <BoneInputRow
             label="头盖骨"
@@ -290,7 +279,7 @@ function GrimoireForm({
             onUnitChange={setCraniumUnit}
             exponent={craniumExp}
             onExponentChange={setCraniumExp}
-            inputWidth="100%"
+            inputWidth="90%"
           />
           <BoneInputRow
             label="牛头"
@@ -300,14 +289,24 @@ function GrimoireForm({
             onUnitChange={setBovinaeUnit}
             exponent={bovinaeExp}
             onExponentChange={setBovinaeExp}
-            inputWidth="100%"
+            inputWidth="90%"
           />
         </Stack>
-      </Group>
-      <Group justify="flex-start">
-        <Button type="submit" color="blue">
-          提交
-        </Button>
+        <Stack style={{ width: '23%' }}>
+          <Textarea
+            value={jsonText}
+            onChange={(e) => setJsonText(e.target.value)}
+            label="Data粘贴区"
+            placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右，点击提交"
+            mb="xs"
+            autosize
+            minRows={11}
+            maxRows={11}
+          />
+          <Button type="submit" color="blue">
+            提交
+          </Button>
+        </Stack>
       </Group>
     </form>
   );

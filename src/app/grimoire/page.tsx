@@ -23,7 +23,8 @@ type GrimoireResult = {
   currentLevels: number[];
   targetLevels: number[];
   upgradeCounts: number[];
-  sumHourCosts: number[];
+  roundedBoneTime: number[];
+  formattedBoneCount: string[];
   minHourCost: number | null;
   levelsMissing: number;
   hourMatrix: (number | string)[][];
@@ -106,6 +107,19 @@ function parseBoneValue(value: string, unit: string, exponent: string): number {
   return num * (unitMap[unit] || 1);
 }
 
+function formatNumberWithUnit(num: number): string {
+  if (num === 0) return '0';
+  const units = ['', 'K', 'M', 'B', 'T', 'Q', 'QQ', 'QQQ', 'E'];
+  let unitIndex = 0;
+  let n = Math.abs(num);
+  while (n >= 1000 && unitIndex < units.length - 1) {
+    n /= 1000;
+    unitIndex += 1;
+  }
+  // 保留两位小数
+  return `${(num / 1000 ** unitIndex).toFixed(2)}${units[unitIndex]}`;
+}
+
 function calculateGrimoire(
   jsonText: string,
   femur: number,
@@ -175,6 +189,7 @@ function calculateGrimoire(
         }
       }
     }
+
     // 找第levelsMissing小的数
     const flatHourMatrix = hourMatrix.flat().filter((v) => v !== '-');
     let minHourCost: number | null = null;
@@ -188,7 +203,7 @@ function calculateGrimoire(
     if (minHourCost !== null) {
       for (let i = 0; i < unlockForCalc; i += 1) {
         for (let j = 0; j < 600; j += 1) {
-          if (typeof hourMatrix[i][j] === 'number' && Number(hourMatrix[i][j]) < minHourCost) {
+          if (typeof hourMatrix[i][j] === 'number' && Number(hourMatrix[i][j]) <= minHourCost) {
             upgradeCounts[i] += 1;
             sumHourCosts[i] += Number(hourMatrix[i][j]);
           }
@@ -199,14 +214,30 @@ function calculateGrimoire(
     const targetLevels = Array(unlockForCalc)
       .fill(0)
       .map((_, i) => currentLevels[i] + upgradeCounts[i]);
+
+    // 计算每种骨头所需时间和数量
+    const boneTime = Array(4).fill(0);
+    for (let i = 0; i < unlockForCalc; i += 1) {
+      const staticItem = grimoireStatic.find((item) => item.index === i);
+      if (staticItem) {
+        const { boneType = 0 } = staticItem;
+        boneTime[boneType] += sumHourCosts[i];
+      }
+    }
+    const boneIndex = [femur, rib, cranium, bovinae];
+    const boneCount = boneTime.map((time, idx) => time * boneIndex[idx]);
+    const formattedBoneCount = boneCount.map(formatNumberWithUnit);
+    const roundedBoneTime = boneTime.map((time) => Number(time.toFixed(2)));
+
     return {
       grimoireValues,
       currentLevels,
       targetLevels,
       upgradeCounts,
-      sumHourCosts,
       minHourCost,
       levelsMissing,
+      roundedBoneTime,
+      formattedBoneCount,
       hourMatrix,
     };
   } catch (err) {
@@ -226,6 +257,7 @@ function GrimoireForm({
   jsonText,
   setJsonText,
   onSubmit,
+  result,
 }: any) {
   const [femurUnit, setFemurUnit] = useState('');
   const [femurExp, setFemurExp] = useState('');
@@ -235,22 +267,36 @@ function GrimoireForm({
   const [craniumExp, setCraniumExp] = useState('');
   const [bovinaeUnit, setBovinaeUnit] = useState('');
   const [bovinaeExp, setBovinaeExp] = useState('');
+  const roundedBoneTime = result?.roundedBoneTime || [];
+  const formattedBoneCount = result?.formattedBoneCount || [];
 
   function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const femur = parseBoneValue(femurHr, femurUnit, femurExp);
-    const rib = parseBoneValue(ribHr, ribUnit, ribExp);
-    const cranium = parseBoneValue(craniumHr, craniumUnit, craniumExp);
-    const bovinae = parseBoneValue(bovinaeHr, bovinaeUnit, bovinaeExp);
+    const femur = femurHr === '' ? 1 : parseBoneValue(femurHr, femurUnit, femurExp);
+    const rib = ribHr === '' ? 1 : parseBoneValue(ribHr, ribUnit, ribExp);
+    const cranium = craniumHr === '' ? 1 : parseBoneValue(craniumHr, craniumUnit, craniumExp);
+    const bovinae = bovinaeHr === '' ? 1 : parseBoneValue(bovinaeHr, bovinaeUnit, bovinaeExp);
     onSubmit({
       femur, rib, cranium, bovinae,
     });
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <Group align="stretch" wrap="nowrap">
-        <Stack style={{ width: '30%' }}>
+    <Group align="stretch" wrap="nowrap" mb="lg">
+      <form onSubmit={handleFormSubmit} style={{ display: 'flex', flex: 1, width: '100%' }}>
+        <Stack style={{ marginRight: '3rem', width: '20%' }} align="left-end">
+          <Textarea
+            value={jsonText}
+            onChange={(e) => setJsonText(e.target.value)}
+            label="Data粘贴区"
+            placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右"
+            mb="0"
+            autosize
+            minRows={8}
+            maxRows={8}
+          />
+        </Stack>
+        <Stack style={{ mb: '3rem' }}>
           <BoneInputRow
             label="大腿骨"
             value={femurHr}
@@ -259,7 +305,7 @@ function GrimoireForm({
             onUnitChange={setFemurUnit}
             exponent={femurExp}
             onExponentChange={setFemurExp}
-            inputWidth="90%"
+            inputWidth="75%"
           />
           <BoneInputRow
             label="肋骨"
@@ -269,7 +315,7 @@ function GrimoireForm({
             onUnitChange={setRibUnit}
             exponent={ribExp}
             onExponentChange={setRibExp}
-            inputWidth="90%"
+            inputWidth="75%"
           />
           <BoneInputRow
             label="头盖骨"
@@ -279,7 +325,7 @@ function GrimoireForm({
             onUnitChange={setCraniumUnit}
             exponent={craniumExp}
             onExponentChange={setCraniumExp}
-            inputWidth="90%"
+            inputWidth="75%"
           />
           <BoneInputRow
             label="牛头"
@@ -289,26 +335,37 @@ function GrimoireForm({
             onUnitChange={setBovinaeUnit}
             exponent={bovinaeExp}
             onExponentChange={setBovinaeExp}
-            inputWidth="90%"
+            inputWidth="75%"
           />
-        </Stack>
-        <Stack style={{ width: '23%' }}>
-          <Textarea
-            value={jsonText}
-            onChange={(e) => setJsonText(e.target.value)}
-            label="Data粘贴区"
-            placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右，点击提交"
-            mb="xs"
-            autosize
-            minRows={11}
-            maxRows={11}
-          />
-          <Button type="submit" color="blue">
+          <Button type="submit" color="blue" style={{ width: '60%' }}>
             提交
           </Button>
         </Stack>
-      </Group>
-    </form>
+        {(() => {
+          const boneLabels = ['大腿骨', '肋骨', '头盖骨', '牛头'];
+          return (
+            <Table striped highlightOnHover withTableBorder withColumnBorders style={{ flex: 1 }}>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>骨头种类</Table.Th>
+                  <Table.Th>所需数量</Table.Th>
+                  <Table.Th>预计耗时（小时）</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {boneLabels.map((label, idx) => (
+                  <Table.Tr key={label}>
+                    <Table.Td>{label}</Table.Td>
+                    <Table.Td>{formattedBoneCount[idx] ?? '-'}</Table.Td>
+                    <Table.Td>{roundedBoneTime[idx] ?? '-'}</Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
+            </Table>
+          );
+        })()}
+      </form>
+    </Group>
   );
 }
 
@@ -325,7 +382,7 @@ function GrimoireTable({
     <ScrollArea h={400} mb="md" type="auto">
       <Table striped highlightOnHover withTableBorder withColumnBorders stickyHeader>
         <Table.Thead>
-          <Table.Tr>
+          <Table.Tr style={{ backgroundColor: '#66bab7', color: '#fff' }}>
             <Table.Th>序号</Table.Th>
             <Table.Th>名称</Table.Th>
             <Table.Th>当前等级</Table.Th>
@@ -336,11 +393,11 @@ function GrimoireTable({
                 <Menu.Target>
                   <Group gap={4} style={{ cursor: 'pointer', display: 'inline-flex' }}>
                     <span>骨头种类</span>
-                    <span style={{ color: '#888', fontWeight: 400, marginLeft: 4 }}>
-                      {boneTypeFilter || '(全部)'}
+                    <span style={{ color: '#fff', fontWeight: 400, marginLeft: 6 }}>
+                      {boneTypeFilter || '(可筛选)'}
                     </span>
-                    <ActionIcon size="xs" variant="subtle">
-                      <IconChevronDown size={16} />
+                    <ActionIcon size="sm" variant="subtle" style={{ color: '#fff' }}>
+                      <IconChevronDown size={18} />
                     </ActionIcon>
                   </Group>
                 </Menu.Target>
@@ -428,13 +485,8 @@ export default function GrimoireCalculator() {
   );
 
   return (
-    <Container size="lg" px="md" py="md">
+    <Container size="xl" px="md" py="md">
       <h1 className="text-xl font-bold mb-4">Grimoire计算助手</h1>
-      <GrimoireTable
-        result={result}
-        boneTypeFilter={boneTypeFilter}
-        setBoneTypeFilter={setBoneTypeFilter}
-      />
       <GrimoireForm
         femurHr={femurHr}
         setFemurHr={setFemurHr}
@@ -447,8 +499,14 @@ export default function GrimoireCalculator() {
         jsonText={jsonText}
         setJsonText={setJsonText}
         onSubmit={handleProcessJson}
+        result={result}
       />
       {error && <div style={{ color: 'red', marginTop: 16 }}>Error: {error}</div>}
+      <GrimoireTable
+        result={result}
+        boneTypeFilter={boneTypeFilter}
+        setBoneTypeFilter={setBoneTypeFilter}
+      />
     </Container>
   );
 }

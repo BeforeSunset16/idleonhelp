@@ -30,7 +30,7 @@ type GrimoireResult = {
   hourMatrix: (number | string)[][];
 };
 
-const UNITS = ['K', 'M', 'B', 'T', 'Q', 'QQ', 'QQQ', 'E'];
+const UNITS = ['无', 'K', 'M', 'B', 'T', 'Q', 'QQ', 'QQQ', 'E'];
 const BONE_TYPE_LABELS = ['大腿骨', '肋骨', '头盖骨', '牛头'];
 
 function BoneInputRow({
@@ -55,7 +55,7 @@ function BoneInputRow({
   return (
     <Group align="flex-end" mb="xs" style={{ width: inputWidth }}>
       <TextInput
-        label={label}
+        placeholder={label}
         value={value}
         onChange={(e) => onValueChange(e.target.value)}
         type="number"
@@ -63,7 +63,7 @@ function BoneInputRow({
         style={{ flex: 2 }}
       />
       <Select
-        label="单位"
+        placeholder="单位"
         data={UNITS}
         value={unit}
         onChange={(v) => onUnitChange(v ?? '')}
@@ -91,6 +91,7 @@ BoneInputRow.defaultProps = {
 function parseBoneValue(value: string, unit: string, exponent: string): number {
   const num = Number(value) || 0;
   const unitMap: Record<string, number> = {
+    无: 1,
     K: 1e3,
     M: 1e6,
     B: 1e9,
@@ -296,7 +297,7 @@ function GrimoireForm({
             maxRows={8}
           />
         </Stack>
-        <Stack style={{ mb: '3rem' }}>
+        <Stack style={{ mb: '3rem' }} gap="xs">
           <BoneInputRow
             label="大腿骨"
             value={femurHr}
@@ -449,10 +450,10 @@ function GrimoireTable({
 
 export default function GrimoireCalculator() {
   const [jsonText, setJsonText] = useState('');
-  const [femurHr, setFemurHr] = useState('113');
-  const [ribHr, setRibHr] = useState('60');
-  const [craniumHr, setCraniumHr] = useState('47');
-  const [bovinaeHr, setBovinaeHr] = useState('100');
+  const [femurHr, setFemurHr] = useState('');
+  const [ribHr, setRibHr] = useState('');
+  const [craniumHr, setCraniumHr] = useState('');
+  const [bovinaeHr, setBovinaeHr] = useState('');
   const [result, setResult] = useState<GrimoireResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [boneTypeFilter, setBoneTypeFilter] = useState('');

@@ -15,9 +15,10 @@ import {
   Paper,
   Text,
   Title,
+  Tooltip,
 } from '@mantine/core';
-import { useState, useCallback } from 'react';
-import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+import { useState, useCallback, useRef } from 'react';
+import { IconChevronDown, IconFilter, IconInfoCircle } from '@tabler/icons-react';
 import Image from 'next/image';
 import grimoireStatic from './grimoire_static.json';
 
@@ -56,13 +57,13 @@ function BoneInputRow({
   onUnitChange: (v: string) => void;
   exponent: string;
   onExponentChange: (v: string) => void;
-  inputWidth?: string;
+  inputWidth: string;
 }) {
   return (
     <Group align="flex-end" mb="xs" style={{ width: inputWidth }} gap="xs">
       <TextInput
         placeholder={label}
-        leftSection={<Image src={`/images/${imgName}.png`} alt={label} width={19} height={19} />}
+        leftSection={<Image src={`/images/grimoire/${imgName}.png`} alt={label} width={19} height={19} />}
         value={value}
         onChange={(e) => onValueChange(e.target.value)}
         type="number"
@@ -90,10 +91,6 @@ function BoneInputRow({
     </Group>
   );
 }
-
-BoneInputRow.defaultProps = {
-  inputWidth: '30%',
-};
 
 function parseBoneValue(value: string, unit: string, exponent: string): number {
   const num = Number(value) || 0;
@@ -262,8 +259,6 @@ function GrimoireForm({
   setCraniumHr,
   bovinaeHr,
   setBovinaeHr,
-  jsonText,
-  setJsonText,
   onSubmit,
   result,
 }: any) {
@@ -277,21 +272,27 @@ function GrimoireForm({
   const [bovinaeExp, setBovinaeExp] = useState('');
   const roundedBoneTime = result?.roundedBoneTime || [];
   const formattedBoneCount = result?.formattedBoneCount || [];
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  function handleFormSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const jsonText = textareaRef.current?.value || '';
     const femur = femurHr === '' ? 1 : parseBoneValue(femurHr, femurUnit, femurExp);
     const rib = ribHr === '' ? 1 : parseBoneValue(ribHr, ribUnit, ribExp);
     const cranium = craniumHr === '' ? 1 : parseBoneValue(craniumHr, craniumUnit, craniumExp);
     const bovinae = bovinaeHr === '' ? 1 : parseBoneValue(bovinaeHr, bovinaeUnit, bovinaeExp);
     onSubmit({
-      femur, rib, cranium, bovinae,
+      jsonText,
+      femur,
+      rib,
+      cranium,
+      bovinae,
     });
   }
 
   return (
     <Group align="stretch" wrap="nowrap" mt="md" mb="lg">
-      <form onSubmit={handleFormSubmit} style={{ display: 'flex', flex: 1, width: '100%' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flex: 1, width: '100%' }}>
         <Stack style={{ marginRight: '2rem', width: '38%' }} align="left-end">
           <Paper shadow="xs" p="xs">
             <Text>
@@ -302,12 +303,9 @@ function GrimoireForm({
             </Text>
           </Paper>
           <Textarea
-            value={jsonText}
-            onChange={(e) => setJsonText(e.target.value)}
+            ref={textareaRef}
             label="Data粘贴区"
             placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右"
-            mb="0"
-            autosize
             minRows={3}
             maxRows={3}
           />
@@ -362,7 +360,6 @@ function GrimoireForm({
               variant="outline"
               color="blue"
               style={{ width: '30%' }}
-              onClick={() => setJsonText('')}
               type="button"
             >
               清空Data
@@ -389,7 +386,7 @@ function GrimoireForm({
                   <Table.Tr key={label}>
                     <Table.Td>
                       <Image
-                        src={`/images/${boneImages[idx]}.png`}
+                        src={`/images/grimoire/${boneImages[idx]}.png`}
                         alt={label}
                         width={24}
                         height={24}
@@ -475,7 +472,30 @@ function GrimoireTable({
               .map((item) => (
                 <Table.Tr key={item.index}>
                   <Table.Td>{item.index + 1 }</Table.Td>
-                  <Table.Td>{item.name}</Table.Td>
+                  <Table.Td>
+                    <Image
+                      src={`/images/grimoire/${item.imageFile}`}
+                      alt={item.name}
+                      width={24}
+                      height={24}
+                      style={{ display: 'inline', verticalAlign: 'middle', marginRight: 8 }}
+                    />
+                    {item.name}
+                    <Tooltip label={item.bonus} withArrow>
+                      <span
+                        style={{
+                          color: '#228be6', // 蓝色更像 info
+                          marginLeft: 8,
+                          cursor: 'pointer',
+                          verticalAlign: 'middle',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <IconInfoCircle size={18} stroke={1.8} />
+                      </span>
+                    </Tooltip>
+                  </Table.Td>
                   <Table.Td>{result ? result.currentLevels[item.index] : ''}</Table.Td>
                   <Table.Td>{result ? result.targetLevels[item.index] : ''}</Table.Td>
                   <Table.Td>{result ? result.upgradeCounts[item.index] : ''}</Table.Td>
@@ -489,7 +509,7 @@ function GrimoireTable({
 }
 
 export default function GrimoireCalculator() {
-  const [jsonText, setJsonText] = useState('');
+  const [jsonTextState, setJsonTextState] = useState('');
   const [femurHr, setFemurHr] = useState('');
   const [ribHr, setRibHr] = useState('');
   const [craniumHr, setCraniumHr] = useState('');
@@ -500,7 +520,10 @@ export default function GrimoireCalculator() {
 
   const handleProcessJson = useCallback(
     (
-      bones: {
+      {
+        jsonText, femur, rib, cranium, bovinae,
+      }: {
+        jsonText: string;
         femur: number;
         rib: number;
         cranium: number;
@@ -510,10 +533,10 @@ export default function GrimoireCalculator() {
       setError(null);
       const calcResult = calculateGrimoire(
         jsonText,
-        bones.femur,
-        bones.rib,
-        bones.cranium,
-        bones.bovinae,
+        femur,
+        rib,
+        cranium,
+        bovinae,
       );
       if ('error' in calcResult) {
         setError(calcResult.error);
@@ -522,7 +545,7 @@ export default function GrimoireCalculator() {
         setResult(calcResult);
       }
     },
-    [jsonText],
+    [],
   );
 
   return (
@@ -537,8 +560,8 @@ export default function GrimoireCalculator() {
         setCraniumHr={setCraniumHr}
         bovinaeHr={bovinaeHr}
         setBovinaeHr={setBovinaeHr}
-        jsonText={jsonText}
-        setJsonText={setJsonText}
+        jsonTextState={jsonTextState}
+        setJsonTextState={setJsonTextState}
         onSubmit={handleProcessJson}
         result={result}
       />

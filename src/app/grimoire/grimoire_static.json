@@ -9,7 +9,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base Damage in Wraith Form",
     "notes": "Enter Wraith Form using the other Talent. It lets you get bones from killing monsters! Exit Wraith Form by reusing the talent.",
-    "imageFile": "grimoire_images\\GrimoireUpg0.png"
+    "imageFile": "GrimoireUpg0.png"
   },
   {
     "index": 1,
@@ -21,7 +21,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base Accuracy in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg1.png"
+    "imageFile": "GrimoireUpg1.png"
   },
   {
     "index": 2,
@@ -33,7 +33,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base Defence in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg2.png"
+    "imageFile": "GrimoireUpg2.png"
   },
   {
     "index": 3,
@@ -45,7 +45,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base HP in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg3.png"
+    "imageFile": "GrimoireUpg3.png"
   },
   {
     "index": 4,
@@ -57,7 +57,7 @@
     "maxLevel": 1,
     "bonus": "Unlocks Ribbons for Meals, found at Le Menu in W4",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg4.png"
+    "imageFile": "GrimoireUpg4.png"
   },
   {
     "index": 5,
@@ -69,7 +69,7 @@
     "maxLevel": 50,
     "bonus": "Get +1 Daily Ribbon, +1% chance for rare quality",
     "notes": "You only get ribbons on days you play IdleOn. If your Shelf is full, the new ribbon will try to combine with another.",
-    "imageFile": "grimoire_images\\GrimoireUpg5.png"
+    "imageFile": "GrimoireUpg5.png"
   },
   {
     "index": 6,
@@ -81,7 +81,7 @@
     "maxLevel": 999999,
     "bonus": "+3 Base Damage in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg6.png"
+    "imageFile": "GrimoireUpg6.png"
   },
   {
     "index": 7,
@@ -93,7 +93,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Accuracy, Defence, and HP in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg7.png"
+    "imageFile": "GrimoireUpg7.png"
   },
   {
     "index": 8,
@@ -105,7 +105,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Total Damage in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg8.png"
+    "imageFile": "GrimoireUpg8.png"
   },
   {
     "index": 9,
@@ -117,7 +117,7 @@
     "maxLevel": 10,
     "bonus": "+1 Max LV for 5th column Land Rank upgrades",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg9.png"
+    "imageFile": "GrimoireUpg9.png"
   },
   {
     "index": 10,
@@ -129,7 +129,7 @@
     "maxLevel": 40,
     "bonus": "+1% Crit Chance in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg10.png"
+    "imageFile": "GrimoireUpg10.png"
   },
   {
     "index": 11,
@@ -141,7 +141,7 @@
     "maxLevel": 25,
     "bonus": "+1 Opals to give to your Villagers in World 5",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg11.png"
+    "imageFile": "GrimoireUpg11.png"
   },
   {
     "index": 12,
@@ -153,7 +153,7 @@
     "maxLevel": 999999,
     "bonus": "+3 Base Accuracy in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg12.png"
+    "imageFile": "GrimoireUpg12.png"
   },
   {
     "index": 13,
@@ -165,7 +165,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Wraith DMG per KO!",
     "notes": "A Knockout, or KO, is when you kill the target monster in a single hit using your bare hands, no spears allowed!",
-    "imageFile": "grimoire_images\\GrimoireUpg13.png"
+    "imageFile": "GrimoireUpg13.png"
   },
   {
     "index": 14,
@@ -177,7 +177,7 @@
     "maxLevel": 999999,
     "bonus": "(+0.05 per lvl)x higher Crop Evo chance",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg14.png"
+    "imageFile": "GrimoireUpg14.png"
   },
   {
     "index": 15,
@@ -189,7 +189,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base Defence in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg15.png"
+    "imageFile": "GrimoireUpg15.png"
   },
   {
     "index": 16,
@@ -201,7 +201,7 @@
     "maxLevel": 999999,
     "bonus": "+15 Base Damage in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg16.png"
+    "imageFile": "GrimoireUpg16.png"
   },
   {
     "index": 17,
@@ -213,7 +213,7 @@
     "maxLevel": 150,
     "bonus": "(+0.1 per level)x higher bonuses from the Tome",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg17.png"
+    "imageFile": "GrimoireUpg17.png"
   },
   {
     "index": 18,
@@ -225,7 +225,7 @@
     "maxLevel": 999999,
     "bonus": "+2% Wraith DMG per POW 10 Femur owned",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg18.png"
+    "imageFile": "GrimoireUpg18.png"
   },
   {
     "index": 19,
@@ -237,7 +237,7 @@
     "maxLevel": 999999,
     "bonus": "+2 Base HP in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg19.png"
+    "imageFile": "GrimoireUpg19.png"
   },
   {
     "index": 20,
@@ -249,7 +249,7 @@
     "maxLevel": 999999,
     "bonus": "+2% Crit DMG in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg20.png"
+    "imageFile": "GrimoireUpg20.png"
   },
   {
     "index": 21,
@@ -261,7 +261,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Wraith DMG per elim!",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg21.png"
+    "imageFile": "GrimoireUpg21.png"
   },
   {
     "index": 22,
@@ -273,7 +273,7 @@
     "maxLevel": 200,
     "bonus": "(+0.01 per lvl)x higher bonuses from the Crop Scientist",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg22.png"
+    "imageFile": "GrimoireUpg22.png"
   },
   {
     "index": 23,
@@ -285,7 +285,7 @@
     "maxLevel": 999999,
     "bonus": "+2% Extra Bones",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg23.png"
+    "imageFile": "GrimoireUpg23.png"
   },
   {
     "index": 24,
@@ -297,7 +297,7 @@
     "maxLevel": 999999,
     "bonus": "+8% Class EXP bonus for all characters, always!",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg24.png"
+    "imageFile": "GrimoireUpg24.png"
   },
   {
     "index": 25,
@@ -309,7 +309,7 @@
     "maxLevel": 999999,
     "bonus": "+5 Base Accuracy in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg25.png"
+    "imageFile": "GrimoireUpg25.png"
   },
   {
     "index": 26,
@@ -321,7 +321,7 @@
     "maxLevel": 20,
     "bonus": "+1 Max LV for all Meals. Go max them",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg26.png"
+    "imageFile": "GrimoireUpg26.png"
   },
   {
     "index": 27,
@@ -333,7 +333,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Wraith DEF per POW 10 Ribcage owned",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg27.png"
+    "imageFile": "GrimoireUpg27.png"
   },
   {
     "index": 28,
@@ -345,7 +345,7 @@
     "maxLevel": 999999,
     "bonus": "+3% Total Damage in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg28.png"
+    "imageFile": "GrimoireUpg28.png"
   },
   {
     "index": 29,
@@ -357,7 +357,7 @@
     "maxLevel": 999999,
     "bonus": "(+0.01 per lvl)x Villager EXP gain in World 5",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg29.png"
+    "imageFile": "GrimoireUpg29.png"
   },
   {
     "index": 30,
@@ -369,7 +369,7 @@
     "maxLevel": 999999,
     "bonus": "+2 Base Defence in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg30.png"
+    "imageFile": "GrimoireUpg30.png"
   },
   {
     "index": 31,
@@ -381,7 +381,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Wraith DMG per stack!",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg31.png"
+    "imageFile": "GrimoireUpg31.png"
   },
   {
     "index": 32,
@@ -393,7 +393,7 @@
     "maxLevel": 200,
     "bonus": "+1 Talent PTS for the Death Bringer class only",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg32.png"
+    "imageFile": "GrimoireUpg32.png"
   },
   {
     "index": 33,
@@ -405,7 +405,7 @@
     "maxLevel": 999999,
     "bonus": "+50 Base Damage in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg33.png"
+    "imageFile": "GrimoireUpg33.png"
   },
   {
     "index": 34,
@@ -417,7 +417,7 @@
     "maxLevel": 999999,
     "bonus": "+3 Base HP in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg34.png"
+    "imageFile": "GrimoireUpg34.png"
   },
   {
     "index": 35,
@@ -429,7 +429,7 @@
     "maxLevel": 999999,
     "bonus": "+3% Total DMG bonus for all characters, always!",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg35.png"
+    "imageFile": "GrimoireUpg35.png"
   },
   {
     "index": 36,
@@ -441,7 +441,7 @@
     "maxLevel": 50,
     "bonus": "(+0.01)x higher bonuses from most Grimoire upgrades",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg36.png"
+    "imageFile": "GrimoireUpg36.png"
   },
   {
     "index": 37,
@@ -453,7 +453,7 @@
     "maxLevel": 999999,
     "bonus": "+5 Base Accuracy in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg37.png"
+    "imageFile": "GrimoireUpg37.png"
   },
   {
     "index": 38,
@@ -465,7 +465,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Accuracy, Defence, and HP in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg38.png"
+    "imageFile": "GrimoireUpg38.png"
   },
   {
     "index": 39,
@@ -477,7 +477,7 @@
     "maxLevel": 30,
     "bonus": "+1 Talent LVs for all characters, always!",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg39.png"
+    "imageFile": "GrimoireUpg39.png"
   },
   {
     "index": 40,
@@ -489,7 +489,7 @@
     "maxLevel": 999999,
     "bonus": "+3 Base Defence in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg40.png"
+    "imageFile": "GrimoireUpg40.png"
   },
   {
     "index": 41,
@@ -501,7 +501,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Wraith Accuracy per POW 10 Cranium owned",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg41.png"
+    "imageFile": "GrimoireUpg41.png"
   },
   {
     "index": 42,
@@ -513,7 +513,7 @@
     "maxLevel": 999999,
     "bonus": "+5 Base HP in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg42.png"
+    "imageFile": "GrimoireUpg42.png"
   },
   {
     "index": 43,
@@ -525,7 +525,7 @@
     "maxLevel": 999999,
     "bonus": "+5% Total Damage in Wraith form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg43.png"
+    "imageFile": "GrimoireUpg43.png"
   },
   {
     "index": 44,
@@ -537,7 +537,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Drop Rate bonus for all characters, always!",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg44.png"
+    "imageFile": "GrimoireUpg44.png"
   },
   {
     "index": 45,
@@ -549,7 +549,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Talent PTS for all other Master Classes",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg45.png"
+    "imageFile": "GrimoireUpg45.png"
   },
   {
     "index": 46,
@@ -561,7 +561,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base Damage in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg46.png"
+    "imageFile": "GrimoireUpg46.png"
   },
   {
     "index": 47,
@@ -573,7 +573,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base Accuracy in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg47.png"
+    "imageFile": "GrimoireUpg47.png"
   },
   {
     "index": 48,
@@ -585,7 +585,7 @@
     "maxLevel": 999999,
     "bonus": "+1% Extra Bones per POW 10 Bovinae owned",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg48.png"
+    "imageFile": "GrimoireUpg48.png"
   },
   {
     "index": 49,
@@ -597,7 +597,7 @@
     "maxLevel": 999999,
     "bonus": "+1 Base Defence in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg49.png"
+    "imageFile": "GrimoireUpg49.png"
   },
   {
     "index": 50,
@@ -609,7 +609,7 @@
     "maxLevel": 999999,
     "bonus": "+8% Total Damage in Wraith Form",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg50.png"
+    "imageFile": "GrimoireUpg50.png"
   },
   {
     "index": 51,
@@ -621,6 +621,6 @@
     "maxLevel": 999999,
     "bonus": "All Atoms are +1% cheaper to upgrade",
     "notes": null,
-    "imageFile": "grimoire_images\\GrimoireUpg51.png"
+    "imageFile": "GrimoireUpg51.png"
   }
 ]

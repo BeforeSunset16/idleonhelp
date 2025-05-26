@@ -15,6 +15,7 @@ import {
 } from '@mantine/core';
 import { useState, useCallback } from 'react';
 import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+import Image from 'next/image';
 import grimoireStatic from './grimoire_static.json';
 
 // 类型声明
@@ -43,7 +44,7 @@ function BoneInputRow({
   onExponentChange,
   inputWidth = '33%',
 }: {
-  label: string;
+  label: React.ReactNode;
   value: string;
   onValueChange: (v: string) => void;
   unit: string;
@@ -55,7 +56,7 @@ function BoneInputRow({
   return (
     <Group align="flex-end" mb="xs" style={{ width: inputWidth }}>
       <TextInput
-        placeholder={label}
+        placeholder={label as string}
         value={value}
         onChange={(e) => onValueChange(e.target.value)}
         type="number"
@@ -299,7 +300,7 @@ function GrimoireForm({
         </Stack>
         <Stack style={{ mb: '3rem' }} gap="xs">
           <BoneInputRow
-            label="大腿骨"
+            label={<span><Image src="/images/femur.png" alt="大腿骨" width={20} height={20} style={{ display: 'inline', verticalAlign: 'middle' }} /> 大腿骨</span>}
             value={femurHr}
             onValueChange={setFemurHr}
             unit={femurUnit}

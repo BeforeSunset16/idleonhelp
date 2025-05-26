@@ -430,7 +430,9 @@ function GrimoireTable({
               <Menu shadow="md" width={120} position="bottom-end" withinPortal>
                 <Menu.Target>
                   <Group gap={4} style={{ cursor: 'pointer', display: 'inline-flex' }}>
-                    <span>骨头种类</span>
+                    <span>
+                      骨头种类
+                    </span>
                     <span style={{ color: '#fff', fontWeight: 400, marginLeft: 6 }}>
                       {boneTypeFilter || '(点击筛选)'}
                     </span>
@@ -445,7 +447,8 @@ function GrimoireTable({
                     color={boneTypeFilter === '' ? 'blue' : undefined}
                   >
                     <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-                      <IconFilter size={14} style={{ marginRight: 4 }} />全部
+                      <IconFilter size={14} style={{ marginRight: 4 }} />
+                      全部
                     </span>
                   </Menu.Item>
                   {BONE_TYPE_LABELS.map((label) => (
@@ -454,7 +457,16 @@ function GrimoireTable({
                       onClick={() => setBoneTypeFilter(label)}
                       color={boneTypeFilter === label ? 'blue' : undefined}
                     >
-                      {label}
+                      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        <Image
+                          src={`/images/${['femur', 'rib', 'cranium', 'bovinae'][BONE_TYPE_LABELS.indexOf(label)]}.png`}
+                          alt={label}
+                          width={18}
+                          height={18}
+                          style={{ marginRight: 6, verticalAlign: 'middle' }}
+                        />
+                        {label}
+                      </span>
                     </Menu.Item>
                   ))}
                 </Menu.Dropdown>
@@ -498,8 +510,25 @@ function GrimoireTable({
                   </Table.Td>
                   <Table.Td>{result ? result.currentLevels[item.index] : ''}</Table.Td>
                   <Table.Td>{result ? result.targetLevels[item.index] : ''}</Table.Td>
-                  <Table.Td>{result ? result.upgradeCounts[item.index] : ''}</Table.Td>
-                  <Table.Td>{BONE_TYPE_LABELS[item.boneType] ?? ''}</Table.Td>
+                  <Table.Td
+                    style={
+                      result && result.upgradeCounts[item.index] > 0
+                        ? { backgroundColor: '#ffe066', fontWeight: 'bold', color: '#ad6800' }
+                        : undefined
+                    }
+                  >
+                    {result ? result.upgradeCounts[item.index] : ''}
+                  </Table.Td>
+                  <Table.Td>
+                    <Image
+                      src={`/images/${['femur', 'rib', 'cranium', 'bovinae'][item.boneType]}.png`}
+                      alt={BONE_TYPE_LABELS[item.boneType]}
+                      width={20}
+                      height={20}
+                      style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }}
+                    />
+                    {BONE_TYPE_LABELS[item.boneType] ?? ''}
+                  </Table.Td>
                 </Table.Tr>
               ))}
         </Table.Tbody>

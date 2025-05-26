@@ -527,7 +527,7 @@ export default function GrimoireCalculator() {
 
   return (
     <Container size="xl" px="md" py="md">
-      <Title order={1} style={{ color: '#523E3A' }}>Grimoire计算器</Title>
+      <Title order={1} mb="lg" style={{ color: '#523E3A', textAlign: 'center' }}>Grimoire计算器</Title>
       <GrimoireForm
         femurHr={femurHr}
         setFemurHr={setFemurHr}

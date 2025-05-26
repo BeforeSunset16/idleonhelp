@@ -12,6 +12,9 @@ import {
   Stack,
   Menu,
   ActionIcon,
+  Paper,
+  Text,
+  Title,
 } from '@mantine/core';
 import { useState, useCallback } from 'react';
 import { IconChevronDown, IconFilter } from '@tabler/icons-react';
@@ -37,15 +40,17 @@ const BONE_TYPE_LABELS = ['大腿骨', '肋骨', '头盖骨', '牛头'];
 function BoneInputRow({
   label,
   value,
+  imgName,
   onValueChange,
   unit,
   onUnitChange,
   exponent,
   onExponentChange,
-  inputWidth = '33%',
+  inputWidth = '30%',
 }: {
-  label: React.ReactNode;
+  label: string;
   value: string;
+  imgName: string;
   onValueChange: (v: string) => void;
   unit: string;
   onUnitChange: (v: string) => void;
@@ -54,9 +59,10 @@ function BoneInputRow({
   inputWidth?: string;
 }) {
   return (
-    <Group align="flex-end" mb="xs" style={{ width: inputWidth }}>
+    <Group align="flex-end" mb="xs" style={{ width: inputWidth }} gap="xs">
       <TextInput
-        placeholder={label as string}
+        placeholder={label}
+        leftSection={<Image src={`/images/${imgName}.png`} alt={label} width={19} height={19} />}
         value={value}
         onChange={(e) => onValueChange(e.target.value)}
         type="number"
@@ -86,7 +92,7 @@ function BoneInputRow({
 }
 
 BoneInputRow.defaultProps = {
-  inputWidth: '33%',
+  inputWidth: '30%',
 };
 
 function parseBoneValue(value: string, unit: string, exponent: string): number {
@@ -284,9 +290,17 @@ function GrimoireForm({
   }
 
   return (
-    <Group align="stretch" wrap="nowrap" mb="lg">
+    <Group align="stretch" wrap="nowrap" mt="md" mb="lg">
       <form onSubmit={handleFormSubmit} style={{ display: 'flex', flex: 1, width: '100%' }}>
-        <Stack style={{ marginRight: '3rem', width: '20%' }} align="left-end">
+        <Stack style={{ marginRight: '2rem', width: '38%' }} align="left-end">
+          <Paper shadow="xs" p="xs">
+            <Text>
+              该计算器可自动计算出下一次unlock的最佳升级分配方案，并给出最短耗时。
+            </Text>
+            <Text>
+              使用方式：请先在Data粘贴区粘贴idleontoolbox的Data，等3秒左右，再填写每小时的骨头掉落数，没有可不填，点击提交即可。
+            </Text>
+          </Paper>
           <Textarea
             value={jsonText}
             onChange={(e) => setJsonText(e.target.value)}
@@ -294,61 +308,77 @@ function GrimoireForm({
             placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右"
             mb="0"
             autosize
-            minRows={8}
-            maxRows={8}
+            minRows={3}
+            maxRows={3}
           />
         </Stack>
-        <Stack style={{ mb: '3rem' }} gap="xs">
+        <Stack style={{ width: '27%' }} gap="xs">
           <BoneInputRow
-            label={<span><Image src="/images/femur.png" alt="大腿骨" width={20} height={20} style={{ display: 'inline', verticalAlign: 'middle' }} /> 大腿骨</span>}
+            label="每小时大腿骨掉落数"
+            imgName="femur"
             value={femurHr}
             onValueChange={setFemurHr}
             unit={femurUnit}
             onUnitChange={setFemurUnit}
             exponent={femurExp}
             onExponentChange={setFemurExp}
-            inputWidth="75%"
+            inputWidth="90%"
           />
           <BoneInputRow
-            label="肋骨"
+            label="每小时肋骨掉落数"
+            imgName="rib"
             value={ribHr}
             onValueChange={setRibHr}
             unit={ribUnit}
             onUnitChange={setRibUnit}
             exponent={ribExp}
             onExponentChange={setRibExp}
-            inputWidth="75%"
+            inputWidth="90%"
           />
           <BoneInputRow
-            label="头盖骨"
+            label="每小时头盖骨掉落数"
+            imgName="cranium"
             value={craniumHr}
             onValueChange={setCraniumHr}
             unit={craniumUnit}
             onUnitChange={setCraniumUnit}
             exponent={craniumExp}
             onExponentChange={setCraniumExp}
-            inputWidth="75%"
+            inputWidth="90%"
           />
           <BoneInputRow
-            label="牛头"
+            label="每小时牛头掉落数"
+            imgName="bovinae"
             value={bovinaeHr}
             onValueChange={setBovinaeHr}
             unit={bovinaeUnit}
             onUnitChange={setBovinaeUnit}
             exponent={bovinaeExp}
             onExponentChange={setBovinaeExp}
-            inputWidth="75%"
+            inputWidth="90%"
           />
-          <Button type="submit" color="blue" style={{ width: '60%' }}>
-            提交
-          </Button>
+          <Group style={{ width: '100%' }} justify="left" gap="6.5rem">
+            <Button
+              variant="outline"
+              color="blue"
+              style={{ width: '30%' }}
+              onClick={() => setJsonText('')}
+              type="button"
+            >
+              清空Data
+            </Button>
+            <Button type="submit" color="blue" style={{ width: '30%' }}>
+              提交
+            </Button>
+          </Group>
         </Stack>
         {(() => {
           const boneLabels = ['大腿骨', '肋骨', '头盖骨', '牛头'];
+          const boneImages = ['femur', 'rib', 'cranium', 'bovinae'];
           return (
-            <Table striped highlightOnHover withTableBorder withColumnBorders style={{ flex: 1 }}>
+            <Table striped highlightOnHover withTableBorder withColumnBorders style={{ flex: 1, border: '1px solid #ddd' }}>
               <Table.Thead>
-                <Table.Tr>
+                <Table.Tr style={{ backgroundColor: '#66bab7', color: '#fff' }}>
                   <Table.Th>骨头种类</Table.Th>
                   <Table.Th>所需数量</Table.Th>
                   <Table.Th>预计耗时（小时）</Table.Th>
@@ -357,7 +387,16 @@ function GrimoireForm({
               <Table.Tbody>
                 {boneLabels.map((label, idx) => (
                   <Table.Tr key={label}>
-                    <Table.Td>{label}</Table.Td>
+                    <Table.Td>
+                      <Image
+                        src={`/images/${boneImages[idx]}.png`}
+                        alt={label}
+                        width={24}
+                        height={24}
+                        style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }}
+                      />
+                      {label}
+                    </Table.Td>
                     <Table.Td>{formattedBoneCount[idx] ?? '-'}</Table.Td>
                     <Table.Td>{roundedBoneTime[idx] ?? '-'}</Table.Td>
                   </Table.Tr>
@@ -396,7 +435,7 @@ function GrimoireTable({
                   <Group gap={4} style={{ cursor: 'pointer', display: 'inline-flex' }}>
                     <span>骨头种类</span>
                     <span style={{ color: '#fff', fontWeight: 400, marginLeft: 6 }}>
-                      {boneTypeFilter || '(可筛选)'}
+                      {boneTypeFilter || '(点击筛选)'}
                     </span>
                     <ActionIcon size="sm" variant="subtle" style={{ color: '#fff' }}>
                       <IconChevronDown size={18} />
@@ -488,7 +527,7 @@ export default function GrimoireCalculator() {
 
   return (
     <Container size="xl" px="md" py="md">
-      <h1 className="text-xl font-bold mb-4">Grimoire计算助手</h1>
+      <Title order={1} style={{ color: '#523E3A' }}>Grimoire计算器</Title>
       <GrimoireForm
         femurHr={femurHr}
         setFemurHr={setFemurHr}

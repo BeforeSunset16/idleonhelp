@@ -36,6 +36,11 @@ const tabs = [
     link: '/game-guide',
   },
   {
+    name: 'Grimoire',
+    key: 'grimoire',
+    link: '/grimoire',
+  },
+  {
     name: '每周BOSS',
     key: 'realtime-info',
     link: '/realtime-info',

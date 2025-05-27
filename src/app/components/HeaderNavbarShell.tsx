@@ -1,13 +1,15 @@
 'use client';
 
 import {
-  AppShell, Burger, Group, UnstyledButton,
+  AppShell, Burger, Group, UnstyledButton, Menu, Avatar, Text, useMantineTheme, rem,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/app/contexts/AuthContext';
+import { IconLogout, IconUserCircle, IconChevronDown } from '@tabler/icons-react';
 import classes from './MobileNavbar.module.css';
 
 const navLinks = [
@@ -23,6 +25,9 @@ export default function HeaderNavbarShell({ children }: { children: ReactNode })
   const [opened, { toggle }] = useDisclosure(false);
   const pathname = usePathname();
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const { user, signOut, refreshUser } = useAuth();
+  const theme = useMantineTheme();
+  const [, setUserMenuOpened] = useState(false);
 
   return (
     <AppShell
@@ -43,40 +48,78 @@ export default function HeaderNavbarShell({ children }: { children: ReactNode })
           overflow: 'hidden',
         }}
       >
-        <Group
-          h="100%"
-          px="md"
-          justify="space-between"
-          style={{
-            width: '100%',
-            background: 'transparent',
-            margin: 0,
-          }}
-        >
-          <Group gap="xs">
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+        <div className={classes.headerShell}>
+          {/* 左侧 */}
+          <div className={classes.headerLeft}>
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="md" />
             <Link href="/">
-              <Image src="/images/logo.png" alt="Idleon Logo" width={214} height={42} style={{ cursor: 'pointer' }} />
+              <Image src="/images/logo.png" alt="Idleon Logo" width={214} height={42} className={classes.logo} style={{ cursor: 'pointer' }} />
             </Link>
-          </Group>
-          <Group gap={0} visibleFrom="sm">
-            {navLinks.map((link) => (
-              <UnstyledButton
-                key={link.href}
-                className={
-                  pathname === link.href
-                    ? `${classes.control} ${classes.active}`
-                    : classes.control
-                }
-                component={Link}
-                href={link.href}
-              >
-                {link.label}
-              </UnstyledButton>
-            ))}
-          </Group>
-          <UnstyledButton className={classes.control}>登录</UnstyledButton>
-        </Group>
+          </div>
+          {/* 中间绝对居中 */}
+          <div className={classes.headerCenter}>
+            <Group gap={0} visibleFrom="sm" className={classes.headerNavGroup}>
+              {navLinks.map((link) => (
+                <UnstyledButton
+                  key={link.href}
+                  className={
+                    pathname === link.href
+                      ? `${classes.control} ${classes.active}`
+                      : classes.control
+                  }
+                  component={Link}
+                  href={link.href}
+                >
+                  {link.label}
+                </UnstyledButton>
+              ))}
+            </Group>
+          </div>
+          {/* 右侧 */}
+          <div className={classes.headerRight}>
+            <Menu
+              width={180}
+              position="bottom-end"
+              onClose={() => setUserMenuOpened(false)}
+              onOpen={() => setUserMenuOpened(true)}
+            >
+              <Menu.Target>
+                <UnstyledButton className={classes.userMenu}>
+                  <Group gap={7}>
+                    <Avatar src="./images/Green_Mushroom.png" radius="xl" size={28} />
+                    <Text fw={500} size="lg" lh={1} mr={3}>{user ? '已登录' : '未登录'}</Text>
+                    <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
+                  </Group>
+                </UnstyledButton>
+              </Menu.Target>
+              <Menu.Dropdown>
+                {user ? (
+                  <>
+                    <Menu.Item
+                      leftSection={<IconUserCircle style={{ width: rem(20), height: rem(20) }} color={theme.colors.blue[6]} stroke={1.5} />}
+                      component={Link}
+                      href="/dashboard"
+                    >
+                      个人中心
+                    </Menu.Item>
+                    <Menu.Item
+                      leftSection={<IconLogout style={{ width: rem(20), height: rem(20) }} color={theme.colors.red[6]} stroke={1.5} />}
+                      onClick={async () => {
+                        await signOut();
+                        await refreshUser();
+                        window.location.href = '/';
+                      }}
+                    >
+                      退出登录
+                    </Menu.Item>
+                  </>
+                ) : (
+                  <Menu.Item component={Link} href="/auth">登录</Menu.Item>
+                )}
+              </Menu.Dropdown>
+            </Menu>
+          </div>
+        </div>
       </AppShell.Header>
 
       <AppShell.Navbar

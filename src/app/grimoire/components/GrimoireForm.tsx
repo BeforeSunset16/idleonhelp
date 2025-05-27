@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Group,
   Stack,
@@ -8,7 +8,23 @@ import {
   Button,
   Table,
 } from '@mantine/core';
+import Image from 'next/image';
 import BoneInputRow from './BoneInputRow';
+
+function useLocalStorageState(key: string, initialValue: string): [string, (v: string) => void] {
+  const [value, setValue] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(key) ?? initialValue;
+    }
+    return initialValue;
+  });
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, value);
+    }
+  }, [key, value]);
+  return [value as string, setValue as (v: string) => void];
+}
 
 export default function GrimoireForm({
   femurHr, setFemurHr,
@@ -18,14 +34,14 @@ export default function GrimoireForm({
   onSubmit,
   result,
 }: any) {
-  const [femurUnit, setFemurUnit] = useState('');
-  const [femurExp, setFemurExp] = useState('');
-  const [ribUnit, setRibUnit] = useState('');
-  const [ribExp, setRibExp] = useState('');
-  const [craniumUnit, setCraniumUnit] = useState('');
-  const [craniumExp, setCraniumExp] = useState('');
-  const [bovinaeUnit, setBovinaeUnit] = useState('');
-  const [bovinaeExp, setBovinaeExp] = useState('');
+  const [femurUnit, setFemurUnit] = useLocalStorageState('femurUnit', '');
+  const [femurExp, setFemurExp] = useLocalStorageState('femurExp', '');
+  const [ribUnit, setRibUnit] = useLocalStorageState('ribUnit', '');
+  const [ribExp, setRibExp] = useLocalStorageState('ribExp', '');
+  const [craniumUnit, setCraniumUnit] = useLocalStorageState('craniumUnit', '');
+  const [craniumExp, setCraniumExp] = useLocalStorageState('craniumExp', '');
+  const [bovinaeUnit, setBovinaeUnit] = useLocalStorageState('bovinaeUnit', '');
+  const [bovinaeExp, setBovinaeExp] = useLocalStorageState('bovinaeExp', '');
   const roundedBoneTime = result?.roundedBoneTime || [];
   const formattedBoneCount = result?.formattedBoneCount || [];
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -161,7 +177,7 @@ export default function GrimoireForm({
                 {boneLabels.map((label, idx) => (
                   <Table.Tr key={label}>
                     <Table.Td>
-                      <img
+                      <Image
                         src={`/images/grimoire/${boneImages[idx]}.png`}
                         alt={label}
                         width={24}

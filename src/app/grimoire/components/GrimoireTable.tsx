@@ -64,7 +64,7 @@ export default function GrimoireTable({
                     >
                       <span style={{ display: 'inline-flex', alignItems: 'center' }}>
                         <Image
-                          src={`/images/${['femur', 'rib', 'cranium', 'bovinae'][BONE_TYPE_LABELS.indexOf(label)]}.png`}
+                          src={`/images/grimoire/${['femur', 'rib', 'cranium', 'bovinae'][BONE_TYPE_LABELS.indexOf(label)]}.png`}
                           alt={label}
                           width={18}
                           height={18}
@@ -126,7 +126,7 @@ export default function GrimoireTable({
                   </Table.Td>
                   <Table.Td>
                     <Image
-                      src={`/images/${['femur', 'rib', 'cranium', 'bovinae'][item.boneType]}.png`}
+                      src={`/images/grimoire/${['femur', 'rib', 'cranium', 'bovinae'][item.boneType]}.png`}
                       alt={BONE_TYPE_LABELS[item.boneType]}
                       width={20}
                       height={20}

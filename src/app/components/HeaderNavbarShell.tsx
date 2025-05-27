@@ -97,14 +97,26 @@ export default function HeaderNavbarShell({ children }: { children: ReactNode })
                 {user ? (
                   <>
                     <Menu.Item
-                      leftSection={<IconUserCircle style={{ width: rem(20), height: rem(20) }} color={theme.colors.blue[6]} stroke={1.5} />}
+                      leftSection={(
+                        <IconUserCircle
+                          style={{ width: rem(20), height: rem(20) }}
+                          color={theme.colors.blue[6]}
+                          stroke={1.5}
+                        />
+                    )}
                       component={Link}
                       href="/dashboard"
                     >
                       个人中心
                     </Menu.Item>
                     <Menu.Item
-                      leftSection={<IconLogout style={{ width: rem(20), height: rem(20) }} color={theme.colors.red[6]} stroke={1.5} />}
+                      leftSection={(
+                        <IconLogout
+                          style={{ width: rem(20), height: rem(20) }}
+                          color={theme.colors.red[6]}
+                          stroke={1.5}
+                        />
+                    )}
                       onClick={async () => {
                         await signOut();
                         await refreshUser();

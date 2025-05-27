@@ -45,7 +45,6 @@ export default function HeaderNavbarShell({ children }: { children: ReactNode })
           height: 'var(--header-height)',
           background: 'var(--color-secondary)',
           boxShadow: '0 2px 8px rgb(100, 150, 96)',
-          overflow: 'hidden',
         }}
       >
         <div className={classes.headerShell}>
@@ -80,6 +79,8 @@ export default function HeaderNavbarShell({ children }: { children: ReactNode })
             <Menu
               width={180}
               position="bottom-end"
+              withinPortal
+              zIndex={3000}
               onClose={() => setUserMenuOpened(false)}
               onOpen={() => setUserMenuOpened(true)}
             >

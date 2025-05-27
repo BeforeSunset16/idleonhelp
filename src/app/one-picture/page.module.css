@@ -1,9 +1,7 @@
 /* 卡片网格容器样式 */
 .content {
-  /* 桌面端的顶部间距 */
-  margin-top: -120px;  /* 桌面端保持 -120px */
+  padding-top: var(--header-height);
   position: relative;
-  z-index: var(--z-index-modal);
 }
 
 /* 单个卡片样式 */
@@ -13,7 +11,6 @@
     transform 150ms ease,
     box-shadow 150ms ease;
   position: relative;
-  z-index: var(--z-index-modal);
   background-color: var(--mantine-color-body); /* 卡片背景色 */
   cursor: pointer;
   

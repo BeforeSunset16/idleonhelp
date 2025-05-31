@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Group,
   Stack,
@@ -7,8 +7,26 @@ import {
   Textarea,
   Button,
   Table,
+  Tooltip,
 } from '@mantine/core';
+import Image from 'next/image';
+import { IconInfoCircle } from '@tabler/icons-react';
 import BoneInputRow from './BoneInputRow';
+
+function useLocalStorageState(key: string, initialValue: string): [string, (v: string) => void] {
+  const [value, setValue] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(key) ?? initialValue;
+    }
+    return initialValue;
+  });
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, value);
+    }
+  }, [key, value]);
+  return [value as string, setValue as (v: string) => void];
+}
 
 export default function GrimoireForm({
   femurHr, setFemurHr,
@@ -18,14 +36,14 @@ export default function GrimoireForm({
   onSubmit,
   result,
 }: any) {
-  const [femurUnit, setFemurUnit] = useState('');
-  const [femurExp, setFemurExp] = useState('');
-  const [ribUnit, setRibUnit] = useState('');
-  const [ribExp, setRibExp] = useState('');
-  const [craniumUnit, setCraniumUnit] = useState('');
-  const [craniumExp, setCraniumExp] = useState('');
-  const [bovinaeUnit, setBovinaeUnit] = useState('');
-  const [bovinaeExp, setBovinaeExp] = useState('');
+  const [femurUnit, setFemurUnit] = useLocalStorageState('femurUnit', '');
+  const [femurExp, setFemurExp] = useLocalStorageState('femurExp', '');
+  const [ribUnit, setRibUnit] = useLocalStorageState('ribUnit', '');
+  const [ribExp, setRibExp] = useLocalStorageState('ribExp', '');
+  const [craniumUnit, setCraniumUnit] = useLocalStorageState('craniumUnit', '');
+  const [craniumExp, setCraniumExp] = useLocalStorageState('craniumExp', '');
+  const [bovinaeUnit, setBovinaeUnit] = useLocalStorageState('bovinaeUnit', '');
+  const [bovinaeExp, setBovinaeExp] = useLocalStorageState('bovinaeExp', '');
   const roundedBoneTime = result?.roundedBoneTime || [];
   const formattedBoneCount = result?.formattedBoneCount || [];
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -73,17 +91,27 @@ export default function GrimoireForm({
           <Paper shadow="xs" p="xs">
             <Text>
               该计算器可自动计算出你下一次unlock的最佳升级分配方案(每种Upgrade需要达到的等级，升级的次数)，并给出最短耗时。
-            </Text><br />
+            </Text>
+            <br />
             <Text>
               使用方式：请先在Data粘贴区粘贴idleontoolbox的Data，等3秒左右，再填写每小时的骨头掉落数，没有可不填，点击提交即可。
             </Text>
           </Paper>
           <Textarea
             ref={textareaRef}
-            label="Data粘贴区"
+            label={(
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                Data粘贴区
+                <Tooltip label="在www.idleontoolbox.com登录后点击上方导航栏的Data按钮，看到第一个框:Data, 点击Copy按钮即可">
+                  <span style={{ display: 'inline-flex', cursor: 'pointer' }}>
+                    <IconInfoCircle size={18} color="#228be6" />
+                  </span>
+                </Tooltip>
+              </span>
+            )}
             placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右"
-            minRows={3}
-            maxRows={3}
+            minRows={5}
+            maxRows={5}
           />
         </Stack>
         <Stack style={{ width: '27%' }} gap="xs">
@@ -137,6 +165,9 @@ export default function GrimoireForm({
               color="blue"
               style={{ width: '30%' }}
               type="button"
+              onClick={() => {
+                if (textareaRef.current) textareaRef.current.value = '';
+              }}
             >
               清空Data
             </Button>
@@ -161,7 +192,7 @@ export default function GrimoireForm({
                 {boneLabels.map((label, idx) => (
                   <Table.Tr key={label}>
                     <Table.Td>
-                      <img
+                      <Image
                         src={`/images/grimoire/${boneImages[idx]}.png`}
                         alt={label}
                         width={24}
@@ -174,6 +205,18 @@ export default function GrimoireForm({
                     <Table.Td>{roundedBoneTime[idx] ?? '-'}</Table.Td>
                   </Table.Tr>
                 ))}
+                <Table.Tr>
+                  <Table.Td>合计</Table.Td>
+                  <Table.Td>-</Table.Td>
+                  <Table.Td>
+                    {
+                      roundedBoneTime
+                        // eslint-disable-next-line max-len
+                        .filter((t: any) => t !== undefined && t !== null && !Number.isNaN(Number(t)))
+                        .reduce((sum: number, t: any) => sum + Number(t), 0)
+                    }
+                  </Table.Td>
+                </Table.Tr>
               </Table.Tbody>
             </Table>
           );

@@ -1,7 +1,7 @@
 'use client';
 
 import { Container, Title } from '@mantine/core';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import GrimoireForm from './components/GrimoireForm';
 import GrimoireTable from './components/GrimoireTable';
 import grimoireStatic from './grimoire_static.json';
@@ -157,12 +157,28 @@ function calculateGrimoire(
   }
 }
 
+// 本地持久化hook
+function useLocalStorageState(key: string, initialValue: string) {
+  const [value, setValue] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(key) ?? initialValue;
+    }
+    return initialValue;
+  });
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, value);
+    }
+  }, [key, value]);
+  return [value, setValue] as const;
+}
+
 export default function GrimoireCalculator() {
   const [jsonTextState, setJsonTextState] = useState('');
-  const [femurHr, setFemurHr] = useState('');
-  const [ribHr, setRibHr] = useState('');
-  const [craniumHr, setCraniumHr] = useState('');
-  const [bovinaeHr, setBovinaeHr] = useState('');
+  const [femurHr, setFemurHr] = useLocalStorageState('femurHr', '');
+  const [ribHr, setRibHr] = useLocalStorageState('ribHr', '');
+  const [craniumHr, setCraniumHr] = useLocalStorageState('craniumHr', '');
+  const [bovinaeHr, setBovinaeHr] = useLocalStorageState('bovinaeHr', '');
   const [result, setResult] = useState<GrimoireResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [boneTypeFilter, setBoneTypeFilter] = useState('');

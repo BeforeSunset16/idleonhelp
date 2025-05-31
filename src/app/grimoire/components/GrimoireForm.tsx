@@ -7,8 +7,10 @@ import {
   Textarea,
   Button,
   Table,
+  Tooltip,
 } from '@mantine/core';
 import Image from 'next/image';
+import { IconInfoCircle } from '@tabler/icons-react';
 import BoneInputRow from './BoneInputRow';
 
 function useLocalStorageState(key: string, initialValue: string): [string, (v: string) => void] {
@@ -97,7 +99,16 @@ export default function GrimoireForm({
           </Paper>
           <Textarea
             ref={textareaRef}
-            label="Data粘贴区"
+            label={(
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                Data粘贴区
+                <Tooltip label="在www.idleontoolbox.com登录后点击上方导航栏的Data按钮，看到第一个框:Data, 点击Copy按钮即可">
+                  <span style={{ display: 'inline-flex', cursor: 'pointer' }}>
+                    <IconInfoCircle size={18} color="#228be6" />
+                  </span>
+                </Tooltip>
+              </span>
+            )}
             placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右"
             minRows={5}
             maxRows={5}

@@ -88,8 +88,9 @@ export default function GrimoireForm({
         <Stack style={{ marginRight: '2rem', width: '38%' }} align="left-end">
           <Paper shadow="xs" p="xs">
             <Text>
-              该计算器可自动计算出下一次unlock的最佳升级分配方案，并给出最短耗时。
+              该计算器可自动计算出你下一次unlock的最佳升级分配方案(每种Upgrade需要达到的等级，升级的次数)，并给出最短耗时。
             </Text>
+            <br />
             <Text>
               使用方式：请先在Data粘贴区粘贴idleontoolbox的Data，等3秒左右，再填写每小时的骨头掉落数，没有可不填，点击提交即可。
             </Text>
@@ -98,8 +99,8 @@ export default function GrimoireForm({
             ref={textareaRef}
             label="Data粘贴区"
             placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右"
-            minRows={3}
-            maxRows={3}
+            minRows={5}
+            maxRows={5}
           />
         </Stack>
         <Stack style={{ width: '27%' }} gap="xs">

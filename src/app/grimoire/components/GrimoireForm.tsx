@@ -190,6 +190,18 @@ export default function GrimoireForm({
                     <Table.Td>{roundedBoneTime[idx] ?? '-'}</Table.Td>
                   </Table.Tr>
                 ))}
+                <Table.Tr>
+                  <Table.Td>合计</Table.Td>
+                  <Table.Td>-</Table.Td>
+                  <Table.Td>
+                    {
+                      roundedBoneTime
+                        // eslint-disable-next-line max-len
+                        .filter((t: any) => t !== undefined && t !== null && !Number.isNaN(Number(t)))
+                        .reduce((sum: number, t: any) => sum + Number(t), 0)
+                    }
+                  </Table.Td>
+                </Table.Tr>
               </Table.Tbody>
             </Table>
           );

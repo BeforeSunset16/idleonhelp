@@ -57,7 +57,7 @@ export default function HeaderNavbarShell({ children }: { children: ReactNode })
           </div>
           {/* 中间绝对居中 */}
           <div className={classes.headerCenter}>
-            <Group gap={0} visibleFrom="sm" className={classes.headerNavGroup}>
+            <Group gap={16} visibleFrom="sm" className={classes.headerNavGroup}>
               {navLinks.map((link) => (
                 <UnstyledButton
                   key={link.href}

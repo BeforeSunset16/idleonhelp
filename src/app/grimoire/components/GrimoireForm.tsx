@@ -165,6 +165,9 @@ export default function GrimoireForm({
               color="blue"
               style={{ width: '30%' }}
               type="button"
+              onClick={() => {
+                if (textareaRef.current) textareaRef.current.value = '';
+              }}
             >
               清空Data
             </Button>

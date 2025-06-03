@@ -8,10 +8,12 @@ import {
   Button,
   Table,
   Tooltip,
+  Select,
 } from '@mantine/core';
 import Image from 'next/image';
 import { IconInfoCircle } from '@tabler/icons-react';
 import BoneInputRow from './BoneInputRow';
+import grimoireStatic from '../grimoire_static.json';
 
 function useLocalStorageState(key: string, initialValue: string): [string, (v: string) => void] {
   const [value, setValue] = useState<string>(() => {
@@ -28,6 +30,17 @@ function useLocalStorageState(key: string, initialValue: string): [string, (v: s
   return [value as string, setValue as (v: string) => void];
 }
 
+function UnlockSelectItem(props: any) {
+  const { option, checked } = props;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <span>{option.label}</span>
+      <Image src={`/images/grimoire/${option.image}`} alt={option.label} width={20} height={20} />
+      {checked && <span style={{ marginLeft: 'auto', color: '#228be6' }}>✔</span>}
+    </div>
+  );
+}
+
 export default function GrimoireForm({
   femurHr, setFemurHr,
   ribHr, setRibHr,
@@ -35,6 +48,7 @@ export default function GrimoireForm({
   bovinaeHr, setBovinaeHr,
   onSubmit,
   result,
+  onUnlockIndexChange,
 }: any) {
   const [femurUnit, setFemurUnit] = useLocalStorageState('femurUnit', '');
   const [femurExp, setFemurExp] = useLocalStorageState('femurExp', '');
@@ -45,8 +59,15 @@ export default function GrimoireForm({
   const [bovinaeUnit, setBovinaeUnit] = useLocalStorageState('bovinaeUnit', '');
   const [bovinaeExp, setBovinaeExp] = useLocalStorageState('bovinaeExp', '');
   const roundedBoneTime = result?.roundedBoneTime || [];
+  const boneTime = result?.boneTime || [];
   const formattedBoneCount = result?.formattedBoneCount || [];
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedUnlockIndex, setSelectedUnlockIndex] = useState<string>('');
+  const unlockOptions = grimoireStatic.map((item: any) => ({
+    value: String(item.index),
+    label: `${item.index + 1}  ${item.name}`,
+    image: item.imageFile,
+  }));
 
   function parseBoneValue(value: string, unit: string, exponent: string): number {
     const num = Number(value) || 0;
@@ -114,7 +135,7 @@ export default function GrimoireForm({
             maxRows={5}
           />
         </Stack>
-        <Stack style={{ width: '27%' }} gap="xs">
+        <Stack style={{ width: '27%' }} gap="1">
           <BoneInputRow
             label="每小时大腿骨掉落数"
             imgName="femur"
@@ -158,6 +179,21 @@ export default function GrimoireForm({
             exponent={bovinaeExp}
             onExponentChange={setBovinaeExp}
             inputWidth="90%"
+          />
+          <Select
+            data={unlockOptions}
+            value={selectedUnlockIndex}
+            onChange={(value) => {
+              setSelectedUnlockIndex(value || '');
+              if (onUnlockIndexChange) {
+                onUnlockIndexChange(value === null ? undefined : Number(value));
+              }
+            }}
+            placeholder="选择目标解锁项 (可不填,默认为下一个)"
+            clearable
+            searchable
+            renderOption={(props) => <UnlockSelectItem {...props} />}
+            style={{ marginBottom: 8, width: '90%' }}
           />
           <Group style={{ width: '100%' }} justify="left" gap="6.5rem">
             <Button
@@ -210,10 +246,16 @@ export default function GrimoireForm({
                   <Table.Td>-</Table.Td>
                   <Table.Td>
                     {
-                      roundedBoneTime
-                        // eslint-disable-next-line max-len
-                        .filter((t: any) => t !== undefined && t !== null && !Number.isNaN(Number(t)))
-                        .reduce((sum: number, t: any) => sum + Number(t), 0)
+                      Math.ceil(
+                        boneTime
+                          .filter(
+                            (t: any) => t !== undefined && t !== null && !Number.isNaN(Number(t)),
+                          )
+                          .reduce(
+                            (sum: number, t: any) => sum + Number(t),
+                            0,
+                          ),
+                      )
                     }
                   </Table.Td>
                 </Table.Tr>

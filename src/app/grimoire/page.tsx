@@ -17,6 +17,7 @@ type GrimoireResult = {
   minHourCost: number | null;
   levelsMissing: number;
   hourMatrix: (number | string)[][];
+  boneTime: number[];
 };
 
 function formatNumberWithUnit(num: number): string {
@@ -38,6 +39,7 @@ function calculateGrimoire(
   rib: number,
   cranium: number,
   bovinae: number,
+  unlockIndex?: number,
 ): GrimoireResult | { error: string } {
   try {
     const grimoireData = JSON.parse(jsonText);
@@ -54,18 +56,19 @@ function calculateGrimoire(
       .map((_, i) => Number(grimoireValues[i] ?? 0));
     // 计算当前解锁数量
     const currentUnlock = currentLevels.filter((v) => v > 0).length;
+    let unlockForCalc = typeof unlockIndex === 'number' ? unlockIndex : currentUnlock;
     // 计算 levelsMissing
     let matchedUnlockLevel = null;
     if (Array.isArray(grimoireStatic)) {
-      const match = grimoireStatic.find((item) => item.index === currentUnlock);
+      const match = grimoireStatic.find((item) => item.index === unlockForCalc);
       if (match) {
         matchedUnlockLevel = match.unlockLevel;
       }
     }
     const sumLevel = currentLevels.reduce((acc, v) => acc + Number(v), 0);
     let levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
-    let unlockForCalc = currentUnlock;
-    if (levelsMissing === 0) {
+
+    if (typeof unlockIndex !== 'number' && levelsMissing === 0) {
       unlockForCalc += 1;
       const match = grimoireStatic.find((item) => item.index === unlockForCalc);
       if (match) {
@@ -73,6 +76,9 @@ function calculateGrimoire(
       }
       levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
     }
+    console.log('unlockForCalc', unlockForCalc);
+    console.log('levelsMissing', levelsMissing);
+    console.log('matchedUnlockLevel', matchedUnlockLevel);
     // hourMatrix
     const hourMatrix: (number | string)[][] = Array.from(
       { length: unlockForCalc },
@@ -151,6 +157,7 @@ function calculateGrimoire(
       roundedBoneTime,
       formattedBoneCount,
       hourMatrix,
+      boneTime,
     };
   } catch (err) {
     return { error: 'Invalid JSON format. Please check and try again.' };
@@ -182,6 +189,7 @@ export default function GrimoireCalculator() {
   const [result, setResult] = useState<GrimoireResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [boneTypeFilter, setBoneTypeFilter] = useState('');
+  const [unlockIndex, setUnlockIndex] = useState<number | undefined>(undefined);
 
   const handleProcessJson = useCallback(
     (
@@ -202,6 +210,7 @@ export default function GrimoireCalculator() {
         rib,
         cranium,
         bovinae,
+        unlockIndex,
       );
       if ('error' in calcResult) {
         setError(calcResult.error);
@@ -210,7 +219,7 @@ export default function GrimoireCalculator() {
         setResult(calcResult as GrimoireResult);
       }
     },
-    [],
+    [unlockIndex],
   );
 
   return (
@@ -229,6 +238,7 @@ export default function GrimoireCalculator() {
         setJsonTextState={setJsonTextState}
         onSubmit={handleProcessJson}
         result={result}
+        onUnlockIndexChange={setUnlockIndex}
       />
       {error && <div style={{ color: 'red', marginTop: 16 }}>Error: {error}</div>}
       <GrimoireTable

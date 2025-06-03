@@ -18,6 +18,8 @@ type GrimoireResult = {
   levelsMissing: number;
   hourMatrix: (number | string)[][];
   boneTime: number[];
+  unlockForCalc: number;
+  currentUnlock: number;
 };
 
 function formatNumberWithUnit(num: number): string {
@@ -76,9 +78,6 @@ function calculateGrimoire(
       }
       levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
     }
-    console.log('unlockForCalc', unlockForCalc);
-    console.log('levelsMissing', levelsMissing);
-    console.log('matchedUnlockLevel', matchedUnlockLevel);
     // hourMatrix
     const hourMatrix: (number | string)[][] = Array.from(
       { length: unlockForCalc },
@@ -158,6 +157,8 @@ function calculateGrimoire(
       formattedBoneCount,
       hourMatrix,
       boneTime,
+      unlockForCalc,
+      currentUnlock,
     };
   } catch (err) {
     return { error: 'Invalid JSON format. Please check and try again.' };

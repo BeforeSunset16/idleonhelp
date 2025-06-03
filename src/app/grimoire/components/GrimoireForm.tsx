@@ -69,6 +69,17 @@ export default function GrimoireForm({
     image: item.imageFile,
   }));
 
+  const [selectDisabled, setSelectDisabled] = useState(false);
+  useEffect(() => {
+    if (selectedUnlockIndex) {
+      // 用户有选择，什么都不做
+    } else if (result && typeof result.currentUnlock === 'number') {
+      // 没有选择时，自动选中 currentUnlock
+      setSelectedUnlockIndex(String(result.currentUnlock));
+    }
+    setSelectDisabled(false);
+  }, [selectedUnlockIndex, result, unlockOptions]);
+
   function parseBoneValue(value: string, unit: string, exponent: string): number {
     const num = Number(value) || 0;
     const unitMap: Record<string, number> = {
@@ -189,11 +200,12 @@ export default function GrimoireForm({
                 onUnlockIndexChange(value === null ? undefined : Number(value));
               }
             }}
-            placeholder="选择目标解锁项 (可不填,默认为下一个)"
+            placeholder={selectedUnlockIndex ? undefined : '选择目标解锁项 (可不填,默认为下一个)'}
             clearable
             searchable
             renderOption={(props) => <UnlockSelectItem {...props} />}
             style={{ marginBottom: 8, width: '90%' }}
+            disabled={selectDisabled}
           />
           <Group style={{ width: '100%' }} justify="left" gap="6.5rem">
             <Button

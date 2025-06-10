@@ -142,8 +142,9 @@ export default function GrimoireForm({
               </span>
             )}
             placeholder="请把idleontoolbox的Data粘贴到这里，等3秒左右"
-            minRows={5}
-            maxRows={5}
+            minRows={3}
+            maxRows={3}
+            autosize
           />
         </Stack>
         <Stack style={{ width: '27%' }} gap="1">

@@ -69,10 +69,9 @@ function calculateGrimoire(
     }
     const sumLevel = currentLevels.reduce((acc, v) => acc + Number(v), 0);
     let levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
-
-    if (typeof unlockIndex !== 'number' && levelsMissing === 0) {
-      unlockForCalc += 1;
-      const match = grimoireStatic.find((item) => item.index === unlockForCalc);
+    for (unlockForCalc = currentUnlock; levelsMissing <= 0; unlockForCalc += 1) {
+      const currentIndex = unlockForCalc;
+      const match = grimoireStatic.find((item) => item.index === currentIndex + 1);
       if (match) {
         matchedUnlockLevel = match.unlockLevel;
       }

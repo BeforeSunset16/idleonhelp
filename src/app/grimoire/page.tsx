@@ -18,8 +18,7 @@ type GrimoireResult = {
   levelsMissing: number;
   hourMatrix: (number | string)[][];
   boneTime: number[];
-  unlockForCalc: number;
-  currentUnlock: number;
+  nextUnlock: number;
 };
 
 function formatNumberWithUnit(num: number): string {
@@ -61,6 +60,7 @@ function calculateGrimoire(
     let unlockForCalc: number;
     let matchedUnlockLevel = null;
     let levelsMissing = 0;
+    let nextUnlock = 0;
 
     if (typeof unlockIndex === 'number') {
       // 如果用户指定了unlockIndex，直接使用该值
@@ -76,18 +76,19 @@ function calculateGrimoire(
       const sumLevel = currentLevels.reduce((acc, v) => acc + Number(v), 0);
       let shouldContinue = true;
       while (shouldContinue) {
-        const nextIndex = unlockForCalc + 1;
-        const match = grimoireStatic.find((item) => item.index === nextIndex);
+        const temp = unlockForCalc;
+        const match = grimoireStatic.find((item) => item.index === temp);
         if (match) {
           matchedUnlockLevel = match.unlockLevel;
         }
         levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
         if (levelsMissing <= 0) {
-          unlockForCalc = nextIndex;
+          unlockForCalc += 1;
         } else {
           shouldContinue = false;
         }
       }
+      nextUnlock = unlockForCalc;
     }
     // hourMatrix
     const hourMatrix: (number | string)[][] = Array.from(
@@ -167,8 +168,7 @@ function calculateGrimoire(
       formattedBoneCount,
       hourMatrix,
       boneTime,
-      unlockForCalc,
-      currentUnlock,
+      nextUnlock,
     };
   } catch (err) {
     return { error: 'Invalid JSON format. Please check and try again.' };

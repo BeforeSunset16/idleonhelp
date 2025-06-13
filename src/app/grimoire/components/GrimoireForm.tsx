@@ -73,9 +73,11 @@ export default function GrimoireForm({
   useEffect(() => {
     if (selectedUnlockIndex) {
       // 用户有选择，什么都不做
-    } else if (result && typeof result.currentUnlock === 'number') {
-      // 没有选择时，自动选中 currentUnlock
-      setSelectedUnlockIndex(String(result.currentUnlock));
+    } else if (result && typeof result.nextUnlock === 'number' && result.nextUnlock > 0) {
+      // 没有选择时，自动选中 nextUnlock
+      setSelectedUnlockIndex(String(result.nextUnlock));
+    } else {
+      setSelectedUnlockIndex('');
     }
     setSelectDisabled(false);
   }, [selectedUnlockIndex, result, unlockOptions]);

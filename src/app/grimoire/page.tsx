@@ -58,24 +58,36 @@ function calculateGrimoire(
       .map((_, i) => Number(grimoireValues[i] ?? 0));
     // 计算当前解锁数量
     const currentUnlock = currentLevels.filter((v) => v > 0).length;
-    let unlockForCalc = typeof unlockIndex === 'number' ? unlockIndex : currentUnlock;
-    // 计算 levelsMissing
+    let unlockForCalc: number;
     let matchedUnlockLevel = null;
-    if (Array.isArray(grimoireStatic)) {
+    let levelsMissing = 0;
+
+    if (typeof unlockIndex === 'number') {
+      // 如果用户指定了unlockIndex，直接使用该值
+      unlockForCalc = unlockIndex;
       const match = grimoireStatic.find((item) => item.index === unlockForCalc);
       if (match) {
         matchedUnlockLevel = match.unlockLevel;
+        levelsMissing = matchedUnlockLevel - currentLevels.reduce((acc, v) => acc + Number(v), 0);
       }
-    }
-    const sumLevel = currentLevels.reduce((acc, v) => acc + Number(v), 0);
-    let levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
-    for (unlockForCalc = currentUnlock; levelsMissing <= 0; unlockForCalc += 1) {
-      const currentIndex = unlockForCalc;
-      const match = grimoireStatic.find((item) => item.index === currentIndex + 1);
-      if (match) {
-        matchedUnlockLevel = match.unlockLevel;
+    } else {
+      // 如果用户没有指定unlockIndex，通过循环计算合适的unlockForCalc
+      unlockForCalc = currentUnlock;
+      const sumLevel = currentLevels.reduce((acc, v) => acc + Number(v), 0);
+      let shouldContinue = true;
+      while (shouldContinue) {
+        const nextIndex = unlockForCalc + 1;
+        const match = grimoireStatic.find((item) => item.index === nextIndex);
+        if (match) {
+          matchedUnlockLevel = match.unlockLevel;
+        }
+        levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
+        if (levelsMissing <= 0) {
+          unlockForCalc = nextIndex;
+        } else {
+          shouldContinue = false;
+        }
       }
-      levelsMissing = (matchedUnlockLevel ?? 0) - sumLevel;
     }
     // hourMatrix
     const hourMatrix: (number | string)[][] = Array.from(
@@ -83,7 +95,6 @@ function calculateGrimoire(
       () => Array(600).fill('-'),
     );
     const hourRates = [femur, rib, cranium, bovinae];
-    // INSERT_YOUR_REWRITE_HERE
     for (let i = 0; i < unlockForCalc; i += 1) {
       const staticItem = grimoireStatic.find((item) => item.index === i);
       if (staticItem) {
